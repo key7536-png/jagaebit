@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>자개빛 관리자 채팅 상담</title>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap');
+:root{--bg:#07020a;--bg2:#100518;--gold:#c8960a;--gold2:#e8a80a;--cream:#f5ecd7;--border:rgba(200,150,10,0.22);--purple:#3d1a5e}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--cream)}
+
+/* 배경 */
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse at 10% 10%,rgba(200,150,10,0.06) 0%,transparent 50%),
+  radial-gradient(ellipse at 90% 90%,rgba(61,26,94,0.08) 0%,transparent 50%);pointer-events:none}
+
+/* 자개 패턴 */
+.jpat{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.03}
+
+/* 앱 */
+.app{max-width:480px;margin:0 auto;height:100vh;display:flex;flex-direction:column;z-index:2;position:relative}
+
+/* PIN 화면 */
+.pin-screen{flex:1;display:flex;align-items:center;justify-content:center;padding:20px}
+.pin-box{width:100%;max-width:320px;text-align:center}
+.pin-logo{font-family:'Noto Serif KR',serif;font-size:26px;color:var(--gold);letter-spacing:3px;margin-bottom:4px}
+.pin-sub{font-size:10px;color:rgba(200,150,10,0.4);letter-spacing:3px;margin-bottom:24px}
+.pin-wrap{display:flex;gap:8px;justify-content:center;margin-bottom:16px}
+.pin-d{width:42px;height:52px;background:rgba(255,255,255,0.04);border:1px solid rgba(200,150,10,0.22);border-radius:4px;color:var(--gold);font-size:22px;font-weight:700;text-align:center;font-family:'Noto Serif KR',serif;outline:none}
+.pin-d:focus{border-color:var(--gold)}
+.pin-btn{width:100%;padding:12px;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:4px;color:#1a0a00;font-size:13px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer}
+.pin-hint{font-size:9px;color:rgba(200,150,10,0.28);margin-top:10px}
+
+/* 메인 레이아웃 */
+.main{display:none;flex:1;flex-direction:column;overflow:hidden}
+.main.show{display:flex}
+
+/* 헤더 */
+.adm-hdr{background:linear-gradient(180deg,#050010,#0a0218);border-bottom:1px solid var(--border);padding:10px 14px;flex-shrink:0}
+.hdr-row{display:flex;align-items:center;gap:8px}
+.hdr-logo{font-family:'Noto Serif KR',serif;font-size:16px;color:var(--gold);letter-spacing:2px;flex:1}
+.hdr-badge{padding:3px 8px;background:rgba(200,150,10,0.12);border:1px solid rgba(200,150,10,0.28);border-radius:10px;font-size:9px;color:var(--gold)}
+.online-count{font-size:10px;color:rgba(200,150,10,0.45)}
+
+/* 룸 목록 / 채팅 분할 레이아웃 */
+.chat-layout{flex:1;display:flex;overflow:hidden}
+
+/* 룸 목록 (왼쪽 패널 - 모바일에서는 슬라이드) */
+.rooms-panel{width:100%;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow:hidden;transition:transform .3s}
+.rooms-panel.hidden{transform:translateX(-100%);position:absolute;z-index:-1}
+.rooms-hdr{padding:10px 14px;border-bottom:1px solid rgba(200,150,10,0.1);font-size:12px;color:var(--gold);display:flex;align-items:center;justify-content:space-between}
+.rooms-list{flex:1;overflow-y:auto}
+.room-item{padding:12px 14px;border-bottom:.5px solid rgba(200,150,10,0.08);cursor:pointer;transition:background .2s;position:relative}
+.room-item:hover,.room-item.active{background:rgba(200,150,10,0.06)}
+.room-nick{font-size:13px;color:var(--cream);font-weight:500;margin-bottom:3px}
+.room-preview{font-size:11px;color:rgba(245,236,215,0.45);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:200px}
+.room-time{font-size:9px;color:rgba(200,150,10,0.35);position:absolute;top:12px;right:12px}
+.room-unread{position:absolute;bottom:12px;right:12px;width:16px;height:16px;background:var(--gold);color:#1a0a00;border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.room-status{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4caf50;margin-right:5px;vertical-align:middle}
+.no-rooms{text-align:center;padding:40px 20px;color:rgba(200,150,10,0.28);font-size:12px}
+
+/* 채팅 패널 */
+.chat-panel{display:none;flex-direction:column;flex:1;overflow:hidden}
+.chat-panel.show{display:flex}
+.chat-hdr2{padding:10px 13px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0}
+.back-rooms{background:none;border:none;color:var(--gold);font-size:16px;cursor:pointer;padding:2px 6px}
+.chatter-name{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--gold)}
+.chatter-time{font-size:10px;color:rgba(200,150,10,0.4);margin-left:auto}
+
+/* 메시지 */
+.msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px}
+.msgs::-webkit-scrollbar{width:3px}
+.msgs::-webkit-scrollbar-thumb{background:rgba(200,150,10,0.18);border-radius:3px}
+.msg{display:flex;flex-direction:column;max-width:80%;gap:2px}
+.msg.me{align-self:flex-end}
+.msg.them{align-self:flex-start}
+.msg-row{display:flex;align-items:flex-end;gap:5px}
+.msg.me .msg-row{flex-direction:row-reverse}
+.bubble{padding:9px 12px;border-radius:14px;font-size:12px;line-height:1.65;word-break:break-word}
+.msg.me .bubble{background:linear-gradient(135deg,rgba(61,26,94,0.65),rgba(80,30,110,0.7));border:1px solid rgba(100,50,150,0.4);border-top-right-radius:3px;color:var(--cream)}
+.msg.them .bubble{background:rgba(200,150,10,0.09);border:1px solid rgba(200,150,10,0.18);border-top-left-radius:3px;color:var(--cream)}
+.mt{font-size:9px;color:rgba(200,150,10,0.32);margin-top:1px}
+.msg.me .mt{text-align:right}
+.sys-msg{text-align:center;padding:4px}
+.sys-msg span{font-size:9px;color:rgba(200,150,10,0.35);padding:2px 8px;background:rgba(200,150,10,0.05);border-radius:10px}
+
+/* 입력 */
+.input-area{padding:9px 11px;border-top:1px solid var(--border);display:flex;gap:7px;align-items:flex-end;flex-shrink:0;background:rgba(5,0,15,0.9)}
+.mi{flex:1;padding:9px 12px;background:rgba(255,255,255,0.05);border:1px solid rgba(200,150,10,0.18);border-radius:18px;color:var(--cream);font-size:12px;font-family:'Noto Sans KR',sans-serif;outline:none;resize:none;min-height:36px;max-height:90px;line-height:1.5}
+.mi:focus{border-color:rgba(200,150,10,0.42)}
+.mi::placeholder{color:rgba(200,150,10,0.25)}
+.sb{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--purple),#6a2a9e);border:none;color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* 퀵 리플라이 */
+.q-area{display:flex;gap:5px;padding:5px 11px;overflow-x:auto;scrollbar-width:none;border-bottom:.5px solid rgba(200,150,10,0.07)}
+.q-area::-webkit-scrollbar{display:none}
+.qb{flex:none;padding:4px 9px;background:rgba(61,26,94,0.25);border:1px solid rgba(100,50,150,0.3);border-radius:10px;color:rgba(200,170,240,0.7);font-size:10px;cursor:pointer;white-space:nowrap;font-family:'Noto Sans KR',sans-serif}
+.qb:hover{background:rgba(61,26,94,0.45);color:#d0a8f8}
+
+/* 빈 선택 상태 */
+.empty-chat{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:rgba(200,150,10,0.28)}
+.empty-chat .ei{font-size:40px}
+.empty-chat p{font-size:12px}
+
+/* 토스트 */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(8px);background:rgba(61,26,94,0.9);color:#d0a8f8;padding:8px 16px;border-radius:20px;font-size:11px;opacity:0;transition:all .3s;z-index:600;white-space:nowrap}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="jpat">
+  <svg viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs><pattern id="jp" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M25,6 L44,25 L25,44 L6,25 Z" fill="none" stroke="#c8960a" stroke-width=".4"/>
+      <circle cx="25" cy="25" r="4" fill="none" stroke="#c8960a" stroke-width=".25"/>
+    </pattern></defs>
+    <rect width="100%" height="100%" fill="url(#jp)"/>
+  </svg>
+</div>
+
+<div class="app">
+  <!-- PIN 화면 -->
+  <div class="pin-screen" id="pinScreen">
+    <div class="pin-box">
+      <div class="pin-logo">자개빛</div>
+      <div class="pin-sub">ADMIN · CHAT CONSOLE</div>
+      <div class="pin-wrap">
+        <input class="pin-d" maxlength="1" type="password" id="p0" oninput="pnxt(this,0)">
+        <input class="pin-d" maxlength="1" type="password" id="p1" oninput="pnxt(this,1)">
+        <input class="pin-d" maxlength="1" type="password" id="p2" oninput="pnxt(this,2)">
+        <input class="pin-d" maxlength="1" type="password" id="p3" oninput="pnxt(this,3)">
+        <input class="pin-d" maxlength="1" type="password" id="p4" oninput="pnxt(this,4)">
+        <input class="pin-d" maxlength="1" type="password" id="p5" oninput="pnxt(this,5)">
+      </div>
+      <button class="pin-btn" onclick="chkPin()">관리자 상담 콘솔 입장</button>
+      <div class="pin-hint">초기 암호: 888888</div>
+    </div>
+  </div>
+
+  <!-- 메인 상담 콘솔 -->
+  <div class="main" id="mainPanel">
+    <div class="adm-hdr">
+      <div class="hdr-row">
+        <div class="hdr-logo">⚙️ 자개빛 상담 콘솔</div>
+        <span class="hdr-badge">관리자</span>
+        <span class="online-count" id="onlineCnt">접속자 0명</span>
+      </div>
+    </div>
+
+    <div class="chat-layout">
+      <!-- 룸 목록 -->
+      <div class="rooms-panel" id="roomsPanel">
+        <div class="rooms-hdr">
+          상담 목록
+          <button onclick="refreshRooms()" style="background:none;border:none;color:rgba(200,150,10,0.45);font-size:12px;cursor:pointer">↻ 새로고침</button>
+        </div>
+        <div class="rooms-list" id="roomsList">
+          <div class="no-rooms">🔮<br>상담 신청을 기다리는 중...<br><br><small>고객이 채팅방에 입장하면<br>여기에 표시됩니다</small></div>
+        </div>
+      </div>
+
+      <!-- 채팅 패널 -->
+      <div class="chat-panel" id="chatPanel">
+        <div class="chat-hdr2">
+          <button class="back-rooms" onclick="showRooms()">←</button>
+          <div>
+            <div class="chatter-name" id="chatterName">상담 중</div>
+            <div style="font-size:9px;color:rgba(200,150,10,0.38)" id="chatterMeta"></div>
+          </div>
+          <span class="chatter-time" id="chatterTime"></span>
+        </div>
+        <div class="q-area">
+          <button class="qb" onclick="sendQ('안녕하세요 💫 타로냥이에요! 무엇을 도와드릴까요?')">인사말</button>
+          <button class="qb" onclick="sendQ('생년월일시를 알려주시면 더 정확한 분석이 가능해요 🌸')">생년월일 요청</button>
+          <button class="qb" onclick="sendQ('잠시만 기다려주세요, 카드를 읽고 있어요 🔮')">대기 요청</button>
+          <button class="qb" onclick="sendQ('상담이 도움이 되셨으면 좋겠어요 💝 궁금한 점이 더 있으시면 언제든 물어보세요!')">마무리</button>
+          <button class="qb" onclick="sendQ('오늘 상담 감사합니다 🌸 더 궁금한 점은 자개빛 상점에서 추가 상담권을 구매하시면 됩니다')">종료 안내</button>
+        </div>
+        <div class="msgs" id="msgs"></div>
+        <div class="input-area">
+          <textarea class="mi" id="mi" placeholder="답장을 입력하세요..." rows="1"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAdminMsg()}"
+            oninput="autoGrow(this)"></textarea>
+          <button class="sb" onclick="sendAdminMsg()">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PIN = '888888';
+let db, fbOk = false, currentRoom = null, msgListener = null;
+
+try {
+  const cfg = {
+    apiKey:"demo",
+    authDomain:"jagaebit.firebaseapp.com",
+    databaseURL:"https://jagaebit-default-rtdb.firebaseio.com",
+    projectId:"jagaebit"
+  };
+  if (!firebase.apps.length) firebase.initializeApp(cfg);
+  db = firebase.database();
+  fbOk = true;
+} catch(e) {}
+
+// ── PIN ──
+function pnxt(el, i) { if(el.value.length===1&&i<5) document.getElementById('p'+(i+1)).focus(); if(i===5) chkPin(); }
+function chkPin() {
+  const pin = [0,1,2,3,4,5].map(i=>document.getElementById('p'+i).value).join('');
+  if (pin === PIN) {
+    document.getElementById('pinScreen').style.display = 'none';
+    document.getElementById('mainPanel').classList.add('show');
+    initAdmin();
+  } else {
+    showToast('암호가 틀렸습니다 🔒');
+    for(let i=0;i<6;i++) document.getElementById('p'+i).value='';
+    document.getElementById('p0').focus();
+  }
+}
+
+// ── 초기화 ──
+function initAdmin() {
+  if (fbOk) {
+    subscribeRooms();
+  } else {
+    document.getElementById('roomsList').innerHTML = '<div class="no-rooms">⚠️<br>Firebase가 연결되지 않았습니다<br><small>로컬 데모 모드로 실행 중</small></div>';
+    loadDemoRoom();
+  }
+}
+
+// ── 룸 구독 ──
+function subscribeRooms() {
+  db.ref('chats').on('value', snap => {
+    const data = snap.val() || {};
+    const rooms = Object.entries(data).map(([id, r]) => ({id, ...r.meta, lastMsg: getLastMsg(r.messages)})).filter(r=>r.nick);
+    renderRooms(rooms);
+    document.getElementById('onlineCnt').textContent = `접속자 ${rooms.filter(r=>r.active).length}명`;
+  });
+}
+
+function getLastMsg(msgs) {
+  if (!msgs) return '';
+  const arr = Object.values(msgs);
+  if (!arr.length) return '';
+  const last = arr[arr.length-1];
+  return last.text ? last.text.slice(0,30) : '';
+}
+
+function renderRooms(rooms) {
+  const el = document.getElementById('roomsList');
+  if (!rooms.length) { el.innerHTML = '<div class="no-rooms">🔮<br>상담 신청을 기다리는 중...<br><br><small>고객이 채팅방에 입장하면 표시됩니다</small></div>'; return; }
+  el.innerHTML = rooms.map(r => `
+    <div class="room-item ${currentRoom===r.id?'active':''}" onclick="openRoom('${r.id}','${r.nick||'고객'}')">
+      <div class="room-nick"><span class="room-status"></span>${r.nick||'고객'}</div>
+      <div class="room-preview">${r.lastMsg||'대화 없음'}</div>
+      <div class="room-time">${r.ts?fmtTime(new Date(r.ts)):''}</div>
+    </div>`).join('');
+}
+
+// ── 룸 입장 ──
+function openRoom(id, nick) {
+  currentRoom = id;
+  document.getElementById('chatterName').textContent = nick + '님 상담';
+  document.getElementById('chatterMeta').textContent = 'Room: ' + id.slice(-8);
+  document.getElementById('chatterTime').textContent = fmtTime(new Date());
+  document.getElementById('msgs').innerHTML = '';
+  document.getElementById('chatPanel').classList.add('show');
+  document.getElementById('roomsPanel').classList.add('hidden');
+  if (fbOk) {
+    if (msgListener) msgListener();
+    msgListener = db.ref('chats/'+id+'/messages').on('value', snap => {
+      document.getElementById('msgs').innerHTML = '';
+      snap.forEach(c => renderMsg(c.val()));
+      scrollBottom();
+    });
+  }
+}
+function showRooms() {
+  document.getElementById('chatPanel').classList.remove('show');
+  document.getElementById('roomsPanel').classList.remove('hidden');
+  currentRoom = null;
+}
+
+// ── 메시지 전송 ──
+function sendAdminMsg() {
+  const mi = document.getElementById('mi');
+  const text = mi.value.trim();
+  if (!text || !currentRoom) return;
+  mi.value = ''; mi.style.height = '36px';
+  const msg = { text, sender: '타로냥', role: 'admin', ts: Date.now(), time: fmtTime(new Date()) };
+  if (fbOk) db.ref('chats/'+currentRoom+'/messages').push(msg);
+  else { renderMsg(msg); scrollBottom(); }
+}
+function sendQ(text) { document.getElementById('mi').value = text; sendAdminMsg(); }
+
+// ── 렌더 ──
+function renderMsg(m) {
+  const c = document.getElementById('msgs');
+  if (m.role === 'system') {
+    const d = document.createElement('div'); d.className='sys-msg';
+    d.innerHTML=`<span>${m.text}</span>`; c.appendChild(d); return;
+  }
+  const isMe = m.role === 'admin';
+  const d = document.createElement('div');
+  d.className = 'msg '+(isMe?'me':'them');
+  d.innerHTML = `<div class="msg-row"><div class="bubble">${escHtml(m.text)}</div></div>
+    <div class="mt">${isMe?'타로냥':'고객'} · ${m.time||''}</div>`;
+  c.appendChild(d);
+}
+
+// ── 데모 룸 ──
+function loadDemoRoom() {
+  const demoRooms = [{id:'demo_room_1',nick:'봄날의달',lastMsg:'안녕하세요! 상담 시작할게요 🌸',ts:Date.now()-60000,active:true}];
+  renderRooms(demoRooms);
+}
+
+function refreshRooms() { if(fbOk) showToast('새로고침 됩니다'); else loadDemoRoom(); }
+
+// ── 유틸 ──
+function fmtTime(d) { return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0') }
+function scrollBottom() { const m=document.getElementById('msgs'); m.scrollTop=m.scrollHeight }
+function autoGrow(el) { el.style.height='36px'; el.style.height=Math.min(el.scrollHeight,90)+'px' }
+function escHtml(t) { return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>') }
+let tt;
+function showToast(m) { const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2500) }
+</script>
+</body>
+</html>

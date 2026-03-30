@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>자개빛 - 12지신</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;min-height:100vh;background:#050300;display:flex;align-items:center;justify-content:center;overflow:hidden}
+
+.scene{position:relative;width:min(100vw,100vh);max-width:560px;aspect-ratio:1}
+
+/* 외곽 사각 자개 프레임 */
+.outer-frame{position:absolute;inset:0;border:2px solid transparent;border-radius:6px;
+  background:linear-gradient(#050300,#050300) padding-box,
+  conic-gradient(from 0deg,#e8d060,#80f0c0,#c0a8f8,#f8b0c8,#80d8f8,#e8d060) border-box;
+  animation:spin 10s linear infinite;}
+@keyframes spin{to{--a:360deg}}
+.outer-frame::before{content:'';position:absolute;inset:6px;border:0.5px solid rgba(212,168,64,0.2);border-radius:3px}
+
+/* 모서리 자개 꽃 */
+.corner{position:absolute;width:22px;height:22px}
+.corner.tl{top:3px;left:3px} .corner.tr{top:3px;right:3px} .corner.bl{bottom:3px;left:3px} .corner.br{bottom:3px;right:3px}
+.corner span{display:block;position:absolute;background:rgba(212,168,64,0.75)}
+.corner span:nth-child(1){top:0;left:0;width:100%;height:2px}
+.corner span:nth-child(2){top:0;left:0;width:2px;height:100%}
+.corner.tr span:nth-child(1){left:auto;right:0}
+.corner.tr span:nth-child(2){left:auto;right:0}
+.corner.bl span:nth-child(1){top:auto;bottom:0}
+.corner.bl span:nth-child(2){top:auto;bottom:0}
+.corner.br span:nth-child(1){top:auto;bottom:0;right:0}
+.corner.br span:nth-child(2){top:auto;bottom:0;right:0}
+/* 모서리 중앙 점 */
+.corner::after{content:'';position:absolute;width:7px;height:7px;border-radius:50%;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 35% 30%,#fff8a0,#d4a840)}
+
+/* 배경 자개 광채 */
+.glow-bg{position:absolute;inset:16px;border-radius:50%;
+  background:
+    radial-gradient(ellipse at 30% 28%,rgba(230,200,80,0.1) 0%,transparent 50%),
+    radial-gradient(ellipse at 70% 30%,rgba(80,230,180,0.09) 0%,transparent 45%),
+    radial-gradient(ellipse at 65% 72%,rgba(170,130,255,0.09) 0%,transparent 45%),
+    radial-gradient(ellipse at 28% 68%,rgba(255,170,130,0.08) 0%,transparent 40%);
+  animation:glowPulse 4s ease-in-out infinite alternate}
+@keyframes glowPulse{0%{opacity:.6}100%{opacity:1}}
+
+/* 원형 자개 링 3겹 */
+.ring1{position:absolute;inset:18px;border-radius:50%;border:1.5px solid transparent;
+  background:linear-gradient(#060400,#060400) padding-box,
+  conic-gradient(#e8d060,#80f0c0,#c0a8f8,#f8b0c8,#80d8f8,#e8d060) border-box;
+  animation:rotateR 8s linear infinite}
+.ring2{position:absolute;inset:30px;border-radius:50%;border:1px solid rgba(128,240,192,0.35);
+  animation:rotateL 12s linear infinite}
+.ring3{position:absolute;inset:42px;border-radius:50%;border:0.5px solid rgba(192,168,248,0.25);
+  animation:ringPulse 3s ease-in-out infinite}
+@keyframes rotateR{to{transform:rotate(360deg)}}
+@keyframes rotateL{to{transform:rotate(-360deg)}}
+@keyframes ringPulse{0%,100%{border-color:rgba(212,168,64,0.15)}50%{border-color:rgba(212,168,64,0.5)}}
+
+/* 방위선 */
+.lines{position:absolute;inset:18px;width:calc(100% - 36px);height:calc(100% - 36px)}
+
+/* 12지신 패널 */
+.zodiac{position:absolute;transform:translate(-50%,-50%);z-index:10}
+.panel{
+  width:clamp(46px,12.5vw,76px);height:clamp(58px,15.5vw,94px);
+  border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  border:2.5px solid;
+  position:relative;overflow:hidden;
+  transition:transform .3s;
+}
+.panel:hover{transform:scale(1.15)}
+/* 자개 광택 */
+.panel::before{content:'';position:absolute;inset:0;border-radius:50%;
+  background:linear-gradient(135deg,rgba(255,255,255,.14) 0%,transparent 45%,rgba(255,255,255,.05) 100%);
+  pointer-events:none;z-index:2}
+
+/* 각 지신 자개 색상 */
+.z0 .panel{background:radial-gradient(ellipse at 35% 28%,#1c1500,#080500);border-color:#e8d060;box-shadow:0 0 14px rgba(232,208,96,.6),inset 0 0 8px rgba(232,208,96,.1)}
+.z1 .panel{background:radial-gradient(ellipse at 35% 28%,#00180e,#080500);border-color:#50f0b4;box-shadow:0 0 14px rgba(80,240,180,.6),inset 0 0 8px rgba(80,240,180,.1)}
+.z2 .panel{background:radial-gradient(ellipse at 35% 28%,#0e0818,#080500);border-color:#b48cff;box-shadow:0 0 14px rgba(180,140,255,.6),inset 0 0 8px rgba(180,140,255,.1)}
+.z3 .panel{background:radial-gradient(ellipse at 35% 28%,#180810,#080500);border-color:#ffa0c8;box-shadow:0 0 14px rgba(255,160,200,.6),inset 0 0 8px rgba(255,160,200,.1)}
+.z4 .panel{background:radial-gradient(ellipse at 35% 28%,#001018,#080500);border-color:#50c8ff;box-shadow:0 0 14px rgba(80,200,255,.6),inset 0 0 8px rgba(80,200,255,.1)}
+.z5 .panel{background:radial-gradient(ellipse at 35% 28%,#181400,#080500);border-color:#ffd840;box-shadow:0 0 14px rgba(255,216,64,.6),inset 0 0 8px rgba(255,216,64,.1)}
+.z6 .panel{background:radial-gradient(ellipse at 35% 28%,#1c1500,#080500);border-color:#e8d060;box-shadow:0 0 14px rgba(232,208,96,.6),inset 0 0 8px rgba(232,208,96,.1)}
+.z7 .panel{background:radial-gradient(ellipse at 35% 28%,#00180e,#080500);border-color:#50f0b4;box-shadow:0 0 14px rgba(80,240,180,.6),inset 0 0 8px rgba(80,240,180,.1)}
+.z8 .panel{background:radial-gradient(ellipse at 35% 28%,#0e0818,#080500);border-color:#b48cff;box-shadow:0 0 14px rgba(180,140,255,.6),inset 0 0 8px rgba(180,140,255,.1)}
+.z9 .panel{background:radial-gradient(ellipse at 35% 28%,#180810,#080500);border-color:#ffa0c8;box-shadow:0 0 14px rgba(255,160,200,.6),inset 0 0 8px rgba(255,160,200,.1)}
+.z10 .panel{background:radial-gradient(ellipse at 35% 28%,#001018,#080500);border-color:#50c8ff;box-shadow:0 0 14px rgba(80,200,255,.6),inset 0 0 8px rgba(80,200,255,.1)}
+.z11 .panel{background:radial-gradient(ellipse at 35% 28%,#181400,#080500);border-color:#ffd840;box-shadow:0 0 14px rgba(255,216,64,.6),inset 0 0 8px rgba(255,216,64,.1)}
+
+/* 한자 자개빛 */
+.hanja{font-family:'Noto Serif KR',serif;font-size:clamp(20px,5.5vw,40px);font-weight:700;line-height:1;position:relative;z-index:1}
+.z0 .hanja,.z6 .hanja{background:linear-gradient(155deg,#fff8c0,#e8d060,#b0f8d0,#f8f0a0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.z1 .hanja,.z7 .hanja{background:linear-gradient(155deg,#c0fff0,#50f0b4,#e0d0ff,#b0f8e0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.z2 .hanja,.z8 .hanja{background:linear-gradient(155deg,#e8d8ff,#b48cff,#f8c0e0,#d0b8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.z3 .hanja,.z9 .hanja{background:linear-gradient(155deg,#ffd8e8,#ffa0c8,#c8d8ff,#ffc8e0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.z4 .hanja,.z10 .hanja{background:linear-gradient(155deg,#c0e8ff,#50c8ff,#d0f8e8,#b0d8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.z5 .hanja,.z11 .hanja{background:linear-gradient(155deg,#fff8a0,#ffd840,#c0f8d0,#fff0a0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.animal{font-size:clamp(8px,2vw,12px);font-family:'Noto Serif KR',serif;color:rgba(212,168,64,.8);line-height:1;position:relative;z-index:1}
+
+/* 중앙 */
+.center{position:absolute;width:25%;height:25%;top:50%;left:50%;transform:translate(-50%,-50%);
+  border-radius:50%;z-index:20;
+  background:radial-gradient(ellipse at 35% 28%,#1a1200,#060400) padding-box,
+  conic-gradient(#e8d060,#80f0c0,#c0a8f8,#f8b0c8,#80d8f8,#e8d060) border-box;
+  border:2.5px solid transparent;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 0 24px rgba(212,168,64,.5),0 0 48px rgba(212,168,64,.15),inset 0 0 14px rgba(212,168,64,.08)}
+.c-dot{width:7px;height:7px;border-radius:50%;margin-bottom:3px;
+  background:radial-gradient(circle at 35% 30%,#fff8a0,#e8c040);
+  box-shadow:0 0 8px rgba(232,192,64,.9)}
+.c-name{font-family:'Noto Serif KR',serif;font-size:clamp(13px,3.8vw,26px);font-weight:700;line-height:1;
+  background:linear-gradient(160deg,#fff8d0,#a0f0c8,#d0b8f8,#f8c0a0,#a8d8f8);
+  background-size:200% 200%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:nameShimmer 3s ease-in-out infinite}
+@keyframes nameShimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.c-en{font-size:clamp(5px,1.2vw,8px);color:rgba(212,168,64,.6);letter-spacing:2px;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="scene">
+  <!-- 외곽 자개 프레임 -->
+  <div class="outer-frame">
+    <div class="corner tl"><span></span><span></span></div>
+    <div class="corner tr"><span></span><span></span></div>
+    <div class="corner bl"><span></span><span></span></div>
+    <div class="corner br"><span></span><span></span></div>
+  </div>
+
+  <!-- 배경 광채 -->
+  <div class="glow-bg"></div>
+
+  <!-- 회전 링 -->
+  <div class="ring1"></div>
+  <div class="ring2"></div>
+  <div class="ring3"></div>
+
+  <!-- 방위선 SVG -->
+  <svg class="lines" viewBox="0 0 524 524" style="position:absolute;inset:18px;opacity:.18">
+    <line x1="262" y1="20" x2="262" y2="504" stroke="#d4a840" stroke-width="0.8"/>
+    <line x1="20" y1="262" x2="504" y2="262" stroke="#80f0c0" stroke-width="0.8"/>
+    <line x1="95" y1="95" x2="429" y2="429" stroke="#c0a8f8" stroke-width="0.6"/>
+    <line x1="429" y1="95" x2="95" y2="429" stroke="#f8b0c8" stroke-width="0.6"/>
+    <line x1="58" y1="190" x2="466" y2="334" stroke="#80d8f8" stroke-width="0.4"/>
+    <line x1="466" y1="190" x2="58" y2="334" stroke="#f8e080" stroke-width="0.4"/>
+    <circle cx="262" cy="262" r="228" fill="none" stroke="#d4a840" stroke-width="0.8" stroke-dasharray="3 6"/>
+    <circle cx="262" cy="262" r="204" fill="none" stroke="#80f0c0" stroke-width="0.5"/>
+    <circle cx="262" cy="262" r="180" fill="none" stroke="#c0a8f8" stroke-width="0.4" stroke-dasharray="2 9"/>
+  </svg>
+
+  <!-- 12지신 -->
+  <div class="zodiac z0"  style="top:8%;left:50%">  <div class="panel"><span class="hanja">子</span><span class="animal">쥐</span></div></div>
+  <div class="zodiac z1"  style="top:17.5%;left:82%"><div class="panel"><span class="hanja">丑</span><span class="animal">소</span></div></div>
+  <div class="zodiac z2"  style="top:42%;left:93%"> <div class="panel"><span class="hanja">寅</span><span class="animal">호랑이</span></div></div>
+  <div class="zodiac z3"  style="top:68%;left:93%"> <div class="panel"><span class="hanja">卯</span><span class="animal">토끼</span></div></div>
+  <div class="zodiac z4"  style="top:84%;left:82%"> <div class="panel"><span class="hanja">辰</span><span class="animal">용</span></div></div>
+  <div class="zodiac z5"  style="top:93%;left:62%"> <div class="panel"><span class="hanja">巳</span><span class="animal">뱀</span></div></div>
+  <div class="zodiac z6"  style="top:93%;left:38%"> <div class="panel"><span class="hanja">午</span><span class="animal">말</span></div></div>
+  <div class="zodiac z7"  style="top:84%;left:18%"> <div class="panel"><span class="hanja">未</span><span class="animal">양</span></div></div>
+  <div class="zodiac z8"  style="top:68%;left:7%">  <div class="panel"><span class="hanja">申</span><span class="animal">원숭이</span></div></div>
+  <div class="zodiac z9"  style="top:42%;left:7%">  <div class="panel"><span class="hanja">酉</span><span class="animal">닭</span></div></div>
+  <div class="zodiac z10" style="top:17.5%;left:18%"><div class="panel"><span class="hanja">戌</span><span class="animal">개</span></div></div>
+  <div class="zodiac z11" style="top:8%;left:38%">  <div class="panel"><span class="hanja">亥</span><span class="animal">돼지</span></div></div>
+
+  <!-- 중앙 로고 -->
+  <div class="center">
+    <div class="c-dot"></div>
+    <div class="c-name">자개빛</div>
+    <div class="c-en">JAGAEBIT</div>
+  </div>
+</div>
+</body>
+</html>
