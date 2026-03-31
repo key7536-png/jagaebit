@@ -2,424 +2,749 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>타로냥 🐱 관리자</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>타로냥 🐱</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#fdf6e8;--bg2:#fff9f0;--gold:#b8860b;--gold2:#d4a840;--gold3:#f5c842;--dark:#2a1a00;--mid:#5a3a00;--light:#8a6020;--cream:#f5ead0;--border:rgba(184,134,11,0.2);--card:#fffbf2;--shadow:rgba(184,134,11,0.12)}
-body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
-#loginScreen{position:fixed;inset:0;background:linear-gradient(135deg,#2a1a00,#1a0f00);display:flex;align-items:center;justify-content:center;z-index:999;flex-direction:column}
-.login-box{background:rgba(255,248,238,0.06);border:1px solid rgba(212,168,64,0.3);border-radius:14px;padding:32px 28px;width:min(320px,90vw);text-align:center}
-.login-logo{font-size:44px;margin-bottom:8px}
-.login-title{font-family:'Noto Serif KR',serif;font-size:22px;color:#d4a840;margin-bottom:4px}
-.login-sub{font-size:11px;color:rgba(212,168,64,0.5);margin-bottom:22px}
-.pin-dots{display:flex;gap:14px;justify-content:center;margin-bottom:22px}
-.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid rgba(212,168,64,0.35);background:transparent;transition:all .2s}
-.pin-dot.filled{background:#d4a840;border-color:#d4a840;box-shadow:0 0 8px rgba(212,168,64,0.5)}
-.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.pin-btn{padding:15px;background:rgba(255,255,255,0.06);border:1px solid rgba(212,168,64,0.2);border-radius:8px;color:#d4a840;font-size:20px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s}
-.pin-btn:active{background:rgba(212,168,64,0.2);transform:scale(0.95)}
-.login-err{color:#ff8888;font-size:11px;min-height:18px;margin-top:8px}
-.hdr{background:linear-gradient(135deg,#fff8ee,#fff3d8);border-bottom:2px solid rgba(212,168,64,0.3);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(184,134,11,0.1)}
-.hdr-logo{font-family:'Noto Serif KR',serif;font-size:18px;color:var(--gold);font-weight:700}
-.hdr-sub{font-size:9px;color:var(--light);letter-spacing:1px;margin-top:1px}
-.hdr-right{display:flex;gap:8px;align-items:center}
-.live-badge{padding:3px 9px;background:rgba(220,80,80,0.1);border:1px solid rgba(220,80,80,0.25);border-radius:20px;font-size:9px;color:#cc4444;display:flex;align-items:center;gap:4px}
-.live-dot{width:5px;height:5px;border-radius:50%;background:#cc4444;animation:blink 1s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.hdr-btn{padding:5px 11px;background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--light);font-size:10px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;text-decoration:none;display:inline-block}
-.tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex:none;padding:11px 16px;font-size:11px;color:var(--light);cursor:pointer;border:none;background:none;font-family:'Noto Sans KR',sans-serif;border-bottom:2.5px solid transparent;transition:all .2s;white-space:nowrap}
-.tab.on{color:var(--gold);border-bottom-color:var(--gold);font-weight:700}
-.body{padding:14px;max-width:860px;margin:0 auto;padding-bottom:70px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#fdf6e8;--gold:#b8860b;--gold2:#d4a840;--gold3:#f5c842;--border:rgba(184,134,11,0.2);--border2:rgba(184,134,11,0.45);--red:#8b2020;--teal:#2d6a6a;--purple:#503080}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:#2a1a00;min-height:100vh;user-select:none;-webkit-user-select:none}
+
+/* 복붙 차단 */
+* { -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; }
+input, textarea { -webkit-user-select:text; user-select:text; }
+
+/* 헤더 */
+.hdr{background:linear-gradient(135deg,#fff9f0,#fdf0d0);border-bottom:2px solid var(--border2);
+  padding:12px 16px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(184,134,11,0.1)}
+.hdr-logo{font-family:'Noto Serif KR',serif;font-size:20px;color:var(--gold);display:flex;align-items:center;gap:8px}
+.hdr-sub{font-size:9px;color:rgba(184,134,11,0.45);letter-spacing:2px}
+.hamburger{width:40px;height:40px;background:none;border:1.5px solid var(--border2);border-radius:8px;
+  cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.hamburger span{display:block;width:18px;height:1.5px;background:var(--gold);transition:.3s}
+
+/* 메인 탭 */
+.main-tabs{display:flex;background:#fff9f0;border-bottom:2px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.main-tabs::-webkit-scrollbar{display:none}
+.mtab{flex:none;padding:11px 14px;font-size:11px;color:rgba(184,134,11,0.45);cursor:pointer;
+  border:none;background:none;font-family:'Noto Sans KR',sans-serif;border-bottom:2px solid transparent;
+  transition:all .2s;white-space:nowrap;margin-bottom:-2px}
+.mtab.on{color:var(--gold);border-bottom-color:var(--gold);font-weight:700}
+
+/* 본문 */
+.body{padding:14px;max-width:960px;margin:0 auto;padding-bottom:80px}
 .sec{display:none}.sec.on{display:block}
-.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;box-shadow:0 2px 8px var(--shadow)}
-.stat-lbl{font-size:9px;color:var(--light);letter-spacing:1px;margin-bottom:4px}
-.stat-val{font-family:'Noto Serif KR',serif;font-size:28px;font-weight:700;color:var(--gold)}
-.stat-sub{font-size:9px;color:rgba(90,58,0,0.4);margin-top:2px}
-.stitle{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--gold);border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
-.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;box-shadow:0 1px 6px var(--shadow)}
-.tarot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
-.tarot-card{background:linear-gradient(135deg,#fff8ee,#fff3d8);border:1.5px solid var(--border);border-radius:10px;padding:10px 5px;text-align:center;cursor:pointer;transition:all .25s;position:relative;box-shadow:0 2px 8px var(--shadow)}
-.tarot-card:hover{border-color:var(--gold2);transform:translateY(-3px);box-shadow:0 6px 20px rgba(184,134,11,0.2)}
-.tarot-card.selected{border-color:var(--gold);background:linear-gradient(135deg,#fff3c0,#ffe880);box-shadow:0 0 16px rgba(184,134,11,0.35)}
-.tarot-card.selected::after{content:'✓';position:absolute;top:4px;right:6px;font-size:10px;color:var(--gold);font-weight:700}
-.tarot-emo{font-size:22px;margin-bottom:3px}
-.tarot-name{font-size:9px;color:var(--gold);font-family:'Noto Serif KR',serif;line-height:1.3;font-weight:700}
-.tarot-kw{font-size:8px;color:var(--light);margin-top:2px}
-.reading-area{background:linear-gradient(135deg,#fff9f0,#fff5e0);border:1.5px solid var(--gold2);border-radius:10px;padding:16px;margin-bottom:14px;box-shadow:0 2px 12px var(--shadow)}
-.reading-title{font-family:'Noto Serif KR',serif;font-size:13px;color:var(--gold);margin-bottom:10px;text-align:center}
-.reading-content{font-size:11px;color:var(--mid);line-height:1.9;white-space:pre-line}
-.reading-empty{text-align:center;color:rgba(184,134,11,0.3);font-size:11px;padding:20px 0}
-.paid-teaser{text-align:center;padding:14px;background:linear-gradient(135deg,#fff3c0,#ffe880);border:1px solid var(--gold2);border-radius:8px;margin-top:10px}
-.paid-teaser-title{font-family:'Noto Serif KR',serif;font-size:13px;color:var(--gold);margin-bottom:6px}
-.paid-teaser-sub{font-size:10px;color:var(--mid);margin-bottom:12px;line-height:1.7}
-.btn{padding:11px 20px;border:none;border-radius:6px;font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s}
-.btn-gold{background:linear-gradient(135deg,#c89030,#e8b840);color:#2a1a00;box-shadow:0 3px 10px rgba(184,134,11,0.25)}
-.btn-gold:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(184,134,11,0.35)}
-.btn-gold:disabled{opacity:.4;transform:none;cursor:not-allowed}
-.btn-line{background:transparent;border:1.5px solid var(--gold2);color:var(--gold)}
-.btn-line:hover{background:rgba(184,134,11,0.07)}
-.btn-sm{padding:6px 12px;font-size:10px}
-.btn-row{display:flex;gap:8px;margin-top:12px}
-.btn-red{background:rgba(200,60,60,0.08);border:1px solid rgba(200,60,60,0.25);color:#cc4444;padding:5px 10px;font-size:10px;border-radius:4px;cursor:pointer;font-family:'Noto Sans KR',sans-serif}
-.inp{width:100%;padding:9px 12px;background:white;border:1.5px solid var(--border);border-radius:6px;color:var(--dark);font-size:12px;font-family:'Noto Sans KR',sans-serif;outline:none;margin-bottom:9px}
-.inp:focus{border-color:var(--gold2)}
-.lbl{font-size:10px;color:var(--light);margin-bottom:4px;display:block;font-weight:500}
-.ta{width:100%;padding:9px 12px;background:white;border:1.5px solid var(--border);border-radius:6px;color:var(--dark);font-size:12px;font-family:'Noto Sans KR',sans-serif;outline:none;resize:none;height:80px;margin-bottom:9px}
-.ta:focus{border-color:var(--gold2)}
-.prod-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 4px var(--shadow)}
-.prod-name{font-size:12px;font-weight:700;color:var(--dark);margin-bottom:2px}
-.prod-price{font-size:12px;color:var(--gold);font-weight:700}
-.prod-desc{font-size:10px;color:var(--light);margin-top:2px}
-.prod-actions{display:flex;gap:6px;flex-shrink:0}
-.tbl{width:100%;border-collapse:collapse;font-size:11px}
-.tbl th{background:rgba(184,134,11,0.07);color:var(--light);padding:9px;text-align:left;font-weight:500}
-.tbl td{color:var(--mid);padding:9px;border-bottom:.5px solid var(--border)}
-.badge{padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700}
-.badge-green{background:rgba(60,160,100,0.12);color:#2a8050}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--gold);color:#2a1a00;padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;opacity:0;transition:all .3s;z-index:999;white-space:nowrap}
+
+/* 상품 그리드 */
+.prod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.prod-card{background:#fff;border:1px solid var(--border);border-radius:12px;
+  padding:14px;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(184,134,11,0.06);
+  position:relative;overflow:hidden}
+.prod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold3))}
+.prod-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(184,134,11,0.15);border-color:var(--gold2)}
+.prod-emo{font-size:28px;margin-bottom:8px}
+.prod-name{font-family:'Noto Serif KR',serif;font-size:12px;color:#2a1a00;font-weight:700;margin-bottom:4px;line-height:1.4}
+.prod-desc{font-size:10px;color:#888;margin-bottom:8px;line-height:1.5}
+.prod-price{font-size:14px;color:var(--gold);font-weight:700}
+.prod-badge{position:absolute;top:10px;right:10px;padding:2px 7px;border-radius:10px;
+  font-size:8px;font-weight:700;background:rgba(184,134,11,0.1);color:var(--gold)}
+.buy-btn{width:100%;padding:9px;background:linear-gradient(135deg,#c89030,#e8b840);
+  color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;cursor:pointer;margin-top:8px;transition:.2s}
+.buy-btn:hover{box-shadow:0 3px 12px rgba(184,134,11,0.35)}
+
+/* 섹션 타이틀 */
+.stitle{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--gold);
+  border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:14px;
+  display:flex;align-items:center;justify-content:space-between}
+
+/* 챗봇 카드 */
+.bot-card{background:#fff;border:1px solid var(--border);border-radius:12px;
+  padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;
+  box-shadow:0 2px 8px rgba(184,134,11,0.04)}
+.bot-icon{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:24px;flex-shrink:0}
+.bot-info{flex:1}
+.bot-name{font-family:'Noto Serif KR',serif;font-size:13px;color:var(--gold);font-weight:700}
+.bot-desc{font-size:10px;color:#888;margin-top:3px;line-height:1.5}
+.bot-btn{padding:7px 14px;border-radius:6px;font-size:10px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;cursor:pointer;border:none;transition:.2s;white-space:nowrap}
+.bot-kakao{background:#FEE500;color:#3A1D1D}
+.bot-green{background:rgba(45,106,106,0.1);border:1px solid rgba(45,106,106,0.3);color:var(--teal)}
+
+/* 크몽 배너 */
+.kmong-banner{background:linear-gradient(135deg,#1a0a30,#2a1050);border-radius:12px;
+  padding:18px;margin-bottom:10px;color:#fff;position:relative;overflow:hidden}
+.kmong-banner::after{content:'KMONG';position:absolute;right:-10px;top:50%;transform:translateY(-50%);
+  font-size:60px;font-weight:900;color:rgba(255,255,255,0.04);letter-spacing:-2px}
+.kmong-title{font-family:'Noto Serif KR',serif;font-size:14px;margin-bottom:4px;color:#d4b8ff}
+.kmong-desc{font-size:10px;color:rgba(255,255,255,0.6);margin-bottom:12px;line-height:1.6}
+.kmong-btn{padding:9px 20px;background:linear-gradient(135deg,#7B2FF7,#9B4FF7);
+  color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;cursor:pointer}
+
+/* 전자책 카드 */
+.ebook-card{background:#fff;border:1px solid var(--border);border-radius:12px;
+  padding:14px;margin-bottom:10px;display:flex;gap:12px;
+  box-shadow:0 2px 8px rgba(184,134,11,0.04);cursor:pointer;transition:.2s}
+.ebook-card:hover{border-color:var(--gold2);box-shadow:0 4px 16px rgba(184,134,11,0.12)}
+.ebook-cover{width:60px;height:80px;background:linear-gradient(135deg,#1a0a00,#3a1a00);
+  border-radius:4px;display:flex;align-items:center;justify-content:center;
+  font-size:24px;flex-shrink:0;box-shadow:2px 2px 8px rgba(0,0,0,0.2)}
+.ebook-info{flex:1}
+.ebook-title{font-family:'Noto Serif KR',serif;font-size:12px;color:#2a1a00;font-weight:700;margin-bottom:4px}
+.ebook-desc{font-size:10px;color:#888;line-height:1.5;margin-bottom:6px}
+.ebook-price{font-size:13px;color:var(--gold);font-weight:700}
+
+/* 사주 앱 */
+.saju-wrap{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;
+  box-shadow:0 2px 8px rgba(184,134,11,0.06)}
+.saju-header{padding:12px 14px;background:linear-gradient(135deg,#0a0500,#1a0f00);
+  display:flex;align-items:center;gap:8px}
+.saju-title{font-family:'Noto Serif KR',serif;font-size:13px;color:var(--gold)}
+.saju-frame{width:100%;height:600px;border:none}
+
+/* 어드민 패널 */
+.admin-panel{position:fixed;top:0;right:-100%;width:min(320px,90vw);height:100vh;
+  background:#fff;border-left:2px solid var(--border2);z-index:200;
+  transition:right .3s;overflow-y:auto;box-shadow:-4px 0 20px rgba(0,0,0,0.15)}
+.admin-panel.open{right:0}
+.admin-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:199;
+  display:none;opacity:0;transition:opacity .3s}
+.admin-overlay.open{display:block;opacity:1}
+.admin-hdr{padding:16px;background:linear-gradient(135deg,#fff9f0,#fdf0d0);
+  border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0}
+.admin-title{font-family:'Noto Serif KR',serif;font-size:15px;color:var(--gold)}
+.close-btn{width:32px;height:32px;border:none;background:rgba(184,134,11,0.1);
+  border-radius:6px;cursor:pointer;font-size:16px;color:var(--gold)}
+.admin-body{padding:14px}
+.admin-menu{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.amenu-item{padding:12px 14px;background:#fff9f0;border:1px solid var(--border);
+  border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:10px;
+  font-size:12px;color:#2a1a00;transition:.2s}
+.amenu-item:hover{border-color:var(--gold2);background:rgba(184,134,11,0.06)}
+.amenu-icon{font-size:18px;width:28px;text-align:center}
+
+/* PIN 화면 */
+#pinScreen{position:fixed;inset:0;background:linear-gradient(135deg,#fdf6e8,#fff3d0);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999}
+.pin-box{background:#fff;border:2px solid var(--border2);border-radius:16px;
+  padding:32px 24px;text-align:center;box-shadow:0 8px 40px rgba(184,134,11,0.15);
+  max-width:320px;width:90%}
+.pin-title{font-family:'Noto Serif KR',serif;font-size:20px;color:var(--gold);margin-bottom:4px}
+.pin-sub{font-size:11px;color:#aaa;margin-bottom:18px}
+.pin-dots{display:flex;gap:10px;justify-content:center;margin-bottom:18px}
+.pin-dot{width:13px;height:13px;border-radius:50%;border:2px solid var(--border2);background:#fff;transition:.2s}
+.pin-dot.fill{background:var(--gold2);border-color:var(--gold2)}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;max-width:210px;margin:0 auto}
+.pin-btn{padding:13px;border:1px solid var(--border);border-radius:8px;font-size:17px;
+  font-weight:700;color:var(--gold);background:#fff9f0;cursor:pointer;font-family:'Noto Sans KR',sans-serif}
+.pin-err{font-size:10px;color:var(--red);margin-top:8px;min-height:14px}
+
+/* 어드민 서브 패널 */
+.sub-panel{display:none}.sub-panel.on{display:block}
+.form-group{margin-bottom:10px}
+.flbl{font-size:9px;color:rgba(184,134,11,0.6);letter-spacing:1px;margin-bottom:4px;display:block}
+.finp{width:100%;padding:8px 10px;background:#fff9f0;border:1px solid var(--border);
+  border-radius:5px;color:#2a1a00;font-size:11px;font-family:'Noto Sans KR',sans-serif;outline:none}
+.finp:focus{border-color:var(--gold2)}
+.fta{width:100%;padding:8px 10px;background:#fff9f0;border:1px solid var(--border);
+  border-radius:5px;color:#2a1a00;font-size:11px;font-family:'Noto Sans KR',sans-serif;
+  outline:none;resize:none;height:70px}
+.fsel{width:100%;padding:8px 10px;background:#fff9f0;border:1px solid var(--border);
+  border-radius:5px;color:#2a1a00;font-size:11px;font-family:'Noto Sans KR',sans-serif;outline:none;cursor:pointer}
+.btn{padding:9px 16px;border:none;border-radius:6px;font-size:11px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:.2s}
+.btn-gold{background:linear-gradient(135deg,#c89030,#e8b840);color:#fff}
+.btn-line{background:#fff;border:1px solid var(--border2);color:var(--gold)}
+.btn-red{background:rgba(139,32,32,0.08);border:1px solid rgba(139,32,32,0.2);color:var(--red)}
+.btn-sm{padding:5px 10px;font-size:9px}
+.btn-row{display:flex;gap:7px;margin-top:10px}
+
+/* 어드민 상품 리스트 */
+.a-prod-item{background:#fff9f0;border:1px solid var(--border);border-radius:7px;
+  padding:10px;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center}
+.a-prod-name{font-size:11px;color:#2a1a00;font-weight:500}
+.a-prod-price{font-size:11px;color:var(--gold);font-weight:700}
+.a-prod-type{font-size:9px;color:#aaa}
+
+/* 결제 내역 */
+.pay-item{padding:10px 0;border-bottom:.5px solid rgba(184,134,11,0.08);
+  display:flex;justify-content:space-between;align-items:center}
+.pay-name{font-size:11px;color:#2a1a00}
+.pay-price{font-size:12px;color:var(--gold);font-weight:700}
+.pay-date{font-size:9px;color:#aaa;margin-top:2px}
+
+/* 통계 */
+.stat-mini{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.smc{background:#fff9f0;border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center}
+.smc-lbl{font-size:8px;color:rgba(184,134,11,0.5);margin-bottom:2px}
+.smc-val{font-family:'Noto Serif KR',serif;font-size:20px;color:var(--gold);font-weight:700}
+
+/* PDF 다운 버튼 */
+.pdf-btn{width:100%;padding:11px;background:linear-gradient(135deg,#2d6a6a,#3d8a8a);
+  color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;gap:6px;margin-top:10px}
+
+/* 토스트 */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);
+  background:rgba(184,134,11,0.95);color:#fff;padding:8px 18px;border-radius:20px;
+  font-size:11px;font-weight:700;opacity:0;transition:all .3s;z-index:999;white-space:nowrap;
+  pointer-events:none}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:200;display:none;align-items:center;justify-content:center}
-.modal-bg.on{display:flex}
-.modal{background:white;border-radius:12px;padding:24px;width:min(360px,90vw);border:1px solid var(--border);box-shadow:0 8px 40px rgba(0,0,0,0.12);max-height:90vh;overflow-y:auto}
-.modal-title{font-family:'Noto Serif KR',serif;font-size:16px;color:var(--gold);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+/* 상품 상세 모달 */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;
+  align-items:flex-end;justify-content:center;z-index:150}
+.modal.on{display:flex}
+.modal-box{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:480px;
+  padding:20px;max-height:80vh;overflow-y:auto}
+.modal-title{font-family:'Noto Serif KR',serif;font-size:16px;color:var(--gold);margin-bottom:8px}
+.modal-desc{font-size:12px;color:#555;line-height:1.8;margin-bottom:14px}
+.modal-price{font-size:20px;color:var(--gold);font-weight:700;margin-bottom:14px}
+.modal-close{position:absolute;top:12px;right:14px;background:none;border:none;
+  font-size:20px;color:#aaa;cursor:pointer}
 </style>
 </head>
 <body>
 
-<!-- 로그인 -->
-<div id="loginScreen">
-  <div class="login-box">
-    <div class="login-logo">🐱</div>
-    <div class="login-title">타로냥 관리자</div>
-    <div class="login-sub">관리자만 접근할 수 있냥</div>
+<!-- PIN 화면 (어드민용) -->
+<div id="pinScreen" style="display:none">
+  <div class="pin-box">
+    <div style="font-size:32px;margin-bottom:6px">🔐</div>
+    <div class="pin-title">관리자 인증</div>
+    <div class="pin-sub">PIN 6자리를 입력해주세요</div>
     <div class="pin-dots">
       <div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div>
       <div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
       <div class="pin-dot" id="d4"></div><div class="pin-dot" id="d5"></div>
     </div>
     <div class="pin-pad">
-      <button class="pin-btn" onclick="pi('1')">1</button><button class="pin-btn" onclick="pi('2')">2</button><button class="pin-btn" onclick="pi('3')">3</button>
-      <button class="pin-btn" onclick="pi('4')">4</button><button class="pin-btn" onclick="pi('5')">5</button><button class="pin-btn" onclick="pi('6')">6</button>
-      <button class="pin-btn" onclick="pi('7')">7</button><button class="pin-btn" onclick="pi('8')">8</button><button class="pin-btn" onclick="pi('9')">9</button>
-      <button class="pin-btn" onclick="pc()" style="font-size:11px">전체삭제</button>
-      <button class="pin-btn" onclick="pi('0')">0</button>
-      <button class="pin-btn" onclick="pb()" style="font-size:14px">←</button>
+      <button class="pin-btn" onclick="pi(1)">1</button>
+      <button class="pin-btn" onclick="pi(2)">2</button>
+      <button class="pin-btn" onclick="pi(3)">3</button>
+      <button class="pin-btn" onclick="pi(4)">4</button>
+      <button class="pin-btn" onclick="pi(5)">5</button>
+      <button class="pin-btn" onclick="pi(6)">6</button>
+      <button class="pin-btn" onclick="pi(7)">7</button>
+      <button class="pin-btn" onclick="pi(8)">8</button>
+      <button class="pin-btn" onclick="pi(9)">9</button>
+      <button class="pin-btn" onclick="pclr()" style="font-size:10px">지우기</button>
+      <button class="pin-btn" onclick="pi(0)">0</button>
+      <button class="pin-btn" onclick="pdel()">←</button>
     </div>
-    <div class="login-err" id="loginErr"></div>
+    <div class="pin-err" id="pinErr"></div>
+    <button onclick="closePinScreen()" style="margin-top:12px;background:none;border:none;
+      font-size:11px;color:#aaa;cursor:pointer;font-family:Noto Sans KR,sans-serif">취소</button>
   </div>
 </div>
 
-<!-- 메인 -->
-<div id="mainApp" style="display:none">
+<!-- 헤더 -->
 <div class="hdr">
-  <div><div class="hdr-logo">🐱 타로냥 대시보드</div><div class="hdr-sub">자개빛.shop · 관리자 전용</div></div>
-  <div class="hdr-right">
-    <div class="live-badge"><div class="live-dot"></div>LIVE</div>
-    <a href="https://jagaebit.shop" target="_blank" class="hdr-btn">🏠 상점</a>
-    <a href="http://pf.kakao.com/_YCzEX" target="_blank" class="hdr-btn">💛 카카오</a>
-    <button class="hdr-btn" onclick="logout()">나가기</button>
+  <div>
+    <div class="hdr-logo">🐱 타로냥</div>
+    <div class="hdr-sub">JAGAEBIT · 자개빛 상점</div>
   </div>
+  <button class="hamburger" onclick="openAdmin()">
+    <span></span><span></span><span></span>
+  </button>
 </div>
-<div class="tabs">
-  <button class="tab on" onclick="goTab('home',this)">🏠 현황</button>
-  <button class="tab" onclick="goTab('tarot',this)">🔮 타로 뽑기</button>
-  <button class="tab" onclick="goTab('products',this)">🛒 상품 관리</button>
-  <button class="tab" onclick="goTab('sales',this)">💰 결제 내역</button>
-  <button class="tab" onclick="goTab('settings',this)">⚙️ 설정</button>
+
+<!-- 메인 탭 -->
+<div class="main-tabs">
+  <button class="mtab on" onclick="goTab('shop',this)">🛒 상품</button>
+  <button class="mtab" onclick="goTab('chatbot',this)">🐱 챗봇</button>
+  <button class="mtab" onclick="goTab('saju',this)">🔮 사주</button>
+  <button class="mtab" onclick="goTab('ebook',this)">📖 전자책</button>
+  <button class="mtab" onclick="goTab('kmong',this)">💜 크몽</button>
 </div>
 
 <div class="body">
 
-<!-- 홈 -->
-<div class="sec on" id="sec-home">
-  <div class="stat-grid">
-    <div class="stat-card"><div class="stat-lbl">오늘 매출</div><div class="stat-val" id="todaySales">0</div><div class="stat-sub">원</div></div>
-    <div class="stat-card"><div class="stat-lbl">총 건수</div><div class="stat-val" id="totalCount">0</div><div class="stat-sub">건</div></div>
-    <div class="stat-card"><div class="stat-lbl">이번달 매출</div><div class="stat-val" id="monthSales">0</div><div class="stat-sub">원</div></div>
-    <div class="stat-card"><div class="stat-lbl">총 매출</div><div class="stat-val" id="totalSales">0</div><div class="stat-sub">원</div></div>
+  <!-- 상품 -->
+  <div class="sec on" id="sec-shop">
+    <div class="stitle">✦ 인기 상품 ✦</div>
+    <div class="prod-grid" id="prodGrid"></div>
   </div>
-  <div class="stitle">빠른 링크</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
-    <a href="https://jagaebit.shop" target="_blank" class="btn btn-gold" style="text-align:center;text-decoration:none">🏠 자개빛 상점</a>
-    <a href="http://pf.kakao.com/_YCzEX" target="_blank" class="btn btn-line" style="text-align:center;text-decoration:none">💬 카카오 채널</a>
-    <a href="https://fortune-grandma-soul.lovable.app" target="_blank" class="btn btn-line" style="text-align:center;text-decoration:none">🌙 사주 앱</a>
-    <a href="https://pg.nicepay.co.kr" target="_blank" class="btn btn-line" style="text-align:center;text-decoration:none">💳 나이스페이</a>
-  </div>
-  <div class="stitle">오늘의 타로냥</div>
-  <div class="card" style="text-align:center;padding:20px">
-    <div style="font-size:36px;margin-bottom:8px" id="todayCardEmo">🔮</div>
-    <div style="font-family:'Noto Serif KR',serif;font-size:14px;color:var(--gold);margin-bottom:5px" id="todayMsg">오늘도 좋은 기운이 가득하냥~ 🌸</div>
-    <div style="font-size:10px;color:var(--light)">타로냥의 오늘 메시지</div>
-  </div>
-</div>
 
-<!-- 타로 뽑기 -->
-<div class="sec" id="sec-tarot">
-  <div class="stitle">🔮 타로 카드 뽑기
-    <div style="display:flex;gap:8px;align-items:center">
-      <span style="font-size:10px;color:var(--light)" id="selectCount">0/3 선택</span>
-      <button class="btn btn-line btn-sm" onclick="shuffle()">🔀 다시 섞기</button>
+  <!-- 챗봇 -->
+  <div class="sec" id="sec-chatbot">
+    <div class="stitle">✦ 타로냥 챗봇 ✦</div>
+    <div class="bot-card">
+      <div class="bot-icon" style="background:linear-gradient(135deg,#fff3c0,#ffe080)">🐱</div>
+      <div class="bot-info">
+        <div class="bot-name">타로냥 — 타로 상담</div>
+        <div class="bot-desc">카드 3장 무료 해석 + PDF 유료 리포트<br>냥체 말투로 친근하게 상담해드려요</div>
+      </div>
+      <a href="http://pf.kakao.com/_YCzEX" target="_blank">
+        <button class="bot-btn bot-kakao">💛 채널 열기</button>
+      </a>
+    </div>
+    <div class="bot-card">
+      <div class="bot-icon" style="background:linear-gradient(135deg,#e8f0ff,#c0d8ff)">🌙</div>
+      <div class="bot-info">
+        <div class="bot-name">야마 — 사주 안내</div>
+        <div class="bot-desc">사주 기본 안내 + 크몽 유료 상담 연결<br>20년 명리학 전문가 타로냥(천운)의 채널</div>
+      </div>
+      <a href="http://pf.kakao.com/_TTxmxhX" target="_blank">
+        <button class="bot-btn bot-kakao">💛 채널 열기</button>
+      </a>
+    </div>
+    <div class="stitle" style="margin-top:16px">✦ 오픈채팅 ✦</div>
+    <div class="bot-card">
+      <div class="bot-icon" style="background:linear-gradient(135deg,#f0fff0,#c0f0c0)">💬</div>
+      <div class="bot-info">
+        <div class="bot-name">자개빛 오픈채팅</div>
+        <div class="bot-desc">고객 소통 및 Q&A 채널<br>타로냥이 직접 답변해드려요</div>
+      </div>
+      <a href="https://open.kakao.com/o/sELIScli" target="_blank">
+        <button class="bot-btn bot-green">채팅 열기</button>
+      </a>
     </div>
   </div>
-  <div style="text-align:center;margin-bottom:10px;font-size:11px;color:var(--light)">
-    78장 중 12장 랜덤 표시 · 마음에 드는 카드 3장을 선택해봐냥 🌙
-  </div>
-  <div class="tarot-grid" id="tarotGrid"></div>
-  <div class="reading-area" id="readingArea">
-    <div class="reading-empty">🌙 카드 3장을 선택하면 무료 해석이 나타납니다</div>
-  </div>
-  <div class="btn-row">
-    <button class="btn btn-gold" onclick="showReading()" id="readBtn" disabled style="flex:1">🔮 무료 해석 보기</button>
-    <button class="btn btn-line" onclick="resetCards()">초기화</button>
-  </div>
-</div>
 
-<!-- 상품 관리 -->
-<div class="sec" id="sec-products">
-  <div class="stitle">🛒 타로 상품 관리
-    <button class="btn btn-gold btn-sm" onclick="openAdd()">+ 상품 추가</button>
+  <!-- 사주 앱 -->
+  <div class="sec" id="sec-saju">
+    <div class="stitle">✦ 천기반전 사주 ✦</div>
+    <div class="saju-wrap">
+      <div class="saju-header">
+        <span style="font-size:20px">🔮</span>
+        <div>
+          <div class="saju-title">천기반전 AI 사주 분석</div>
+          <div style="font-size:9px;color:rgba(212,168,64,0.5)">생년월일시로 정확한 운세 확인</div>
+        </div>
+      </div>
+      <iframe class="saju-frame" src="https://fortune-grandma-soul.lovable.app" 
+        title="천기반전 사주 앱" loading="lazy"></iframe>
+    </div>
+    <a href="https://fortune-grandma-soul.lovable.app" target="_blank">
+      <button style="width:100%;padding:11px;background:linear-gradient(135deg,#0a0500,#1a0f00);
+        color:var(--gold);border:none;border-radius:8px;font-size:11px;font-weight:700;
+        font-family:Noto Sans KR,sans-serif;cursor:pointer;margin-top:10px">
+        🔮 전체화면으로 보기 →
+      </button>
+    </a>
   </div>
-  <div id="productList"></div>
-</div>
 
-<!-- 결제 내역 -->
-<div class="sec" id="sec-sales">
-  <div class="stitle">💰 결제 내역</div>
-  <table class="tbl">
-    <thead><tr><th>상품</th><th>금액</th><th>날짜</th><th>상태</th></tr></thead>
-    <tbody id="salesTbl"></tbody>
-  </table>
-</div>
-
-<!-- 설정 -->
-<div class="sec" id="sec-settings">
-  <div class="card" style="margin-bottom:12px">
-    <div style="font-size:13px;color:var(--gold);font-family:'Noto Serif KR',serif;margin-bottom:12px">🐱 챗봇 인사말</div>
-    <label class="lbl">첫 방문 인사</label>
-    <textarea class="ta" id="set-greeting">안냥하세요~ 타로냥이냥 🐱 오늘은 어떤 걸 알고 싶냥?</textarea>
-    <label class="lbl">재방문 인사</label>
-    <textarea class="ta" id="set-revisit" style="height:60px">또 왔냥~ 오늘도 즐거웠으면 좋겠냥 🌸</textarea>
+  <!-- 전자책 -->
+  <div class="sec" id="sec-ebook">
+    <div class="stitle">✦ 전자책 ✦</div>
+    <div id="ebookList"></div>
   </div>
-  <div class="card" style="margin-bottom:12px">
-    <div style="font-size:13px;color:var(--gold);font-family:'Noto Serif KR',serif;margin-bottom:12px">💳 나이스페이 설정</div>
-    <label class="lbl">Client Key</label>
-    <input class="inp" id="set-nicepay" value="R2_84f3547de07245e7a5bb607287dab5a1">
-    <label class="lbl">결제 후 이동 URL</label>
-    <input class="inp" id="set-return" value="https://jagaebit.shop">
-  </div>
-  <div class="card" style="margin-bottom:12px">
-    <div style="font-size:13px;color:var(--gold);font-family:'Noto Serif KR',serif;margin-bottom:12px">🔐 PIN 변경</div>
-    <label class="lbl">새 PIN (6자리 숫자)</label>
-    <input class="inp" id="set-pin" type="password" maxlength="6" placeholder="새 PIN 입력">
-    <label class="lbl">PIN 확인</label>
-    <input class="inp" id="set-pin2" type="password" maxlength="6" placeholder="다시 입력">
-  </div>
-  <button class="btn btn-gold" onclick="saveSettings()" style="width:100%">💾 설정 저장</button>
-</div>
 
-</div><!-- /body -->
-</div><!-- /mainApp -->
-
-<!-- 상품 모달 -->
-<div class="modal-bg" id="prodModal">
-  <div class="modal">
-    <div class="modal-title" id="mTitle">상품 추가</div>
-    <label class="lbl">상품명</label><input class="inp" id="m-name" placeholder="예: 타로 PDF 리포트">
-    <label class="lbl">가격 (원)</label><input class="inp" id="m-price" type="number" placeholder="9900">
-    <label class="lbl">상품 설명</label><textarea class="ta" id="m-desc" placeholder="상품 설명"></textarea>
-    <label class="lbl">유형</label>
-    <select class="inp" id="m-type" style="height:40px">
-      <option value="tarot">🔮 타로 리포트</option>
-      <option value="consult">💬 상담권</option>
-      <option value="ebook">📖 전자책</option>
-      <option value="other">기타</option>
-    </select>
-    <div class="btn-row">
-      <button class="btn btn-gold" onclick="saveProd()" style="flex:1">저장</button>
-      <button class="btn btn-line" onclick="closeMod()">취소</button>
+  <!-- 크몽 -->
+  <div class="sec" id="sec-kmong">
+    <div class="stitle">✦ 크몽 전문가 상담 ✦</div>
+    <div class="kmong-banner">
+      <div class="kmong-title">💜 타로냥(천운) 전문가</div>
+      <div class="kmong-desc">20년 명리학 경력의 타로냥이<br>사주·타로 1:1 프리미엄 상담을 진행합니다.<br>크몽에서 인증된 전문가로 활동 중입니다.</div>
+      <button class="kmong-btn" onclick="window.open('https://kmong.com/@퍼플문타로사주','_blank')">💜 크몽 상담 예약</button>
+    </div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px">
+      <div style="font-family:Noto Serif KR,serif;font-size:12px;color:var(--gold);margin-bottom:10px">제공 서비스</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:.5px solid var(--border)">
+          <div><div style="font-size:11px;font-weight:500">사주 기본 분석</div><div style="font-size:9px;color:#aaa">생년월일시 기반 종합 분석</div></div>
+          <div style="font-size:12px;color:var(--gold);font-weight:700">30,000원~</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:.5px solid var(--border)">
+          <div><div style="font-size:11px;font-weight:500">타로 심층 리딩</div><div style="font-size:9px;color:#aaa">질문별 맞춤 타로 분석</div></div>
+          <div style="font-size:12px;color:var(--gold);font-weight:700">20,000원~</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0">
+          <div><div style="font-size:11px;font-weight:500">VIP 종합 상담</div><div style="font-size:9px;color:#aaa">사주+타로 통합 60분</div></div>
+          <div style="font-size:12px;color:var(--gold);font-weight:700">79,000원~</div>
+        </div>
+      </div>
     </div>
   </div>
+
 </div>
 
-<!-- 결제 모달 -->
-<div class="modal-bg" id="payModal">
-  <div class="modal">
-    <div class="modal-title">💳 결제하기</div>
-    <div style="background:linear-gradient(135deg,#fff9f0,#fff5e0);border:1px solid var(--gold2);border-radius:8px;padding:14px;margin-bottom:14px">
-      <div style="font-family:'Noto Serif KR',serif;font-size:14px;color:var(--gold);margin-bottom:4px" id="pay-prod-name">상품명</div>
-      <div style="font-size:22px;font-weight:700;color:var(--gold)" id="pay-prod-price">0원</div>
-      <div style="font-size:10px;color:var(--light);margin-top:4px" id="pay-prod-desc"></div>
+<!-- 상품 상세 모달 -->
+<div class="modal" id="prodModal">
+  <div class="modal-box" style="position:relative">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div style="font-size:40px;margin-bottom:8px" id="modal-emo"></div>
+    <div class="modal-title" id="modal-name"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-price" id="modal-price"></div>
+    <button class="buy-btn" onclick="doPay()" style="font-size:13px;padding:12px">💳 구매하기</button>
+  </div>
+</div>
+
+<!-- 어드민 오버레이 -->
+<div class="admin-overlay" id="overlay" onclick="closeAdmin()"></div>
+
+<!-- 어드민 패널 -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-hdr">
+    <div class="admin-title">🔐 관리자</div>
+    <button class="close-btn" onclick="closeAdmin()">✕</button>
+  </div>
+  <div class="admin-body">
+
+    <!-- 메인 메뉴 -->
+    <div class="sub-panel on" id="sp-menu">
+      <div class="admin-menu">
+        <div class="amenu-item" onclick="showSp('sp-stats')">
+          <span class="amenu-icon">📊</span>매출 현황
+        </div>
+        <div class="amenu-item" onclick="showSp('sp-prods')">
+          <span class="amenu-icon">🛒</span>상품 관리
+        </div>
+        <div class="amenu-item" onclick="showSp('sp-ebooks')">
+          <span class="amenu-icon">📖</span>전자책 관리
+        </div>
+        <div class="amenu-item" onclick="showSp('sp-orders')">
+          <span class="amenu-icon">💰</span>결제 내역
+        </div>
+        <div class="amenu-item" onclick="showSp('sp-pdf')">
+          <span class="amenu-icon">📄</span>PDF 발송
+        </div>
+        <div class="amenu-item" onclick="showSp('sp-settings')">
+          <span class="amenu-icon">⚙️</span>설정
+        </div>
+        <div class="amenu-item" onclick="doLogout()" style="color:var(--red)">
+          <span class="amenu-icon">🚪</span>로그아웃
+        </div>
+      </div>
     </div>
-    <label class="lbl">이름</label><input class="inp" id="pay-name" placeholder="이름">
-    <label class="lbl">연락처</label><input class="inp" id="pay-phone" placeholder="010-0000-0000">
-    <div class="btn-row">
-      <button class="btn btn-gold" onclick="doPay()" style="flex:1">💳 결제하기</button>
-      <button class="btn btn-line" onclick="closePayMod()">취소</button>
+
+    <!-- 매출 현황 -->
+    <div class="sub-panel" id="sp-stats">
+      <button onclick="showSp('sp-menu')" class="btn btn-line btn-sm" style="margin-bottom:12px">← 뒤로</button>
+      <div class="stat-mini" id="statMini"></div>
+      <div style="font-family:Noto Serif KR,serif;font-size:12px;color:var(--gold);margin-bottom:8px">최근 주문</div>
+      <div id="recentOrders"></div>
     </div>
+
+    <!-- 상품 관리 -->
+    <div class="sub-panel" id="sp-prods">
+      <button onclick="showSp('sp-menu')" class="btn btn-line btn-sm" style="margin-bottom:12px">← 뒤로</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="font-family:Noto Serif KR,serif;font-size:12px;color:var(--gold)">상품 목록</div>
+        <button class="btn btn-gold btn-sm" onclick="showSp('sp-addprod')">+ 추가</button>
+      </div>
+      <div id="adminProdList"></div>
+    </div>
+
+    <!-- 상품 추가 -->
+    <div class="sub-panel" id="sp-addprod">
+      <button onclick="showSp('sp-prods')" class="btn btn-line btn-sm" style="margin-bottom:12px">← 뒤로</button>
+      <div class="form-group"><label class="flbl">상품명</label><input class="finp" id="pf-name" placeholder="타로 3카드 PDF 리포트"></div>
+      <div class="form-group"><label class="flbl">가격 (원)</label><input class="finp" id="pf-price" type="number" placeholder="9900"></div>
+      <div class="form-group"><label class="flbl">이모지</label><input class="finp" id="pf-emo" placeholder="🔮"></div>
+      <div class="form-group"><label class="flbl">유형</label>
+        <select class="fsel" id="pf-type">
+          <option value="tarot">🔮 타로</option>
+          <option value="consult">💬 상담권</option>
+          <option value="ebook">📖 전자책</option>
+          <option value="saju">🌙 사주</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="flbl">설명</label><textarea class="fta" id="pf-desc" placeholder="상품 설명"></textarea></div>
+      <button class="btn btn-gold" onclick="addProd()" style="width:100%">등록</button>
+    </div>
+
+    <!-- 전자책 관리 -->
+    <div class="sub-panel" id="sp-ebooks">
+      <button onclick="showSp('sp-menu')" class="btn btn-line btn-sm" style="margin-bottom:12px">← 뒤로</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="font-family:Noto Serif KR,serif;font-size:12px;color:var(--gold)">전자책 목록</div>
+        <button class="btn btn-gold btn-sm" onclick="showSp('sp-addebook')">+ 추가</button>
+      </div>
+      <div id="adminEbookList"></div>
+    </div>
+
+    <!-- 전자책 추가 -->
+    <div class="sub-panel" id="sp-addebook">
+      <button onclick="showSp('sp-ebooks')" class="btn btn-line btn-sm" style="margin-bottom:12px">← 뒤로</button>
+      <div class="form-group"><label class="flbl">전자책 제목</label><input class="finp" id="ef-title" placeholder="셀프사주책 ALL-IN-ONE"></div>
+      <div class="form-group"><label class="flbl">가격 (원)</label><input class="finp" id="ef-price" type="number" placeholder="29000"></div>
+      <div class="form-group"><label class="flbl">설명</label><textarea class="fta" id="ef-desc" placeholder="전자책 설명"></textarea></div>
+      <div class="form-group"><label class="flbl">PDF 파일명 (업로드 후)</label><input class="finp" id="ef-pdf" placeholder="saju_book.pdf"></div>
+      <button class="btn btn-gold" onclick="addEbook()" style="width:100%">등록</button>
+    </div>
+
+    <!-- 결제 내역 -->
+    <div class="sub-panel" id="sp-orders">
+      <button onclick="showSp('sp-menu')" class="btn btn-line btn-sm" style="margin-bottom:12px">← 뒤로</button>
+      <div style="font-family:Noto Serif KR,serif;font-size:12px;color:var(--gold);margin-bottom:10px">결제 내역</div>
+      <div id="orderList"></div>
+    </div>
+
+    <!-- PDF 발송 -->
+    <div class="sub-panel" id="sp-pdf">
+      <button onclick="showSp('sp-menu')" class="btn btn-line btn-sm" style="margin-bottom:12px">← 뒤로</button>
+      <div style="font-family:Noto Serif KR,serif;font-size:12px;color:var(--gold);margin-bottom:10px">PDF 발송 관리</div>
+      <div style="background:#fff9f0;border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;font-size:11px;color:#555;line-height:1.7">
+        📄 결제 완료 후 PDF를 카카오톡으로 발송합니다.<br>
+        Supabase 웹훅이 연결되면 자동 발송됩니다.
+      </div>
+      <div class="form-group"><label class="flbl">수동 발송 - 카카오 ID</label><input class="finp" id="pdf-kakao" placeholder="카카오톡 ID"></div>
+      <div class="form-group"><label class="flbl">발송할 PDF 선택</label>
+        <select class="fsel" id="pdf-file">
+          <option>타로 리포트 기본형</option>
+          <option>사주 분석 리포트</option>
+        </select>
+      </div>
+      <button class="btn btn-gold" onclick="sendPdf()" style="width:100%">📤 발송하기</button>
+    </div>
+
+    <!-- 설정 -->
+    <div class="sub-panel" id="sp-settings">
+      <button onclick="showSp('sp-menu')" class="btn btn-line btn-sm" style="margin-bottom:12px">← 뒤로</button>
+      <div style="font-family:Noto Serif KR,serif;font-size:12px;color:var(--gold);margin-bottom:10px">⚙️ 설정</div>
+      <div class="form-group"><label class="flbl">나이스페이 Client Key</label><input class="finp" id="set-ck" value="R2_84f3547de07245e7a5bb607287dab5a1"></div>
+      <div class="form-group"><label class="flbl">크몽 프로필 URL</label><input class="finp" id="set-kmong" value="https://kmong.com/@퍼플문타로사주"></div>
+      <div class="form-group"><label class="flbl">Supabase 웹훅 URL</label><input class="finp" id="set-supa" placeholder="https://xxx.supabase.co/functions/v1/..."></div>
+      <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
+        <div class="form-group"><label class="flbl">현재 PIN</label><input class="finp" id="pin-old" type="password" placeholder="현재 PIN"></div>
+        <div class="form-group"><label class="flbl">새 PIN (6자리)</label><input class="finp" id="pin-new" type="password" placeholder="새 PIN" maxlength="6"></div>
+        <button class="btn btn-line btn-sm" onclick="changePin()" style="width:100%;margin-bottom:8px">PIN 변경</button>
+      </div>
+      <button class="btn btn-gold" onclick="saveSettings()" style="width:100%">💾 저장</button>
+    </div>
+
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 <script src="https://pay.nicepay.co.kr/v1/js/"></script>
 <script>
-// 78장 카드
-const CARDS=[
-  {e:'🌟',n:'별',f:'희망·치유·소망',p:'별은 어둠 속에서도 빛을 잃지 않는 존재냥 🌟\n지금 힘들어도 반드시 좋아질 거라는 우주의 약속이냥.\n치유와 재생의 에너지가 흐르고 있냥.\n직감을 믿고 앞으로 나아가봐냥.\n당신의 빛은 절대 꺼지지 않냥 ✨\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'🌙',n:'달',f:'직관·불안·환상',p:'달은 보이지 않는 것을 드러내는 카드냥 🌙\n지금 불안하다면 무의식이 뭔가를 말하려는 거냥.\n숨겨진 진실이 곧 드러날 거냥.\n감정에 솔직해지는 것이 중요한 시기냥.\n내면의 목소리에 귀 기울여봐냥.\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'☀️',n:'태양',f:'성공·기쁨·활력',p:'태양은 가장 긍정적인 카드 중 하나냥 ☀️\n성공과 행복이 당신 앞에 기다리고 있냥.\n자신감을 갖고 앞으로 나아가봐냥.\n모든 것이 밝게 빛날 거냥.\n지금은 당신의 시간이냥 🌟\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'⚡',n:'탑',f:'급변·충격·변화',p:'탑은 갑작스러운 변화를 의미하냥 ⚡\n무언가가 무너지는 것처럼 느껴질 수 있냥.\n하지만 더 강한 것을 세우기 위한 과정이냥.\n두려워하지 말고 변화를 받아들여봐냥.\n재건의 시간이 왔냥 💪\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'❤️',n:'연인',f:'사랑·선택·조화',p:'연인은 중요한 선택의 기로를 의미하냥 ❤️\n진정한 인연이 가까이 있을지도 모르냥.\n마음의 소리에 귀 기울여봐냥.\n두려움이 아닌 사랑으로 결정해봐냥.\n특별한 연결이 기다리고 있냥.\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'⚔️',n:'힘',f:'용기·인내·극복',p:'힘은 내면의 강인함을 상징하냥 💪\n외부가 아닌 내면의 용기로 이겨낼 수 있냥.\n지금 어렵고 힘든 상황이라도 당신에겐 힘이 있냥.\n포기하지 말아봐냥.\n타로냥이 응원할게냥 🐱\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'🎭',n:'바보',f:'새출발·자유·모험',p:'바보는 새로운 여정의 시작을 알리냥 🎭\n두려움 없이 새로운 길로 나아갈 때냥.\n경험이 없어도 순수한 마음으로 시작하면 돼냥.\n우주가 당신을 지지하고 있냥.\n새로운 모험을 시작해봐냥 ✨\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'🔮',n:'마법사',f:'창조·능력·의지',p:'마법사는 잠재력 발휘의 카드냥 🔮\n당신 안의 모든 능력을 펼쳐볼 때가 왔냥.\n필요한 모든 도구가 이미 손 안에 있냥.\n의지만 있으면 무엇이든 가능하냥.\n지금이 새로운 시작을 할 최고의 타이밍이냥 🌟\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'👑',n:'황제',f:'권위·안정·통제',p:'황제는 안정과 권위의 카드냥 👑\n강한 리더십으로 상황을 통제할 시기냥.\n현실적이고 체계적인 접근이 필요한 때냥.\n기반을 단단히 다져봐냥.\n당신이 이 상황의 주인이냥 🐱\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'🌺',n:'여황제',f:'풍요·창조·모성',p:'여황제는 풍요와 창조의 에너지냥 🌺\n새로운 것을 낳고 키울 수 있는 힘이 있냥.\n감정과 직관을 믿어봐냥.\n자연스러운 흐름에 몸을 맡겨봐냥.\n사랑과 풍요가 삶에 넘칠 거냥 ✨\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'⚖️',n:'정의',f:'균형·진실·법칙',p:'정의는 균형과 공정함의 카드냥 ⚖️\n올바른 결정을 내릴 시기가 왔냥.\n진실을 직시하고 이성으로 판단해야 할 때냥.\n공정함을 유지하면 좋은 결과가 따라올 거냥.\n진실은 반드시 드러나냥 🌟\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'🏛️',n:'교황',f:'전통·가이드·믿음',p:'교황은 지혜로운 안내자의 카드냥 🏛️\n전통적인 가치와 믿음이 지금 필요하냥.\n경험 많은 멘토의 조언을 구해봐냥.\n혼자 해결하려 하지 말냥.\n공동체 안에서 답을 찾아봐냥 🐱\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'💎',n:'펜타클A',f:'물질·기회·풍요',p:'새로운 물질적 기회가 찾아오고 있냥 💎\n재정적인 새 출발이 시작되는 시점이냥.\n현실적인 계획을 세우고 실천해봐냥.\n씨앗을 심을 때가 됐냥.\n노력한 만큼 결실을 거둘 수 있냥 🌟\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'🔥',n:'완드A',f:'열정·시작·창조',p:'뜨거운 열정과 창조적 에너지가 솟아오르냥 🔥\n새로운 프로젝트를 시작하기 좋은 때냥.\n주저하지 말고 행동으로 옮겨봐냥.\n불꽃이 타오를 때 앞으로 나아가야 하냥.\n당신의 열정이 세상을 바꿀 수 있냥 ✨\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'🌊',n:'컵A',f:'감정·사랑·직관',p:'새로운 감정적 시작을 알리는 카드냥 🌊\n사랑이나 관계에서 새로운 장이 열리냥.\n마음을 열고 감정을 솔직하게 표현해봐냥.\n직관을 믿어봐냥.\n풍성한 감정적 충족감이 찾아올 거냥 ❤️\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'🗡️',n:'소드A',f:'진실·명확·결단',p:'진실과 명확함의 카드냥 🗡️\n복잡한 상황을 명확하게 파악할 때냥.\n거짓을 걷어내고 진실을 직시해봐냥.\n날카로운 판단력이 필요한 시기냥.\n용감한 결단이 새로운 길을 열어줄 거냥 ⚡\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'🌈',n:'컵9',f:'소원·만족·행복',p:'소원 성취의 카드냥 🌈\n당신이 원하는 것들이 이루어지는 시기냥.\n감사하는 마음을 가져봐냥.\n행복은 이미 당신 곁에 있냥.\n물질적, 감정적 만족감이 최고조이냥 ✨\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'🥂',n:'컵2',f:'파트너십·연결·조화',p:'두 사람 사이의 특별한 연결을 의미하냥 🥂\n상호 존중과 이해로 관계가 깊어지는 시기냥.\n중요한 파트너십이 형성될 수 있냥.\n마음을 열어봐냥.\n진정한 연결은 가까이 있냥 🐱\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'🕊️',n:'소드6',f:'전환·여행·이동',p:'어려운 상황에서 벗어나는 카드냥 🕊️\n더 나은 곳으로 나아가는 전환의 시기냥.\n과거를 놓아주고 앞으로 나아가봐냥.\n새로운 환경이 당신을 기다리냥.\n이동이나 변화가 좋은 결과를 가져다줄 거냥 🌟\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'🌿',n:'완드7',f:'도전·방어·용기',p:'여러 도전이 한꺼번에 찾아오는 시기냥 🌿\n하지만 당신은 충분히 이겨낼 수 있냥.\n입장을 분명히 하고 자신을 지켜봐냥.\n포기하지 말냥.\n버텨낸 후에 더 강해질 거냥 💪\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'💰',n:'펜타클10',f:'완성·유산·가족',p:'물질적 완성과 안정의 카드냥 💰\n오랜 노력의 결실을 거둘 때가 됐냥.\n가족과 공동체 안에서 행복을 찾을 수 있냥.\n나눔의 기쁨을 경험해봐냥.\n재정적 안정과 풍요가 찾아오냥 🌺\n...더 깊은 해석이 기다리고 있냥 💛'},
-  {e:'🌱',n:'펜타클2',f:'균형·변화·결정',p:'두 가지 상황 사이에서 균형을 맞춰야 할 때냥 🌱\n유연하게 대처하는 것이 중요하냥.\n너무 많은 것을 한꺼번에 하려 하지 말냥.\n하나씩 처리해봐냥.\n변화를 두려워하지 말고 받아들여봐냥 🐱\n...더 깊은 해석이 기다리고 있냥 💛'},
+// 복붙 완전 차단
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('copy',e=>e.preventDefault());
+document.addEventListener('cut',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&['c','x','u','s','a'].includes(e.key.toLowerCase())){e.preventDefault();}if(e.key==='F12'||e.key==='PrintScreen'){e.preventDefault();}});
+document.addEventListener('dragstart',e=>e.preventDefault());
+
+// 데이터
+let prods=JSON.parse(localStorage.getItem('jb_prods')||'null')||[
+  {name:'타로 3카드 PDF 리포트',price:9900,emo:'🔮',type:'tarot',desc:'카드 3장 선택 후 AI 해석 + 타로냥의 상세 코멘트를 PDF로 받아보세요'},
+  {name:'사주 30분 상담권',price:39000,emo:'🌙',type:'consult',desc:'20년 명리학 전문가 타로냥(천운)과 1:1 사주 상담. 생년월일시 기반 정밀 분석'},
+  {name:'타로 채팅 상담',price:19000,emo:'💬',type:'consult',desc:'카카오톡으로 타로냥과 직접 채팅 상담. 3카드 심층 리딩'},
+  {name:'VIP 종합 상담 60분',price:79000,emo:'👑',type:'consult',desc:'사주+타로 통합 분석. 연애·직업·재물 전 분야 심층 상담'},
+  {name:'셀프사주책 ALL-IN-ONE',price:29000,emo:'📖',type:'ebook',desc:'혼자서도 사주를 볼 수 있는 완벽한 입문서. 타로냥(천운) 저'},
+  {name:'2026 삼재 완전 가이드',price:15000,emo:'📚',type:'ebook',desc:'2026년 삼재 대상자를 위한 개운법과 주의사항 완벽 정리'},
 ];
-
-let PIN=localStorage.getItem('taronyang_pin')||'888888';
-let pinBuf='',selCards=[],dispCards=[],editId=-1,payProd=null;
-let products=JSON.parse(localStorage.getItem('taronyang_products')||'null')||[
-  {id:1,n:'타로 PDF 리포트',p:9900,d:'카드 3장 상세 해석 + 오늘의 조언 PDF',t:'tarot'},
-  {id:2,n:'타로 채팅 상담 30분',p:19000,d:'타로냥과 1:1 채팅 상담',t:'consult'},
-  {id:3,n:'사주+타로 종합 상담',p:39000,d:'사주 + 타로 통합 분석',t:'consult'},
-  {id:4,n:'VIP 종합 상담 60분',p:79000,d:'사주+타로+개운법 종합',t:'consult'},
-  {id:5,n:'셀프사주책 ALL-IN-ONE',p:29000,d:'20년 명리학 집대성 전자책',t:'ebook'},
+let ebooks=JSON.parse(localStorage.getItem('jb_ebooks')||'null')||[
+  {title:'셀프사주책 ALL-IN-ONE Vol.1',price:29000,desc:'혼자서도 사주를 볼 수 있는 완벽한 입문서',pdf:'saju_allinone.pdf'},
+  {title:'2026 삼재 완전 가이드',price:15000,desc:'2026년 삼재 대상자를 위한 개운법 완벽 정리',pdf:'samjae_2026.pdf'},
 ];
+let orders=JSON.parse(localStorage.getItem('jb_orders')||'[]');
+let adminAuth=false;
+let pinVal='';
+let curProd=null;
 
-function pi(n){if(pinBuf.length>=6)return;pinBuf+=n;ud();if(pinBuf.length===6)checkPin();}
-function pb(){pinBuf=pinBuf.slice(0,-1);ud();}
-function pc(){pinBuf='';ud();document.getElementById('loginErr').textContent='';}
-function ud(){for(let i=0;i<6;i++)document.getElementById('d'+i).className='pin-dot'+(i<pinBuf.length?' filled':'');}
-function checkPin(){
-  if(pinBuf===PIN){
-    document.getElementById('loginScreen').style.display='none';
-    document.getElementById('mainApp').style.display='block';
-    loadStats();renderProds();renderSales();setTodayCard();
-  }else{document.getElementById('loginErr').textContent='핀이 틀렸냥 ㅠ 다시 입력해봐냥!';pinBuf='';ud();}
-}
-function logout(){document.getElementById('loginScreen').style.display='flex';document.getElementById('mainApp').style.display='none';pinBuf='';ud();}
-
+// 탭
 function goTab(id,el){
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  document.getElementById('sec-'+id).classList.add('on');el.classList.add('on');
-  if(id==='tarot'&&dispCards.length===0)shuffle();
+  document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('sec-'+id).classList.add('on');
+  el.classList.add('on');
 }
 
-function shuffle(){
-  const s=[...CARDS].sort(()=>Math.random()-0.5);
-  dispCards=s.slice(0,12);selCards=[];renderTarot();
-  document.getElementById('readingArea').innerHTML='<div class="reading-empty">🌙 카드 3장을 선택하면 무료 해석이 나타납니다</div>';
-  document.getElementById('selectCount').textContent='0/3 선택';
-  document.getElementById('readBtn').disabled=true;
-}
-function renderTarot(){
-  document.getElementById('tarotGrid').innerHTML=dispCards.map((c,i)=>`
-    <div class="tarot-card ${selCards.includes(i)?'selected':''}" onclick="selCard(${i})">
-      <div class="tarot-emo">${c.e}</div>
-      <div class="tarot-name">${c.n}</div>
-      <div class="tarot-kw">${c.f}</div>
-    </div>`).join('');
-  document.getElementById('selectCount').textContent=`${selCards.length}/3 선택`;
-  document.getElementById('readBtn').disabled=selCards.length!==3;
-}
-function selCard(i){
-  if(selCards.includes(i)){selCards=selCards.filter(x=>x!==i);}
-  else{if(selCards.length>=3){showToast('3장만 선택할 수 있냥! 🐱');return;}selCards.push(i);}
-  renderTarot();
-}
-function showReading(){
-  if(selCards.length!==3)return;
-  const pos=['과거 🌙','현재 ☀️','미래 ✨'];
-  const cs=selCards.map(i=>dispCards[i]);
-  const free=cs.map((c,pi)=>`[${pos[pi]}] ${c.e} ${c.n}\n키워드: ${c.f}\n\n${c.p}`).join('\n\n──────────\n\n');
-  document.getElementById('readingArea').innerHTML=`
-    <div class="reading-title">🔮 타로냥의 무료 해석냥~ (10줄)</div>
-    <div class="reading-content" style="max-height:240px;overflow:hidden;mask-image:linear-gradient(to bottom,black 60%,transparent 100%)">${free}</div>
-    <div class="paid-teaser">
-      <div class="paid-teaser-title">✨ 아직 더 깊은 이야기가 있냥...</div>
-      <div class="paid-teaser-sub">카드 간의 숨겨진 연결고리,<br>지금 당신에게 꼭 필요한 조언,<br>앞으로 올 변화의 시기까지 담겨있냥 💛</div>
-      <button class="btn btn-gold" onclick="openPay(1)" style="width:100%">💳 PDF 전체 해석 받기 (9,900원)</button>
-    </div>`;
-}
-function resetCards(){selCards=[];renderTarot();document.getElementById('readingArea').innerHTML='<div class="reading-empty">🌙 카드 3장을 선택하면 무료 해석이 나타납니다</div>';}
-
-function typeE(t){return{tarot:'🔮',consult:'💬',ebook:'📖',other:'✨'}[t]||'✨';}
+// 상품 렌더
 function renderProds(){
-  const el=document.getElementById('productList');
-  if(!products.length){el.innerHTML='<div style="text-align:center;color:var(--light);padding:20px">상품이 없습니다</div>';return;}
-  el.innerHTML=products.map(p=>`
-    <div class="prod-item">
-      <div>
-        <div class="prod-name">${typeE(p.t)} ${p.n}</div>
-        <div class="prod-price">${p.p.toLocaleString()}원</div>
-        <div class="prod-desc">${p.d}</div>
-      </div>
-      <div class="prod-actions">
-        <button class="btn btn-line btn-sm" onclick="editProd(${p.id})">수정</button>
-        <button class="btn-red" onclick="delProd(${p.id})">삭제</button>
+  const g=document.getElementById('prodGrid');
+  g.innerHTML=prods.map((p,i)=>`
+    <div class="prod-card" onclick="showProd(${i})">
+      <div class="prod-badge">${{tarot:'🔮 타로',consult:'💬 상담',ebook:'📖 전자책',saju:'🌙 사주'}[p.type]||p.type}</div>
+      <div class="prod-emo">${p.emo}</div>
+      <div class="prod-name">${p.name}</div>
+      <div class="prod-desc">${p.desc}</div>
+      <div class="prod-price">${Number(p.price).toLocaleString()}원</div>
+      <button class="buy-btn">구매하기 →</button>
+    </div>`).join('');
+}
+
+// 전자책 렌더
+function renderEbooks(){
+  document.getElementById('ebookList').innerHTML=ebooks.map((e,i)=>`
+    <div class="ebook-card">
+      <div class="ebook-cover">📖</div>
+      <div class="ebook-info">
+        <div class="ebook-title">${e.title}</div>
+        <div class="ebook-desc">${e.desc}</div>
+        <div class="ebook-price">${Number(e.price).toLocaleString()}원</div>
+        <button class="buy-btn" onclick="buyEbook(${i})" style="margin-top:8px;padding:7px">구매 후 다운로드</button>
       </div>
     </div>`).join('');
 }
-function openAdd(){editId=-1;document.getElementById('mTitle').textContent='상품 추가';['m-name','m-desc'].forEach(x=>document.getElementById(x).value='');document.getElementById('m-price').value='';document.getElementById('prodModal').classList.add('on');}
-function editProd(id){const p=products.find(x=>x.id===id);if(!p)return;editId=id;document.getElementById('mTitle').textContent='상품 수정';document.getElementById('m-name').value=p.n;document.getElementById('m-price').value=p.p;document.getElementById('m-desc').value=p.d;document.getElementById('m-type').value=p.t;document.getElementById('prodModal').classList.add('on');}
-function saveProd(){const n=document.getElementById('m-name').value.trim(),p=parseInt(document.getElementById('m-price').value),d=document.getElementById('m-desc').value.trim(),t=document.getElementById('m-type').value;if(!n||!p){showToast('이름과 가격을 입력해줘냥!');return;}if(editId>=0){const x=products.find(x=>x.id===editId);if(x){x.n=n;x.p=p;x.d=d;x.t=t;}}else{products.push({id:Date.now(),n,p,d,t});}localStorage.setItem('taronyang_products',JSON.stringify(products));renderProds();closeMod();showToast('저장됐냥~ 🛒');}
-function delProd(id){if(!confirm('삭제할게냥?'))return;products=products.filter(x=>x.id!==id);localStorage.setItem('taronyang_products',JSON.stringify(products));renderProds();showToast('삭제됐냥 🐱');}
-function closeMod(){document.getElementById('prodModal').classList.remove('on');}
 
-function openPay(id){const p=products.find(x=>x.id===id);if(!p)return;payProd=p;document.getElementById('pay-prod-name').textContent=p.n;document.getElementById('pay-prod-price').textContent=p.p.toLocaleString()+'원';document.getElementById('pay-prod-desc').textContent=p.d;document.getElementById('payModal').classList.add('on');}
-function closePayMod(){document.getElementById('payModal').classList.remove('on');}
+// 상품 상세
+function showProd(i){
+  curProd=prods[i];
+  document.getElementById('modal-emo').textContent=curProd.emo;
+  document.getElementById('modal-name').textContent=curProd.name;
+  document.getElementById('modal-desc').textContent=curProd.desc;
+  document.getElementById('modal-price').textContent=Number(curProd.price).toLocaleString()+'원';
+  document.getElementById('prodModal').classList.add('on');
+}
+function closeModal(){document.getElementById('prodModal').classList.remove('on');}
+
+// 결제
 function doPay(){
-  const n=document.getElementById('pay-name').value.trim(),ph=document.getElementById('pay-phone').value.trim();
-  if(!n||!ph){showToast('이름과 연락처를 입력해줘냥!');return;}
-  if(!payProd)return;
-  const cfg=JSON.parse(localStorage.getItem('taronyang_settings')||'{}');
-  const oid='TN_'+Date.now();
-  try{AUTHNICE.requestPay({clientId:cfg.nicepay||'R2_84f3547de07245e7a5bb607287dab5a1',method:'card',orderId:oid,amount:payProd.p,goodsName:payProd.n,buyerName:n,buyerTel:ph,returnUrl:(cfg.returnUrl||'https://jagaebit.shop'),fnError:r=>showToast('결제오류: '+r.errorMsg)});}
-  catch(e){const o=JSON.parse(localStorage.getItem('jb_orders')||'[]');o.push({id:oid,name:payProd.n,price:payProd.p,type:payProd.t,date:new Date().toLocaleDateString(),buyer:n});localStorage.setItem('jb_orders',JSON.stringify(o));closePayMod();showToast('결제 완료냥~ 📄');loadStats();renderSales();}
+  if(!curProd)return;
+  closeModal();
+  const ck=localStorage.getItem('jb_ck')||'R2_84f3547de07245e7a5bb607287dab5a1';
+  try{
+    AUTHNICE.requestPay({
+      clientId:ck,method:'card',
+      orderId:'JB_'+Date.now(),
+      amount:curProd.price,
+      goodsName:curProd.name,
+      returnUrl:window.location.href,
+      fnError:r=>showToast('결제 오류: '+r.errorMsg)
+    });
+  }catch(e){showToast('나이스페이 연동 확인 필요냥! ⚙️');}
+}
+function buyEbook(i){
+  curProd=ebooks[i];
+  curProd.name=ebooks[i].title;
+  doPay();
 }
 
-function loadStats(){
-  const o=JSON.parse(localStorage.getItem('jb_orders')||'[]');
+// PDF 다운 (결제 후 자동)
+function downloadPdf(filename){
+  // 실제 운영시 서버에서 토큰 검증 후 다운로드
+  showToast('PDF 다운로드 준비 중이냥 📄');
+}
+
+// 어드민
+function openAdmin(){
+  if(adminAuth){showAdminPanel();}
+  else{document.getElementById('pinScreen').style.display='flex';}
+}
+function showAdminPanel(){
+  document.getElementById('adminPanel').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+  renderAdminProds();renderAdminEbooks();renderStats();renderOrders();
+}
+function closeAdmin(){
+  document.getElementById('adminPanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+function closePinScreen(){document.getElementById('pinScreen').style.display='none';pinVal='';updDots();}
+function doLogout(){adminAuth=false;closeAdmin();showToast('로그아웃됐냥 🐱');}
+
+// PIN
+function pi(n){if(pinVal.length>=6)return;pinVal+=n;updDots();if(pinVal.length===6)chkPin();}
+function pdel(){pinVal=pinVal.slice(0,-1);updDots();}
+function pclr(){pinVal='';updDots();document.getElementById('pinErr').textContent='';}
+function updDots(){for(let i=0;i<6;i++)document.getElementById('d'+i).classList.toggle('fill',i<pinVal.length);}
+function chkPin(){
+  const p=localStorage.getItem('jb_pin')||'888888';
+  if(pinVal===p){adminAuth=true;document.getElementById('pinScreen').style.display='none';pinVal='';updDots();showAdminPanel();}
+  else{document.getElementById('pinErr').textContent='PIN이 틀렸냥 ㅠ';pinVal='';updDots();}
+}
+function changePin(){
+  const o=document.getElementById('pin-old').value;
+  const n=document.getElementById('pin-new').value;
+  if(o!==(localStorage.getItem('jb_pin')||'888888')){showToast('현재 PIN이 틀렸냥!');return;}
+  if(n.length!==6||!/^\d+$/.test(n)){showToast('PIN은 숫자 6자리냥!');return;}
+  localStorage.setItem('jb_pin',n);showToast('PIN 변경됐냥~ 🔐');
+}
+
+// 서브 패널
+function showSp(id){
+  document.querySelectorAll('.sub-panel').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+}
+
+// 어드민 상품
+function renderAdminProds(){
+  document.getElementById('adminProdList').innerHTML=prods.length
+    ?prods.map((p,i)=>`<div class="a-prod-item"><div><div class="a-prod-name">${p.emo} ${p.name}</div><div class="a-prod-type">${p.type}</div></div><div style="display:flex;align-items:center;gap:8px"><div class="a-prod-price">${Number(p.price).toLocaleString()}원</div><button class="btn btn-red btn-sm" onclick="delProd(${i})">삭제</button></div></div>`).join('')
+    :'<div style="text-align:center;padding:16px;color:#ccc;font-size:11px">등록된 상품 없음</div>';
+}
+function addProd(){
+  const name=document.getElementById('pf-name').value.trim();
+  const price=parseInt(document.getElementById('pf-price').value);
+  const emo=document.getElementById('pf-emo').value||'🔮';
+  const type=document.getElementById('pf-type').value;
+  const desc=document.getElementById('pf-desc').value.trim();
+  if(!name||!price){showToast('상품명과 가격을 입력해봐냥!');return;}
+  prods.push({name,price,emo,type,desc});
+  localStorage.setItem('jb_prods',JSON.stringify(prods));
+  renderProds();renderAdminProds();showSp('sp-prods');
+  ['pf-name','pf-price','pf-emo','pf-desc'].forEach(id=>document.getElementById(id).value='');
+  showToast('상품 등록됐냥~ 🛒');
+}
+function delProd(i){if(!confirm('삭제할까냥?'))return;prods.splice(i,1);localStorage.setItem('jb_prods',JSON.stringify(prods));renderProds();renderAdminProds();showToast('삭제됐냥 🗑️');}
+
+// 어드민 전자책
+function renderAdminEbooks(){
+  document.getElementById('adminEbookList').innerHTML=ebooks.length
+    ?ebooks.map((e,i)=>`<div class="a-prod-item"><div><div class="a-prod-name">📖 ${e.title}</div><div class="a-prod-type">${e.pdf}</div></div><div style="display:flex;align-items:center;gap:8px"><div class="a-prod-price">${Number(e.price).toLocaleString()}원</div><button class="btn btn-red btn-sm" onclick="delEbook(${i})">삭제</button></div></div>`).join('')
+    :'<div style="text-align:center;padding:16px;color:#ccc;font-size:11px">등록된 전자책 없음</div>';
+}
+function addEbook(){
+  const title=document.getElementById('ef-title').value.trim();
+  const price=parseInt(document.getElementById('ef-price').value);
+  const desc=document.getElementById('ef-desc').value.trim();
+  const pdf=document.getElementById('ef-pdf').value.trim();
+  if(!title||!price){showToast('제목과 가격을 입력해봐냥!');return;}
+  ebooks.push({title,price,desc,pdf});
+  localStorage.setItem('jb_ebooks',JSON.stringify(ebooks));
+  renderEbooks();renderAdminEbooks();showSp('sp-ebooks');
+  ['ef-title','ef-price','ef-desc','ef-pdf'].forEach(id=>document.getElementById(id).value='');
+  showToast('전자책 등록됐냥~ 📖');
+}
+function delEbook(i){if(!confirm('삭제할까냥?'))return;ebooks.splice(i,1);localStorage.setItem('jb_ebooks',JSON.stringify(ebooks));renderEbooks();renderAdminEbooks();showToast('삭제됐냥 🗑️');}
+
+// 통계
+function renderStats(){
+  const total=orders.reduce((s,o)=>s+o.price,0);
   const today=new Date().toLocaleDateString();
-  const ts=o.filter(x=>x.date===today).reduce((s,x)=>s+x.price,0);
-  const tot=o.reduce((s,x)=>s+x.price,0);
-  const now=new Date();
-  const ms=o.filter(x=>{const d=new Date(x.date);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}).reduce((s,x)=>s+x.price,0);
-  document.getElementById('todaySales').textContent=ts.toLocaleString();
-  document.getElementById('totalCount').textContent=o.length;
-  document.getElementById('monthSales').textContent=ms.toLocaleString();
-  document.getElementById('totalSales').textContent=tot.toLocaleString();
+  const todayAmt=orders.filter(o=>o.date===today).reduce((s,o)=>s+o.price,0);
+  document.getElementById('statMini').innerHTML=`
+    <div class="smc"><div class="smc-lbl">총 매출</div><div class="smc-val">${(total/10000).toFixed(1)}만</div></div>
+    <div class="smc"><div class="smc-lbl">오늘 매출</div><div class="smc-val">${(todayAmt/10000).toFixed(1)}만</div></div>
+    <div class="smc"><div class="smc-lbl">총 주문</div><div class="smc-val">${orders.length}</div></div>
+    <div class="smc"><div class="smc-lbl">오늘 주문</div><div class="smc-val">${orders.filter(o=>o.date===today).length}</div></div>`;
+  document.getElementById('recentOrders').innerHTML=orders.length
+    ?orders.slice(-5).reverse().map(o=>`<div class="pay-item"><div><div class="pay-name">${o.name}</div><div class="pay-date">${o.date}</div></div><div class="pay-price">${Number(o.price).toLocaleString()}원</div></div>`).join('')
+    :'<div style="text-align:center;padding:16px;color:#ccc;font-size:11px">주문 없음</div>';
 }
-function renderSales(){
-  const o=JSON.parse(localStorage.getItem('jb_orders')||'[]');
-  document.getElementById('salesTbl').innerHTML=o.length?o.slice().reverse().map(x=>`<tr><td>${x.name}</td><td style="color:var(--gold);font-weight:700">${x.price.toLocaleString()}원</td><td>${x.date}</td><td><span class="badge badge-green">완료</span></td></tr>`).join(''):'<tr><td colspan="4" style="text-align:center;padding:20px;color:rgba(184,134,11,0.3)">결제 내역이 없습니다</td></tr>';
+function renderOrders(){
+  document.getElementById('orderList').innerHTML=orders.length
+    ?orders.slice().reverse().map(o=>`<div class="pay-item"><div><div class="pay-name">${o.name}</div><div class="pay-date">${o.date}</div></div><div class="pay-price">${Number(o.price).toLocaleString()}원</div></div>`).join('')
+    :'<div style="text-align:center;padding:16px;color:#ccc;font-size:11px">결제 내역 없음</div>';
 }
+
+// PDF 발송
+function sendPdf(){showToast('발송 기능은 Supabase 연동 후 사용 가능냥! 📤');}
+
+// 설정
 function saveSettings(){
-  const p1=document.getElementById('set-pin').value,p2=document.getElementById('set-pin2').value;
-  if(p1){if(p1.length!==6){showToast('PIN은 6자리여야 하냥!');return;}if(p1!==p2){showToast('PIN이 일치하지 않냥 ㅠ');return;}PIN=p1;localStorage.setItem('taronyang_pin',PIN);}
-  localStorage.setItem('taronyang_settings',JSON.stringify({greeting:document.getElementById('set-greeting').value,revisit:document.getElementById('set-revisit').value,nicepay:document.getElementById('set-nicepay').value,returnUrl:document.getElementById('set-return').value}));
+  localStorage.setItem('jb_ck',document.getElementById('set-ck').value);
+  localStorage.setItem('jb_kmong',document.getElementById('set-kmong').value);
+  localStorage.setItem('jb_supa',document.getElementById('set-supa').value);
+  // 크몽 버튼 업데이트
+  const km=document.getElementById('set-kmong').value;
+  if(km) document.querySelector('.kmong-btn').onclick=()=>window.open(km,'_blank');
   showToast('설정 저장됐냥~ ⚙️');
 }
-function setTodayCard(){const m=[['🌟','오늘도 좋은 기운이 가득하냥~ 🌸'],['🌙','직감을 믿어봐냥. 달빛이 길을 알려줄 거냥 🌙'],['☀️','오늘은 자신감을 가져봐냥! 태양처럼 빛날 거냥 ☀️'],['🔮','새로운 가능성이 열리는 날이냥 🔮'],['❤️','사랑하는 마음을 전해봐냥 ❤️'],['🌿','풍요로운 하루가 될 거냥 🌿']];const x=m[new Date().getDay()%m.length];document.getElementById('todayCardEmo').textContent=x[0];document.getElementById('todayMsg').textContent=x[1];}
-let tT;function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('on'),2500);}
+
+// 토스트
+let tT;
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('on'),2800);}
+
+// 초기화
+renderProds();
+renderEbooks();
+// 설정 불러오기
+const savedCk=localStorage.getItem('jb_ck');if(savedCk)document.getElementById('set-ck').value=savedCk;
+const savedKm=localStorage.getItem('jb_kmong');
+if(savedKm){document.getElementById('set-kmong').value=savedKm;document.querySelector('.kmong-btn').onclick=()=>window.open(savedKm,'_blank');}
+const savedSupa=localStorage.getItem('jb_supa');if(savedSupa)document.getElementById('set-supa').value=savedSupa;
 </script>
 </body>
 </html>
