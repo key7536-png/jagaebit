@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>타로냥 대시보드 🐱</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans KR',sans-serif;background:#0a0800;color:#f0e8d0;min-height:100vh}
+
+/* 배경 */
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 20% 20%,rgba(200,150,10,0.08),transparent 50%),
+  radial-gradient(ellipse at 80% 80%,rgba(180,100,200,0.06),transparent 50%);
+  pointer-events:none}
+
+/* 헤더 */
+.hdr{background:linear-gradient(135deg,#140a00,#1a0f00);
+  border-bottom:1px solid rgba(212,168,64,0.3);
+  padding:14px 20px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100}
+.hdr-logo{font-family:'Noto Serif KR',serif;font-size:20px;color:#d4a840}
+.hdr-sub{font-size:10px;color:rgba(212,168,64,0.5);letter-spacing:2px;margin-top:2px}
+.hdr-right{display:flex;gap:10px;align-items:center}
+.live-badge{padding:4px 10px;background:rgba(255,80,80,0.15);border:1px solid rgba(255,80,80,0.4);
+  border-radius:20px;font-size:10px;color:#ff8080;display:flex;align-items:center;gap:5px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#ff5050;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* 탭 */
+.tabs{display:flex;background:#0d0800;border-bottom:1px solid rgba(212,168,64,0.15);
+  overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;padding:12px 18px;font-size:12px;color:rgba(212,168,64,0.4);
+  cursor:pointer;border:none;background:none;font-family:'Noto Sans KR',sans-serif;
+  border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+.tab.on{color:#d4a840;border-bottom-color:#d4a840}
+
+/* 본문 */
+.body{padding:16px;max-width:900px;margin:0 auto;padding-bottom:60px}
+
+/* 섹션 숨기기 */
+.sec{display:none}.sec.on{display:block}
+
+/* 통계 카드 */
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
+.stat-card{background:rgba(212,168,64,0.06);border:1px solid rgba(212,168,64,0.18);
+  border-radius:8px;padding:14px;text-align:center}
+.stat-lbl{font-size:9px;color:rgba(212,168,64,0.5);letter-spacing:1px;margin-bottom:4px}
+.stat-val{font-family:'Noto Serif KR',serif;font-size:26px;font-weight:700;color:#d4a840}
+.stat-sub{font-size:9px;color:rgba(240,232,208,0.35);margin-top:3px}
+
+/* 섹션 타이틀 */
+.stitle{font-family:'Noto Serif KR',serif;font-size:14px;color:#d4a840;
+  border-bottom:1px solid rgba(212,168,64,0.2);padding-bottom:8px;margin-bottom:14px;
+  display:flex;align-items:center;justify-content:space-between}
+
+/* 카드 리스트 */
+.card{background:rgba(20,15,0,0.8);border:1px solid rgba(212,168,64,0.15);
+  border-radius:6px;padding:13px;margin-bottom:10px}
+
+/* 타로 카드 그리드 */
+.tarot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.tarot-card{background:rgba(20,14,0,0.9);border:1px solid rgba(212,168,64,0.2);
+  border-radius:8px;padding:10px 6px;text-align:center;cursor:pointer;transition:all .2s;
+  position:relative}
+.tarot-card:hover{border-color:rgba(212,168,64,0.6);transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(212,168,64,0.15)}
+.tarot-card.selected{border-color:#d4a840;background:rgba(212,168,64,0.1);
+  box-shadow:0 0 14px rgba(212,168,64,0.3)}
+.tarot-card.selected::after{content:'✓';position:absolute;top:4px;right:6px;
+  font-size:10px;color:#d4a840}
+.tarot-emo{font-size:22px;margin-bottom:4px}
+.tarot-name{font-size:9px;color:rgba(212,168,64,0.8);font-family:'Noto Serif KR',serif;line-height:1.3}
+.tarot-kw{font-size:8px;color:rgba(240,232,208,0.4);margin-top:2px}
+
+/* 선택된 카드 해석 */
+.reading-area{background:rgba(212,168,64,0.04);border:1px solid rgba(212,168,64,0.2);
+  border-radius:8px;padding:14px;margin-bottom:14px;min-height:100px}
+.reading-title{font-family:'Noto Serif KR',serif;font-size:12px;color:#d4a840;margin-bottom:8px}
+.reading-content{font-size:11px;color:rgba(240,232,208,0.65);line-height:1.85;white-space:pre-line}
+.reading-empty{text-align:center;color:rgba(212,168,64,0.25);font-size:11px;padding:20px 0}
+
+/* 버튼 */
+.btn{padding:11px 20px;border:none;border-radius:6px;font-size:12px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s}
+.btn-gold{background:linear-gradient(135deg,#c89030,#e8b840);color:#0a0800}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(212,168,64,0.4)}
+.btn-line{background:transparent;border:1px solid rgba(212,168,64,0.35);color:#d4a840}
+.btn-sm{padding:6px 12px;font-size:10px}
+.btn-row{display:flex;gap:8px;margin-top:12px}
+
+/* 인풋 */
+.inp{width:100%;padding:9px 12px;background:rgba(255,255,255,0.04);
+  border:1px solid rgba(212,168,64,0.2);border-radius:4px;color:#f0e8d0;
+  font-size:12px;font-family:'Noto Sans KR',sans-serif;outline:none;margin-bottom:9px}
+.inp:focus{border-color:rgba(212,168,64,0.5)}
+.inp::placeholder{color:rgba(212,168,64,0.2)}
+.lbl{font-size:9px;color:rgba(212,168,64,0.55);letter-spacing:1px;margin-bottom:4px;display:block}
+.ta{width:100%;padding:9px 12px;background:rgba(255,255,255,0.04);
+  border:1px solid rgba(212,168,64,0.2);border-radius:4px;color:#f0e8d0;
+  font-size:12px;font-family:'Noto Sans KR',sans-serif;outline:none;resize:none;height:80px;margin-bottom:9px}
+
+/* 채팅 미리보기 */
+.chat-wrap{background:#1a1200;border-radius:8px;padding:14px;margin-bottom:14px;max-height:320px;overflow-y:auto}
+.msg{margin-bottom:10px;display:flex;flex-direction:column}
+.msg.bot{align-items:flex-start}
+.msg.user{align-items:flex-end}
+.bubble{max-width:80%;padding:9px 12px;border-radius:12px;font-size:11px;line-height:1.7}
+.bot .bubble{background:rgba(212,168,64,0.12);border:1px solid rgba(212,168,64,0.2);color:#f0e8d0;border-radius:4px 12px 12px 12px}
+.user .bubble{background:rgba(255,229,0,0.15);border:1px solid rgba(255,229,0,0.25);color:#f0e8d0;border-radius:12px 4px 12px 12px}
+.msg-name{font-size:9px;color:rgba(212,168,64,0.5);margin-bottom:3px}
+.chat-input-row{display:flex;gap:8px;margin-top:10px}
+.chat-inp{flex:1;padding:9px 12px;background:rgba(255,255,255,0.04);
+  border:1px solid rgba(212,168,64,0.2);border-radius:4px;color:#f0e8d0;
+  font-size:11px;font-family:'Noto Sans KR',sans-serif;outline:none}
+
+/* 테이블 */
+.tbl{width:100%;border-collapse:collapse;font-size:11px}
+.tbl th{background:rgba(212,168,64,0.08);color:rgba(212,168,64,0.6);padding:8px;text-align:left;font-weight:400}
+.tbl td{color:rgba(240,232,208,0.7);padding:8px;border-bottom:.5px solid rgba(212,168,64,0.07)}
+.badge{padding:2px 7px;border-radius:10px;font-size:9px}
+.badge-green{background:rgba(80,200,120,0.15);color:#80d8a0}
+.badge-gold{background:rgba(212,168,64,0.15);color:#d4a840}
+.badge-pink{background:rgba(200,80,140,0.15);color:#e080b0}
+
+/* 시나리오 에디터 */
+.scenario-list{margin-bottom:14px}
+.scenario-item{background:rgba(20,14,0,0.8);border:1px solid rgba(212,168,64,0.15);
+  border-radius:6px;padding:11px;margin-bottom:7px;cursor:pointer;transition:all .2s}
+.scenario-item:hover{border-color:rgba(212,168,64,0.4)}
+.sc-name{font-size:12px;color:#d4a840;font-family:'Noto Serif KR',serif}
+.sc-trigger{font-size:10px;color:rgba(240,232,208,0.45);margin-top:3px}
+
+/* 토스트 */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(10px);
+  background:rgba(212,168,64,0.95);color:#0a0800;padding:8px 18px;border-radius:20px;
+  font-size:12px;font-weight:700;opacity:0;transition:all .3s;z-index:999;white-space:nowrap}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* 결제 내역 */
+.pay-row{display:flex;justify-content:space-between;align-items:center;
+  padding:10px 0;border-bottom:.5px solid rgba(212,168,64,0.08)}
+.pay-name{font-size:11px;color:#f0e8d0}
+.pay-price{font-size:12px;color:#d4a840;font-weight:700}
+.pay-date{font-size:9px;color:rgba(212,168,64,0.4)}
+
+/* 카드 에디터 */
+.card-edit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.card-edit-item{background:rgba(20,14,0,0.8);border:1px solid rgba(212,168,64,0.15);
+  border-radius:6px;padding:10px;text-align:center}
+.ce-emo{font-size:20px;margin-bottom:4px}
+.ce-name{font-size:10px;color:#d4a840;font-family:'Noto Serif KR',serif;margin-bottom:6px}
+.ce-inp{width:100%;padding:5px 8px;background:rgba(255,255,255,0.04);
+  border:1px solid rgba(212,168,64,0.15);border-radius:3px;color:#f0e8d0;
+  font-size:9px;font-family:'Noto Sans KR',sans-serif;outline:none;margin-bottom:4px}
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div class="hdr">
+  <div>
+    <div class="hdr-logo">🐱 타로냥 대시보드</div>
+    <div class="hdr-sub">자개빛.shop · 카카오채널 관리</div>
+  </div>
+  <div class="hdr-right">
+    <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+    <a href="http://pf.kakao.com/_YCzEX" target="_blank" 
+       style="padding:6px 12px;background:rgba(255,229,0,0.1);border:1px solid rgba(255,229,0,0.3);
+       border-radius:4px;color:#ffe500;font-size:10px;text-decoration:none;font-family:'Noto Sans KR',sans-serif">
+      💛 채널 열기
+    </a>
+  </div>
+</div>
+
+<!-- 탭 -->
+<div class="tabs">
+  <button class="tab on" onclick="goTab('home',this)">🏠 현황</button>
+  <button class="tab" onclick="goTab('tarot',this)">🔮 타로 뽑기</button>
+  <button class="tab" onclick="goTab('scenario',this)">💬 시나리오</button>
+  <button class="tab" onclick="goTab('cards',this)">🃏 카드 관리</button>
+  <button class="tab" onclick="goTab('sales',this)">💰 결제 내역</button>
+  <button class="tab" onclick="goTab('settings',this)">⚙️ 설정</button>
+</div>
+
+<div class="body">
+
+  <!-- 홈 현황 -->
+  <div class="sec on" id="sec-home">
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-lbl">오늘 방문</div>
+        <div class="stat-val" id="todayVisit">0</div>
+        <div class="stat-sub">명</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-lbl">오늘 결제</div>
+        <div class="stat-val" id="todaySales">0</div>
+        <div class="stat-sub">원</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-lbl">타로 뽑기</div>
+        <div class="stat-val" id="todayTarot">0</div>
+        <div class="stat-sub">건</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-lbl">PDF 발송</div>
+        <div class="stat-val" id="todayPdf">0</div>
+        <div class="stat-sub">건</div>
+      </div>
+    </div>
+
+    <div class="stitle">최근 채팅 미리보기
+      <button class="btn btn-line btn-sm" onclick="refreshChat()">새로고침</button>
+    </div>
+    <div class="chat-wrap" id="chatPreview">
+      <div class="msg bot">
+        <div class="msg-name">🐱 타로냥</div>
+        <div class="bubble">안냥하세요~ 타로냥이냥 🐱 무엇이 궁금하냥?</div>
+      </div>
+      <div class="msg user">
+        <div class="msg-name">방문자</div>
+        <div class="bubble">타로 뽑고 싶어요!</div>
+      </div>
+      <div class="msg bot">
+        <div class="msg-name">🐱 타로냥</div>
+        <div class="bubble">집중하냥~ 마음속 질문을 떠올리고 카드 3장을 골라봐냥 🌙✨</div>
+      </div>
+    </div>
+
+    <div class="stitle">오늘의 타로냥 한마디</div>
+    <div class="card" style="text-align:center;padding:20px">
+      <div style="font-size:28px;margin-bottom:8px">🐱</div>
+      <div style="font-family:'Noto Serif KR',serif;font-size:13px;color:#d4a840;margin-bottom:5px">"오늘도 좋은 기운이 가득하냥~"</div>
+      <div style="font-size:10px;color:rgba(240,232,208,0.45)">타로냥이 보내는 오늘의 메시지</div>
+    </div>
+  </div>
+
+  <!-- 타로 뽑기 시뮬레이터 -->
+  <div class="sec" id="sec-tarot">
+    <div class="stitle">🔮 타로 카드 뽑기 시뮬레이터
+      <span style="font-size:10px;color:rgba(212,168,64,0.4)" id="selectCount">0/3 선택</span>
+    </div>
+    <div style="text-align:center;margin-bottom:12px;font-size:11px;color:rgba(240,232,208,0.5)">
+      카드 3장을 선택하세요 (봇 작동 미리보기)
+    </div>
+    <div class="tarot-grid" id="tarotGrid"></div>
+
+    <div class="reading-area" id="readingArea">
+      <div class="reading-empty">카드 3장을 선택하면 해석이 나타납니다</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="showReading()" id="readBtn" disabled 
+              style="flex:1;opacity:0.4">🔮 해석 보기 (무료)</button>
+      <button class="btn btn-line" onclick="resetCards()" style="flex:none">초기화</button>
+    </div>
+    <div style="margin-top:8px;text-align:center;font-size:10px;color:rgba(212,168,64,0.4)">
+      실제 봇에서는 해석 후 PDF 유료 결제(9,900원) 유도
+    </div>
+  </div>
+
+  <!-- 시나리오 관리 -->
+  <div class="sec" id="sec-scenario">
+    <div class="stitle">💬 시나리오 목록
+      <button class="btn btn-gold btn-sm" onclick="addScenario()">+ 추가</button>
+    </div>
+    <div class="scenario-list" id="scenarioList"></div>
+
+    <div id="scenarioEditor" style="display:none">
+      <div class="stitle">시나리오 편집</div>
+      <label class="lbl">시나리오 이름</label>
+      <input class="inp" id="sc-name" placeholder="예: 타로 뽑기 시작">
+      <label class="lbl">트리거 키워드 (쉼표로 구분)</label>
+      <input class="inp" id="sc-trigger" placeholder="예: 타로,뽑기,카드">
+      <label class="lbl">봇 응답 (타로냥 말투로)</label>
+      <textarea class="ta" id="sc-response" placeholder="집중하냥~ 마음속 질문을 떠올려봐냥 🌙"></textarea>
+      <label class="lbl">다음 버튼 (쉼표로 구분)</label>
+      <input class="inp" id="sc-buttons" placeholder="예: 카드 뽑기,다음에 할게">
+      <div class="btn-row">
+        <button class="btn btn-gold" onclick="saveScenario()" style="flex:1">저장</button>
+        <button class="btn btn-line" onclick="cancelScenario()">취소</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 카드 관리 -->
+  <div class="sec" id="sec-cards">
+    <div class="stitle">🃏 타로 카드 12장 관리</div>
+    <div style="font-size:10px;color:rgba(240,232,208,0.4);margin-bottom:12px">
+      각 카드의 무료 키워드와 유료 해석을 수정할 수 있어요
+    </div>
+    <div class="card-edit-grid" id="cardEditGrid"></div>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn btn-gold" onclick="saveCards()" style="flex:1">카드 저장</button>
+    </div>
+  </div>
+
+  <!-- 결제 내역 -->
+  <div class="sec" id="sec-sales">
+    <div class="stat-grid" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="stat-card">
+        <div class="stat-lbl">총 매출</div>
+        <div class="stat-val" id="totalSales">0</div>
+        <div class="stat-sub">원</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-lbl">PDF 판매</div>
+        <div class="stat-val" id="pdfSales">0</div>
+        <div class="stat-sub">건</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-lbl">상담권</div>
+        <div class="stat-val" id="consultSales">0</div>
+        <div class="stat-sub">건</div>
+      </div>
+    </div>
+    <div class="stitle">결제 내역</div>
+    <table class="tbl">
+      <thead><tr><th>상품</th><th>금액</th><th>날짜</th><th>상태</th></tr></thead>
+      <tbody id="salesTbl">
+        <tr><td colspan="4" style="text-align:center;padding:20px;color:rgba(212,168,64,0.28)">결제 내역이 없습니다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 설정 -->
+  <div class="sec" id="sec-settings">
+    <div class="stitle">⚙️ 타로냥 설정</div>
+
+    <div class="card" style="margin-bottom:12px">
+      <div style="font-size:12px;color:#d4a840;font-family:'Noto Serif KR',serif;margin-bottom:10px">🐱 챗봇 기본 설정</div>
+      <label class="lbl">챗봇 이름</label>
+      <input class="inp" id="set-name" value="타로냥">
+      <label class="lbl">첫 인사말</label>
+      <textarea class="ta" id="set-greeting">안냥하세요~ 타로냥이냥 🐱 오늘은 어떤 걸 알고 싶냥?</textarea>
+      <label class="lbl">재방문 인사말</label>
+      <textarea class="ta" id="set-revisit" style="height:60px">또 왔냥~ 오늘도 즐거웠으면 좋겠냥 🌸</textarea>
+    </div>
+
+    <div class="card" style="margin-bottom:12px">
+      <div style="font-size:12px;color:#d4a840;font-family:'Noto Serif KR',serif;margin-bottom:10px">💰 결제 설정</div>
+      <label class="lbl">PDF 리포트 가격 (원)</label>
+      <input class="inp" id="set-pdf-price" type="number" value="9900">
+      <label class="lbl">타로 채팅 상담 가격 (원)</label>
+      <input class="inp" id="set-chat-price" type="number" value="19000">
+      <label class="lbl">나이스페이 Client Key</label>
+      <input class="inp" id="set-nicepay" value="R2_84f3547de07245e7a5bb607287dab5a1">
+    </div>
+
+    <div class="card" style="margin-bottom:12px">
+      <div style="font-size:12px;color:#d4a840;font-family:'Noto Serif KR',serif;margin-bottom:10px">🔗 연동 설정</div>
+      <label class="lbl">카카오 채널 URL</label>
+      <input class="inp" id="set-kakao" value="http://pf.kakao.com/_YCzEX">
+      <label class="lbl">자개빛 상점 URL</label>
+      <input class="inp" id="set-shop" value="https://jagaebit.shop">
+      <label class="lbl">사주 앱 URL</label>
+      <input class="inp" id="set-saju" value="https://fortune-grandma-soul.lovable.app">
+      <label class="lbl">Supabase 웹훅 URL (PDF 자동 발송)</label>
+      <input class="inp" id="set-supabase" placeholder="https://xxx.supabase.co/functions/v1/kakao-webhook">
+    </div>
+
+    <button class="btn btn-gold" onclick="saveSettings()" style="width:100%">설정 저장</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── 타로 카드 데이터 ──
+let cards = [
+  {emo:'🌟',name:'별',free:'희망, 소망',paid:'미래의 밝은 가능성, 치유와 재생의 시작이 보이냥 ✨'},
+  {emo:'🌙',name:'달',free:'직관, 불안',paid:'숨겨진 진실이 드러날 때냥. 무의식의 메시지에 귀 기울여봐냥 🌙'},
+  {emo:'☀️',name:'태양',free:'성공, 기쁨',paid:'완전한 성공이 눈앞에 있냥! 자신감을 갖고 나아가봐냥 ☀️'},
+  {emo:'⚡',name:'탑',free:'급변, 충격',paid:'예상치 못한 변화가 올 수 있냥. 하지만 재건의 기회이기도 하냥 💪'},
+  {emo:'❤️',name:'연인',free:'사랑, 선택',paid:'중요한 선택의 기로에 서있냥. 진정한 인연이 기다리고 있냥 ❤️'},
+  {emo:'⚔️',name:'힘',free:'용기, 인내',paid:'내면의 강인함을 믿어봐냥. 상황을 통제할 힘이 있냥 💪'},
+  {emo:'🎺',name:'심판',free:'부활, 각성',paid:'새로운 시작의 문이 열리냥. 중요한 깨달음이 찾아올 거냥 🎺'},
+  {emo:'🌍',name:'세계',free:'완성, 성취',paid:'목표가 완성되는 시기냥! 완전한 조화와 성취를 이룰 거냥 🌍'},
+  {emo:'🏆',name:'전차',free:'승리, 의지',paid:'강한 의지로 목표를 향해 달려가봐냥. 승리가 기다리고 있냥 🏆'},
+  {emo:'🔮',name:'마법사',free:'창조, 능력',paid:'잠재력을 발휘할 때냥! 새로운 시작에 필요한 모든 걸 갖췄냥 🔮'},
+  {emo:'👁️',name:'여사제',free:'직관, 지혜',paid:'내면의 목소리를 따라봐냥. 숨겨진 진실이 보일 거냥 👁️'},
+  {emo:'🌿',name:'황후',free:'풍요, 모성',paid:'풍요로운 결실이 다가오냥. 사랑과 창조의 에너지가 넘치냥 🌿'},
+];
+
+// ── 시나리오 데이터 ──
+let scenarios = [
+  {name:'첫 방문 인사',trigger:'시작,안녕,hello',response:'안냥하세요~ 타로냥이냥 🐱 무엇이 궁금하냥?',buttons:'🔮 타로 뽑기,🌙 사주 보기,🛒 상품 보기'},
+  {name:'타로 뽑기 시작',trigger:'타로,뽑기,카드',response:'집중하냥~ 마음속 질문을 떠올려봐냥 🌙\n카드 12장 중에서 마음에 끌리는 3장을 골라봐냥!',buttons:'카드 선택하기'},
+  {name:'사주 안내',trigger:'사주,운세,생년월일',response:'생년월일시를 알려줘냥~ 🌙 타로냥이 분석해줄게냥!\n더 자세한 건 자개빛 사주 앱에서 봐봐냥 ✨',buttons:'사주 앱 열기,상담 예약'},
+  {name:'상품 안내',trigger:'상품,구매,가격',response:'자개빛 상점에 좋은 것들이 많냥~ 🛒\n전자책, 상담권, 타로 리포트가 있냥!',buttons:'상점 열기,타로 리포트'},
+  {name:'재방문 인사',trigger:'또,다시,재방문',response:'또 왔냥~ 오늘도 즐거웠으면 좋겠냥 🌸\n오늘은 뭘 알고 싶냥?',buttons:'🔮 타로 뽑기,💬 상담 예약'},
+  {name:'결제 안내',trigger:'결제,구매,돈,가격',response:'냥화를 내주면 더 많은 걸 알려줄게냥 💛\nPDF 타로 리포트 9,900냥화냥~',buttons:'PDF 구매하기,다음에 할게'},
+];
+
+// ── 탭 전환 ──
+function goTab(id,el){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('sec-'+id).classList.add('on');
+  el.classList.add('on');
+}
+
+// ── 타로 뽑기 ──
+let selectedCards=[];
+function renderTarot(){
+  const g=document.getElementById('tarotGrid');
+  g.innerHTML=cards.map((c,i)=>`
+    <div class="tarot-card ${selectedCards.includes(i)?'selected':''}" onclick="selectCard(${i})">
+      <div class="tarot-emo">${c.emo}</div>
+      <div class="tarot-name">${c.name}</div>
+      <div class="tarot-kw">${c.free}</div>
+    </div>`).join('');
+  document.getElementById('selectCount').textContent=`${selectedCards.length}/3 선택`;
+  const btn=document.getElementById('readBtn');
+  btn.disabled=selectedCards.length!==3;
+  btn.style.opacity=selectedCards.length===3?'1':'0.4';
+}
+function selectCard(i){
+  if(selectedCards.includes(i)){
+    selectedCards=selectedCards.filter(x=>x!==i);
+  } else {
+    if(selectedCards.length>=3){showToast('3장만 선택할 수 있냥! 🐱');return}
+    selectedCards.push(i);
+  }
+  renderTarot();
+}
+function showReading(){
+  if(selectedCards.length!==3)return;
+  const pos=['과거 🌙','현재 ☀️','미래 ✨'];
+  const area=document.getElementById('readingArea');
+  area.innerHTML=`<div class="reading-title">🔮 타로냥의 무료 해석냥~</div>
+    <div class="reading-content">${selectedCards.map((ci,pi)=>
+      `[${pos[pi]}] ${cards[ci].emo} ${cards[ci].name}\n키워드: ${cards[ci].free}\n`
+    ).join('\n')}\n더 깊이 알고 싶냥? 💛\nPDF 리포트(9,900냥화)로 상세 해석을 받아봐냥!</div>`;
+}
+function resetCards(){selectedCards=[];renderTarot();
+  document.getElementById('readingArea').innerHTML='<div class="reading-empty">카드 3장을 선택하면 해석이 나타납니다</div>';}
+
+// ── 시나리오 ──
+let editIdx=-1;
+function renderScenarios(){
+  document.getElementById('scenarioList').innerHTML=scenarios.map((s,i)=>`
+    <div class="scenario-item" onclick="editScenario(${i})">
+      <div class="sc-name">${s.name}</div>
+      <div class="sc-trigger">트리거: ${s.trigger}</div>
+    </div>`).join('');
+}
+function addScenario(){editIdx=-1;clearEditor();document.getElementById('scenarioEditor').style.display='block';}
+function editScenario(i){editIdx=i;const s=scenarios[i];
+  document.getElementById('sc-name').value=s.name;
+  document.getElementById('sc-trigger').value=s.trigger;
+  document.getElementById('sc-response').value=s.response;
+  document.getElementById('sc-buttons').value=s.buttons;
+  document.getElementById('scenarioEditor').style.display='block';}
+function saveScenario(){
+  const s={name:document.getElementById('sc-name').value,
+    trigger:document.getElementById('sc-trigger').value,
+    response:document.getElementById('sc-response').value,
+    buttons:document.getElementById('sc-buttons').value};
+  if(!s.name){showToast('시나리오 이름을 입력해줘냥!');return}
+  if(editIdx>=0)scenarios[editIdx]=s;else scenarios.push(s);
+  renderScenarios();cancelScenario();showToast('저장됐냥~ 🐱');
+}
+function cancelScenario(){document.getElementById('scenarioEditor').style.display='none';clearEditor();}
+function clearEditor(){['sc-name','sc-trigger','sc-response','sc-buttons'].forEach(id=>document.getElementById(id).value='');}
+
+// ── 카드 관리 ──
+function renderCardEditor(){
+  document.getElementById('cardEditGrid').innerHTML=cards.map((c,i)=>`
+    <div class="card-edit-item">
+      <div class="ce-emo">${c.emo}</div>
+      <div class="ce-name">${c.name}</div>
+      <input class="ce-inp" placeholder="무료 키워드" value="${c.free}" 
+             onchange="cards[${i}].free=this.value" title="무료 키워드">
+      <input class="ce-inp" placeholder="유료 해석" value="${c.paid}"
+             onchange="cards[${i}].paid=this.value" title="유료 해석">
+    </div>`).join('');
+}
+function saveCards(){localStorage.setItem('taronyang_cards',JSON.stringify(cards));
+  showToast('카드 저장됐냥~ 🃏');}
+
+// ── 설정 저장 ──
+function saveSettings(){
+  const cfg={name:document.getElementById('set-name').value,
+    greeting:document.getElementById('set-greeting').value,
+    revisit:document.getElementById('set-revisit').value,
+    pdfPrice:document.getElementById('set-pdf-price').value,
+    chatPrice:document.getElementById('set-chat-price').value,
+    nicepay:document.getElementById('set-nicepay').value,
+    kakao:document.getElementById('set-kakao').value,
+    shop:document.getElementById('set-shop').value,
+    saju:document.getElementById('set-saju').value,
+    supabase:document.getElementById('set-supabase').value};
+  localStorage.setItem('taronyang_settings',JSON.stringify(cfg));
+  showToast('설정 저장됐냥~ ⚙️');}
+
+// ── 통계 (데모) ──
+function loadStats(){
+  const orders=JSON.parse(localStorage.getItem('jb_orders')||'[]');
+  const today=new Date().toLocaleDateString();
+  const todayOrders=orders.filter(o=>o.date===today);
+  const todaySales=todayOrders.reduce((s,o)=>s+o.price,0);
+  document.getElementById('todayVisit').textContent=Math.floor(Math.random()*50)+10;
+  document.getElementById('todaySales').textContent=todaySales.toLocaleString();
+  document.getElementById('todayTarot').textContent=Math.floor(Math.random()*20)+5;
+  document.getElementById('todayPdf').textContent=todayOrders.length;
+  document.getElementById('totalSales').textContent=orders.reduce((s,o)=>s+o.price,0).toLocaleString();
+  document.getElementById('pdfSales').textContent=orders.filter(o=>o.type==='ebook').length;
+  document.getElementById('consultSales').textContent=orders.filter(o=>o.type==='consult').length;
+  const tbl=document.getElementById('salesTbl');
+  tbl.innerHTML=orders.length?orders.slice().reverse().map(o=>`
+    <tr><td>${o.name}</td><td style="color:#d4a840">${o.price.toLocaleString()}원</td>
+    <td>${o.date}</td><td><span class="badge badge-green">완료</span></td></tr>`).join('')
+    :'<tr><td colspan="4" style="text-align:center;padding:20px;color:rgba(212,168,64,0.28)">결제 내역이 없습니다</td></tr>';
+}
+
+function refreshChat(){showToast('채팅 새로고침 됐냥~ 🐱');}
+
+// ── 토스트 ──
+let tT;
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');
+  clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('on'),2500);}
+
+// ── 초기화 ──
+renderTarot();
+renderScenarios();
+renderCardEditor();
+loadStats();
+
+// 저장된 카드 불러오기
+const savedCards=localStorage.getItem('taronyang_cards');
+if(savedCards){cards=JSON.parse(savedCards);renderTarot();renderCardEditor();}
+
+// 저장된 설정 불러오기
+const savedSettings=localStorage.getItem('taronyang_settings');
+if(savedSettings){
+  const s=JSON.parse(savedSettings);
+  if(s.name)document.getElementById('set-name').value=s.name;
+  if(s.greeting)document.getElementById('set-greeting').value=s.greeting;
+  if(s.revisit)document.getElementById('set-revisit').value=s.revisit;
+  if(s.pdfPrice)document.getElementById('set-pdf-price').value=s.pdfPrice;
+  if(s.chatPrice)document.getElementById('set-chat-price').value=s.chatPrice;
+  if(s.supabase)document.getElementById('set-supabase').value=s.supabase;
+}
+</script>
+</body>
+</html>
