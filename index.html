@@ -231,6 +231,30 @@ input,textarea{-webkit-user-select:text;user-select:text}
       <div style="font-family:'Noto Serif KR',serif;font-size:14px;color:#80d880;font-weight:700;margin-bottom:4px">전자책</div>
       <div style="font-size:10px;color:rgba(240,232,208,0.45)">셀프사주책 · 삼재 가이드</div>
     </div>
+
+    <!-- 천기반전 사주 앱 -->
+    <div style="background:linear-gradient(135deg,#0a0518,#120830);border:1.5px solid rgba(120,80,220,0.4);
+      border-radius:14px;overflow:hidden;margin-top:4px">
+      <div style="padding:14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer"
+        onclick="toggleMainSajuApp()">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:28px">🔮</span>
+          <div>
+            <div style="font-family:'Noto Serif KR',serif;font-size:14px;color:#c090ff;font-weight:700">천기반전 AI 사주</div>
+            <div style="font-size:10px;color:rgba(240,232,208,0.4)">AI 정밀 사주 분석 앱</div>
+          </div>
+        </div>
+        <button id="main-saju-toggle"
+          style="padding:6px 14px;background:rgba(120,80,220,0.15);border:1px solid rgba(120,80,220,0.4);
+          border-radius:16px;font-size:10px;color:#c090ff;cursor:pointer;
+          font-family:Noto Sans KR,sans-serif;white-space:nowrap">앱 열기 ▼</button>
+      </div>
+      <div id="main-saju-frame" style="display:none">
+        <iframe src="https://fortune-grandma-soul.lovable.app"
+          style="width:100%;height:600px;border:none" loading="lazy" title="천기반전 사주"></iframe>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -762,6 +786,58 @@ function showToast(m){const t=document.getElementById('toast');t.textContent=m;
 
 // 복붙 차단 추가
 document.addEventListener('dragstart',e=>e.preventDefault());
+
+// 사주 앱 토글
+function toggleMainSajuApp(){
+  const f=document.getElementById('main-saju-frame');
+  const b=document.getElementById('main-saju-toggle');
+  if(f.style.display==='none'){f.style.display='block';b.textContent='닫기 ▲';}
+  else{f.style.display='none';b.textContent='열기 ▼';}
+}
+
+function toggleSajuApp(){
+  const f=document.getElementById('saju-app-frame');
+  const b=document.getElementById('saju-app-toggle');
+  if(f.style.display==='none'){
+    f.style.display='block';
+    b.textContent='앱 닫기 ▲';
+  } else {
+    f.style.display='none';
+    b.textContent='앱 열기 ▼';
+  }
+}
+
+// 사주 앱 토글
+function toggleMainSajuApp(){
+  const f=document.getElementById('main-saju-frame');
+  const b=document.getElementById('main-saju-toggle');
+  if(f.style.display==='none'){
+    f.style.display='block';
+    b.textContent='앱 닫기 ▲';
+  } else {
+    f.style.display='none';
+    b.textContent='앱 열기 ▼';
+  }
+}
+
+function toggleMainSajuApp(){
+  const f=document.getElementById('main-saju-frame');
+  const b=document.getElementById('main-saju-toggle');
+  if(f.style.display==='none'){f.style.display='block';b.textContent='닫기 ▲';}
+  else{f.style.display='none';b.textContent='열기 ▼';}
+}
+
+function toggleSajuApp(){
+  const f=document.getElementById('saju-app-frame');
+  const b=document.getElementById('saju-app-toggle');
+  if(f.style.display==='none'){
+    f.style.display='block';
+    b.textContent='앱 닫기 ▲';
+  } else {
+    f.style.display='none';
+    b.textContent='앱 열기 ▼';
+  }
+}
 </script>
 
 <!-- 관리자 PIN -->
