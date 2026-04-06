@@ -764,7 +764,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('hd-date').textContent=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
   buildSectionPicker();
   updateSecBar();
-  const saved=sessionStorage.getItem('jgb_api');
+  const saved=localStorage.getItem('jgb_api');
   if(saved){document.getElementById('api-key').value=saved;connectApi(true);}
 });
 
@@ -813,10 +813,10 @@ function updateSecBar(){
 function connectApi(silent=false){
   const k=document.getElementById('api-key').value.trim();
   if(!k){showToast('API 키를 입력해 주세요');return;}
-  apiKey=k;sessionStorage.setItem('jgb_api',k);
+  apiKey=k;localStorage.setItem('jgb_api',k);
   document.getElementById('api-dot').classList.add('on');
   document.getElementById('api-txt').textContent='API 연결됨';
-  if(!silent)showToast('✓ Claude API 연결 완료');
+  if(!silent)showToast('✓ API 연결 완료 — 브라우저에 영구 저장됨');
   updateGenBtn();
 }
 
