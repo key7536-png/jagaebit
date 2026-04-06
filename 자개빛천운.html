@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자개빛 · 천운 — 100페이지 사주타로 리포트 시스템</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://js.puter.com/v2/"></script>
 <style>
 :root {
   --gold:#C9A227; --gold-light:#F5D97A; --gold-dim:#7A5C0A;
@@ -219,11 +220,11 @@ textarea{resize:vertical;min-height:60px}
     <div class="logo-icon">🔮</div>
     <div>
       <div class="logo-title">자개빛 · 천운</div>
-      <div class="logo-sub">사주·타로 100페이지 AI 리포트 시스템 v2.0 (Gemini)</div>
+      <div class="logo-sub">사주·타로 100페이지 AI 리포트 시스템 v2.0</div>
     </div>
   </div>
   <div class="hd-right">
-    <div class="api-pill"><div class="dot" id="api-dot"></div><span id="api-txt">Gemini 미연결</span></div>
+    <div class="api-pill"><div class="dot on"></div><span id="api-txt">무료 AI 연결됨</span></div>
     <div style="font-size:10px;color:var(--tx2)" id="hd-date"></div>
   </div>
 </header>
@@ -236,15 +237,17 @@ textarea{resize:vertical;min-height:60px}
 
   <!-- API -->
   <div class="panel">
-    <div class="panel-hd">Claude API 설정</div>
-    <div class="fg">
-      <label>Google Gemini API Key</label>
-      <div style="display:flex;gap:6px">
-        <input type="password" id="api-key" placeholder="AIzaSy..." style="flex:1;font-family:monospace;font-size:11px">
-        <button class="btn" style="background:var(--bg-input);border:.5px solid var(--bd);color:var(--tx2);padding:0 12px;border-radius:var(--r-sm);cursor:pointer" onclick="connectApi()">연결</button>
+    <div class="panel-hd">AI 엔진 상태</div>
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(39,174,96,0.08);border:.5px solid rgba(39,174,96,0.3);border-radius:var(--r-sm)">
+      <div style="width:8px;height:8px;border-radius:50%;background:#27AE60;box-shadow:0 0 6px rgba(39,174,96,0.5);flex-shrink:0"></div>
+      <div>
+        <div style="font-size:12px;font-weight:500;color:#27AE60">무료 AI 사용 중</div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:1px">API 키 불필요 · 요금 없음</div>
       </div>
     </div>
-    <div style="font-size:10px;color:var(--tx3)">키는 브라우저 세션에만 저장. 외부 전송 없음.</div>
+    <div style="font-size:10px;color:var(--tx3);margin-top:8px;line-height:1.6">
+      Puter.js 기반 무료 AI 엔진으로<br>별도 결제 없이 무제한 사용 가능합니다.
+    </div>
   </div>
 
   <!-- CUSTOMER ADD -->
@@ -701,7 +704,7 @@ ${c.concern?'상담 내용: '+c.concern:''}
 // ║  상태                                                 ║
 // ╚══════════════════════════════════════════════════════╝
 let customers=[], reports=[], selectedCustomer=null;
-let apiKey='', pageCount=30, todayCount=0;
+let apiKey='puter-free', pageCount=30, todayCount=0;
 let selectedSections = new Set(['s01','s02','s03','s04','s05','s06','s07','s08','s10','s11','s14','s16']);
 
 // ╔══════════════════════════════════════════════════════╗
@@ -772,12 +775,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('hd-date').textContent=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
   buildSectionPicker();
   updateSecBar();
-  // API 키 복원 (Gemini 키 형식 검증)
-  const saved=localStorage.getItem('jgb_api');
-  if(saved){
-    document.getElementById('api-key').value=saved;
-    connectApi(true);
-  }
+  // Puter.js 무료 모드 — 자동 연결
+  apiKey='puter-free';
+  updateGenBtn();
   // 고객·리포트 데이터 복원
   loadFromStorage();
 });
@@ -881,50 +881,32 @@ function updateSecBar(){
 // ║  API                                                  ║
 // ╚══════════════════════════════════════════════════════╝
 function connectApi(silent=false){
-  const k=document.getElementById('api-key').value.trim();
-  if(!k){showToast('API 키를 입력해 주세요');return;}
-  apiKey=k;localStorage.setItem('jgb_api',k);
-  document.getElementById('api-dot').classList.add('on');
-  document.getElementById('api-txt').textContent='Gemini 연결됨';
-  if(!silent)showToast('✓ Gemini API 연결 완료 — 영구 저장됨');
+  // Puter.js 무료 모드 — 키 불필요
+  apiKey='puter-free';
   updateGenBtn();
 }
 
 async function callClaude(prompt, retries=3){
   for(let attempt=1; attempt<=retries; attempt++){
     try{
-      // Gemini API 호출
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({
-          contents: [{parts:[{text: prompt}]}],
-          generationConfig: {
-            temperature: 0.9,
-            maxOutputTokens: 8192,
-          }
-        })
+      // Puter.js 무료 AI 호출 (API 키 불필요)
+      const response = await puter.ai.chat(prompt, {
+        model: 'claude-sonnet-4-5',
+        stream: false,
       });
-      const d = await res.json();
-      if(!res.ok){
-        const errMsg = d.error?.message || `HTTP ${res.status}`;
-        // Rate limit → 재시도
-        if((res.status===429 || res.status===503) && attempt<retries){
-          const wait = attempt * 8000;
-          document.getElementById('prog-main').textContent=`⏳ Rate Limit — ${wait/1000}초 후 재시도... (${attempt}/${retries})`;
-          await new Promise(r=>setTimeout(r, wait));
-          continue;
-        }
-        throw new Error(errMsg);
-      }
-      // Gemini 응답 파싱
-      const text = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
-      if(!text) throw new Error('Gemini 응답이 비어있습니다');
+      // Puter.js 응답 파싱
+      const text = response?.message?.content?.[0]?.text
+                || response?.content?.[0]?.text
+                || (typeof response === 'string' ? response : '')
+                || '';
+      if(!text) throw new Error('AI 응답이 비어있습니다');
       return text;
     } catch(e){
       if(attempt===retries) throw e;
-      await new Promise(r=>setTimeout(r, attempt*5000));
+      // 재시도 전 대기
+      const wait = attempt * 5000;
+      document.getElementById('prog-main').textContent=`⏳ 재시도 중... (${attempt}/${retries}) ${wait/1000}초 대기`;
+      await new Promise(r=>setTimeout(r, wait));
     }
   }
 }
@@ -1036,7 +1018,7 @@ function updateStats(){
 function updateGenBtn(){
   if(isGenerating) return; // 생성 중엔 버튼 상태 변경 금지
   const btn=document.getElementById('gen-btn');
-  const ok=selectedCustomer&&apiKey;
+  const ok=!!selectedCustomer; // Puter.js는 항상 연결됨
   btn.disabled=!ok;
   btn.textContent=selectedCustomer?`🔮 ${selectedCustomer.name} 리포트 생성 (${[...selectedSections].length}섹션)`:'🔮 AI 리포트 생성 시작';
 }
@@ -1344,6 +1326,7 @@ function generatePDF(c,results){
 <meta charset="UTF-8">
 <title>자개빛·천운 — ${c.name}님 종합 리포트</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://js.puter.com/v2/"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans KR',sans-serif;background:${t.bg};color:${t.tx};-webkit-print-color-adjust:exact;print-color-adjust:exact}
