@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자개빛 · 천운 — 100페이지 사주타로 리포트 시스템</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 :root {
   --gold:#C9A227; --gold-light:#F5D97A; --gold-dim:#7A5C0A;
@@ -162,6 +163,33 @@ textarea{resize:vertical;min-height:60px}
   background:rgba(201,162,39,.1);color:var(--gold);cursor:pointer;font-family:'Noto Sans KR',sans-serif;
   transition:all .15s}
 .dl-btn:hover{background:rgba(201,162,39,.2)}
+
+/* 공유 모달 */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;
+  display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.show{opacity:1;pointer-events:all}
+.modal-box{background:var(--bg-card);border:.5px solid var(--bd);border-radius:var(--r);
+  padding:1.5rem;width:320px;max-width:90vw}
+.modal-title{font-size:15px;font-weight:700;color:var(--gold);font-family:'Noto Serif KR',serif;
+  margin-bottom:1rem;text-align:center}
+.share-btns{display:flex;flex-direction:column;gap:8px}
+.share-btn{width:100%;padding:11px;border-radius:var(--r-sm);border:none;
+  font-size:13px;font-weight:500;cursor:pointer;font-family:'Noto Sans KR',sans-serif;
+  display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
+.share-btn.pdf{background:linear-gradient(135deg,#C9A227,#A07A10);color:#0D0A06}
+.share-btn.pdf:hover{opacity:.85}
+.share-btn.kakao{background:#FEE500;color:#191919}
+.share-btn.kakao:hover{opacity:.85}
+.share-btn.email{background:var(--bg-input);border:.5px solid var(--bd);color:var(--tx)}
+.share-btn.email:hover{border-color:var(--bd-h)}
+.share-btn.copy{background:var(--bg-input);border:.5px solid var(--bd);color:var(--tx2)}
+.share-btn.copy:hover{border-color:var(--bd-h)}
+.modal-close{width:100%;padding:8px;margin-top:8px;border-radius:var(--r-sm);
+  border:.5px solid var(--bd);background:transparent;color:var(--tx3);
+  font-size:12px;cursor:pointer;font-family:'Noto Sans KR',sans-serif}
+.pdf-progress{display:none;text-align:center;padding:.75rem 0}
+.pdf-prog-bar{height:4px;background:var(--bg-input);border-radius:2px;margin:.5rem 0;overflow:hidden}
+.pdf-prog-fill{height:100%;background:var(--gold);border-radius:2px;width:0;transition:width .3s}
 
 /* ── SAJU / TAROT ── */
 .saju-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:.6rem 0}
@@ -388,6 +416,32 @@ textarea{resize:vertical;min-height:60px}
 
 </div><!-- /main -->
 </div><!-- /layout -->
+
+<!-- 공유 모달 -->
+<div class="modal-overlay" id="share-modal">
+  <div class="modal-box">
+    <div class="modal-title">📤 리포트 저장 · 공유</div>
+    <div id="pdf-progress" class="pdf-progress">
+      <div style="font-size:12px;color:var(--tx2)" id="pdf-prog-txt">PDF 생성 중...</div>
+      <div class="pdf-prog-bar"><div class="pdf-prog-fill" id="pdf-prog-fill"></div></div>
+    </div>
+    <div class="share-btns" id="share-btns">
+      <button class="share-btn pdf" onclick="doDownloadPDF()">
+        ⬇ PDF 파일 다운로드
+      </button>
+      <button class="share-btn kakao" onclick="doKakaoShare()">
+        💬 카카오톡으로 공유
+      </button>
+      <button class="share-btn email" onclick="doEmailShare()">
+        ✉ 이메일로 보내기
+      </button>
+      <button class="share-btn copy" onclick="doCopyText()">
+        📋 텍스트 전체 복사
+      </button>
+    </div>
+    <button class="modal-close" onclick="closeShareModal()">닫기</button>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -1019,7 +1073,7 @@ function renderReportList(){
         <div class="ri-name">${r.custName} 님 — ${r.sections.length}섹션 종합 리포트</div>
         <div class="ri-meta">${r.date} · ${r.pages}p · ${r.template}</div>
       </div>
-      <button class="dl-btn" onclick="downloadPDF(${r.id})">⬇ PDF</button>
+      <button class="dl-btn" onclick="openShareModalByReport(${r.id})">📤 저장·공유</button>
     </div>`).join('');
 }
 
@@ -1247,7 +1301,7 @@ function renderResult(c,results){
             ${results.map(r=>`<span style="font-size:9px;padding:2px 7px;border-radius:8px;background:rgba(201,162,39,.08);border:.5px solid var(--bd);color:var(--gold)">${r.sec.icon}${r.sec.name}</span>`).join('')}
           </div>
         </div>
-        <button class="dl-btn" style="flex-shrink:0;margin-left:12px" onclick="downloadPDFById(${c.id})">⬇ PDF 저장</button>
+        <button class="dl-btn" style="flex-shrink:0;margin-left:12px" onclick="openShareModal(${c.id})">📤 저장·공유</button>
       </div>
 
       ${results.map((r,i)=>`
@@ -1260,7 +1314,7 @@ function renderResult(c,results){
       <hr class="divider">
       <div style="display:flex;align-items:center;justify-content:space-between">
         <div style="font-size:10px;color:var(--tx3)">자개빛·천운 | ${today}</div>
-        <button class="dl-btn" onclick="downloadPDFById(${c.id})">⬇ PDF 다운로드</button>
+        <button class="dl-btn" onclick="openShareModal(${c.id})">📤 저장·공유</button>
       </div>
     </div>`;
 
@@ -1293,9 +1347,174 @@ function downloadPDF(reportId){
 }
 
 // ╔══════════════════════════════════════════════════════╗
-// ║  HTML 인쇄 PDF (한글 완벽 지원)                      ║
+// ║  공유 모달 & PDF 생성                                 ║
 // ╚══════════════════════════════════════════════════════╝
+let _shareCustomer=null, _shareResults=null;
+
+function openShareModal(custId){
+  const c=customers.find(x=>x.id===custId);
+  const r=reports.find(x=>x.custId===custId);
+  if(!c||!r){showToast('리포트를 먼저 생성해 주세요');return;}
+  _shareCustomer=c; _shareResults=r.results;
+  document.getElementById('pdf-progress').style.display='none';
+  document.getElementById('share-btns').style.display='flex';
+  document.getElementById('share-modal').classList.add('show');
+}
+
+function openShareModalByReport(reportId){
+  const r=reports.find(x=>x.id===reportId);
+  const c=customers.find(x=>x.id===r?.custId);
+  if(!c||!r){showToast('데이터 없음');return;}
+  _shareCustomer=c; _shareResults=r.results;
+  document.getElementById('pdf-progress').style.display='none';
+  document.getElementById('share-btns').style.display='flex';
+  document.getElementById('share-modal').classList.add('show');
+}
+
+function closeShareModal(){
+  document.getElementById('share-modal').classList.remove('show');
+}
+
+// 텍스트 전체 복사
+function doCopyText(){
+  if(!_shareResults) return;
+  const text = _shareResults.map(r=>`\n\n===== ${r.sec.name} =====\n\n${r.text}`).join('');
+  const full = `자개빛·천운 사주타로 종합 리포트\n${_shareCustomer.name} 님 | ${_shareCustomer.date}\n${text}`;
+  navigator.clipboard.writeText(full).then(()=>{
+    showToast('✓ 전체 텍스트 복사 완료! 카톡·메모장에 붙여넣기 하세요');
+    closeShareModal();
+  }).catch(()=>showToast('복사 실패 — 직접 선택해 주세요'));
+}
+
+// 이메일로 보내기
+function doEmailShare(){
+  if(!_shareCustomer||!_shareResults) return;
+  const subject = encodeURIComponent(`[자개빛·천운] ${_shareCustomer.name}님 사주타로 종합 리포트`);
+  const body = encodeURIComponent(
+    `안녕하세요,\n\n자개빛·천운에서 작성한 ${_shareCustomer.name}님의 사주·타로 종합 리포트를 전달드립니다.\n\n` +
+    _shareResults.map(r=>`■ ${r.sec.name}\n${r.text.slice(0,300)}...\n`).join('\n') +
+    `\n\n※ 전체 내용은 PDF 파일로 별도 전송해 드립니다.\n\n자개빛·천운 드림\nhttps://자개빛.shop`
+  );
+  window.open(`mailto:?subject=${subject}&body=${body}`);
+  showToast('이메일 앱이 열립니다');
+}
+
+// 카카오톡 공유 (텍스트 복사 후 안내)
+function doKakaoShare(){
+  if(!_shareCustomer||!_shareResults) return;
+  const preview = _shareResults.slice(0,2).map(r=>`[${r.sec.name}]\n${r.text.slice(0,150)}...`).join('\n\n');
+  const text = `🔮 자개빛·천운 리포트\n${_shareCustomer.name}님 사주·타로 분석\n\n${preview}\n\n전체 리포트: https://자개빛.shop`;
+  navigator.clipboard.writeText(text).then(()=>{
+    showToast('✓ 카톡 공유 내용 복사 완료! 카카오톡에 붙여넣기 하세요');
+    closeShareModal();
+    // 카카오톡 앱 열기 시도 (모바일)
+    setTimeout(()=>{ window.location.href='kakaolink://send'; }, 500);
+  }).catch(()=>{
+    showToast('텍스트를 복사해 카카오톡에 붙여넣기 하세요');
+  });
+}
+
+// PDF 직접 다운로드 (html2pdf.js)
+async function doDownloadPDF(){
+  if(!_shareCustomer||!_shareResults) return;
+  const c=_shareCustomer, results=_shareResults;
+
+  document.getElementById('share-btns').style.display='none';
+  document.getElementById('pdf-progress').style.display='block';
+
+  const fill=document.getElementById('pdf-prog-fill');
+  const txt=document.getElementById('pdf-prog-txt');
+
+  const setProgress=(pct,msg)=>{
+    fill.style.width=pct+'%';
+    txt.textContent=msg;
+  };
+
+  setProgress(10,'PDF 레이아웃 구성 중...');
+
+  const T={
+    gold:{bg:'#0D0A06',ac:'#C9A227',acl:'#F5D97A',tx:'#F0E6CC',sub:'#A08040',mu:'#5A4520',cb:'#1A1407',bd:'rgba(201,162,39,0.25)'},
+    oriental:{bg:'#0A0805',ac:'#C8541C',acl:'#E8845C',tx:'#EBD8C8',sub:'#A06840',mu:'#6A4030',cb:'#150E08',bd:'rgba(200,84,28,0.25)'},
+    modern:{bg:'#0F0F14',ac:'#6496DC',acl:'#94C6FF',tx:'#E6E6F0',sub:'#828CA0',mu:'#4A5060',cb:'#181820',bd:'rgba(100,150,220,0.25)'},
+    minimal:{bg:'#FAF8F4',ac:'#5A3C14',acl:'#8A6C44',tx:'#1E1910',sub:'#7A6040',mu:'#B09070',cb:'#F0EBE0',bd:'rgba(90,60,20,0.2)'},
+  }[c.template]||{bg:'#0D0A06',ac:'#C9A227',acl:'#F5D97A',tx:'#F0E6CC',sub:'#A08040',mu:'#5A4520',cb:'#1A1407',bd:'rgba(201,162,39,0.25)'};
+  const t=T;
+  const today=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
+
+  setProgress(25,'페이지 콘텐츠 생성 중...');
+
+  // PDF용 HTML 컨테이너 생성
+  const container = document.createElement('div');
+  container.style.cssText='width:210mm;font-family:Arial,sans-serif;background:#fff;color:#1a1a1a';
+
+  // 표지
+  container.innerHTML += `
+    <div style="width:210mm;min-height:297mm;background:${t.bg};display:flex;flex-direction:column;
+      align-items:center;justify-content:center;text-align:center;padding:40mm 20mm;page-break-after:always;
+      -webkit-print-color-adjust:exact;print-color-adjust:exact">
+      <div style="font-size:28px;font-weight:700;color:${t.ac};margin-bottom:8px;letter-spacing:2px">자개빛 · 천운</div>
+      <div style="font-size:13px;color:${t.sub};margin-bottom:32px">사주 · 타로 종합 운세 리포트</div>
+      <div style="width:40px;height:1px;background:${t.ac};margin:0 auto 32px"></div>
+      <div style="font-size:26px;font-weight:700;color:${t.tx};margin-bottom:10px">${c.name} 님</div>
+      <div style="font-size:12px;color:${t.sub};margin-bottom:8px">${c.cal}력 ${c.date} | ${c.gender}성</div>
+      <div style="font-size:11px;color:${t.mu};margin-top:24px">총 ${results.length}개 섹션 | 발행: ${today}</div>
+      <div style="font-size:10px;color:${t.mu};margin-top:6px">자개빛.shop · 천기반전 채널</div>
+    </div>`;
+
+  setProgress(40,'섹션 내용 구성 중...');
+
+  // 각 섹션
+  results.forEach((r,i)=>{
+    const cleanText = r.text
+      .replace(/###?\s*[◆♦✦*]?\s*(.+)/g, '<strong style="display:block;margin:12px 0 4px;color:'+t.ac+'">$1</strong>')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/【(.+?)】/g,'<span style="color:'+t.ac+'">【$1】</span>')
+      .replace(/
+/g,'<br>');
+
+    container.innerHTML += `
+      <div style="width:210mm;min-height:297mm;background:${t.bg};padding:18mm;
+        page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-sizing:border-box">
+        <div style="font-size:14px;font-weight:700;color:${t.ac};border-bottom:1px solid ${t.bd};
+          padding-bottom:8px;margin-bottom:16px">${r.sec.icon} ${r.sec.name}</div>
+        <div style="font-size:12px;line-height:2.1;color:${t.tx};word-break:keep-all">${cleanText}</div>
+        <div style="position:absolute;bottom:12mm;left:18mm;right:18mm;border-top:1px solid ${t.bd};
+          padding-top:3mm;font-size:9px;color:${t.mu};display:flex;justify-content:space-between">
+          <span>자개빛·천운 리포트</span><span>${i+1} / ${results.length}</span><span>${today}</span>
+        </div>
+      </div>`;
+  });
+
+  setProgress(60,'PDF 렌더링 중... (잠시 기다려 주세요)');
+  document.body.appendChild(container);
+
+  try{
+    await html2pdf().set({
+      margin: 0,
+      filename: `자개빛_${c.name}_사주타로리포트_${new Date().toLocaleDateString('ko').replace(/\./g,'').replace(/ /g,'')}.pdf`,
+      image: {type:'jpeg', quality:0.92},
+      html2canvas: {scale:1.5, useCORS:true, logging:false},
+      jsPDF: {unit:'mm', format:'a4', orientation:'portrait'},
+      pagebreak: {mode:['avoid-all','css','legacy']}
+    }).from(container).save();
+
+    setProgress(100,'✓ 완료!');
+    showToast('✓ PDF 다운로드 완료!');
+    setTimeout(()=>closeShareModal(), 1200);
+  } catch(e){
+    showToast('PDF 오류: '+e.message);
+    console.error(e);
+  } finally{
+    document.body.removeChild(container);
+  }
+}
+
 function generatePDF(c,results){
+  // 구버전 호환 — openShareModal로 리다이렉트
+  openShareModal(c.id);
+}
+
+function _generatePDF_legacy(c,results){
   showToast('PDF 미리보기 창 열기 중...');
   const T={
     gold:{bg:'#0D0A06',ac:'#C9A227',acl:'#F5D97A',tx:'#F0E6CC',sub:'#A08040',mu:'#5A4520',cb:'#1A1407',bd:'rgba(201,162,39,0.25)'},
@@ -1341,6 +1560,7 @@ function generatePDF(c,results){
 <meta charset="UTF-8">
 <title>자개빛·천운 — ${c.name}님 종합 리포트</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans KR',sans-serif;background:${t.bg};color:${t.tx};-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -1446,7 +1666,7 @@ ${results.map((r,i)=>`
   const win=window.open('','_blank','width=950,height=750');
   if(!win){showToast('팝업 차단 해제 후 다시 시도');return;}
   win.document.write(html);win.document.close();
-  showToast('✓ PDF 미리보기 열림 — 인쇄창에서 "PDF로 저장" 선택!');
+  showToast('✓ PDF 미리보기 열림');
 }
 
 // ╔══════════════════════════════════════════════════════╗
