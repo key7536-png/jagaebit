@@ -344,6 +344,14 @@ textarea{resize:vertical;min-height:60px}
 
   <!-- TAB: CUSTOMERS -->
   <div id="tab-customers">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:11px;color:var(--tx2)" id="cust-count-label">고객 0명 저장됨</div>
+      <button onclick="clearStorage()"
+        style="font-size:10px;padding:3px 10px;border-radius:10px;border:.5px solid rgba(192,57,43,0.4);
+               background:rgba(192,57,43,0.08);color:#E74C3C;cursor:pointer;font-family:'Noto Sans KR',sans-serif">
+        🗑 전체 삭제
+      </button>
+    </div>
     <div class="cl" id="cust-list">
       <div class="empty"><div class="empty-icon">🌙</div>등록된 고객이 없습니다</div>
     </div>
@@ -764,9 +772,68 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('hd-date').textContent=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
   buildSectionPicker();
   updateSecBar();
+  // API 키 복원
   const saved=localStorage.getItem('jgb_api');
   if(saved){document.getElementById('api-key').value=saved;connectApi(true);}
+  // 고객·리포트 데이터 복원
+  loadFromStorage();
 });
+
+// ╔══════════════════════════════════════════════════════╗
+// ║  localStorage 저장·불러오기                            ║
+// ╚══════════════════════════════════════════════════════╝
+function saveToStorage(){
+  try{
+    // 리포트는 results(전체 텍스트)가 크므로 고객만 저장, 리포트는 메타만 저장
+    const custData = customers.map(c=>({
+      id:c.id, name:c.name, date:c.date, time:c.time,
+      gender:c.gender, cal:c.cal, concern:c.concern,
+      sections:c.sections, pages:c.pages, template:c.template,
+      createdAt:c.createdAt,
+      // 사주·타로는 재계산 가능하므로 저장하지 않음 (용량 절약)
+    }));
+    localStorage.setItem('jgb_customers', JSON.stringify(custData));
+    // 리포트 메타만 저장 (텍스트 제외 — 용량 초과 방지)
+    const repMeta = reports.map(r=>({
+      id:r.id, custId:r.custId, custName:r.custName,
+      date:r.date, pages:r.pages, template:r.template, sections:r.sections,
+    }));
+    localStorage.setItem('jgb_reports_meta', JSON.stringify(repMeta));
+  }catch(e){ console.warn('저장 실패:', e); }
+}
+
+function loadFromStorage(){
+  try{
+    const custRaw = localStorage.getItem('jgb_customers');
+    if(custRaw){
+      const custData = JSON.parse(custRaw);
+      // 사주·타로 재계산해서 복원
+      customers = custData.map(c=>{
+        const saju = calcSaju(c.date, c.time);
+        const daeun = calcDaeun(saju, c.gender, new Date(c.date).getFullYear());
+        const tarot = getTarot(c.date);
+        return {...c, saju, daeun, tarot};
+      });
+      if(customers.length) showToast(`✓ 고객 ${customers.length}명 데이터 복원됨`);
+    }
+    const repRaw = localStorage.getItem('jgb_reports_meta');
+    if(repRaw){
+      const repMeta = JSON.parse(repRaw);
+      // 리포트 메타만 복원 (결과 텍스트는 없음 — 재생성 필요)
+      reports = repMeta.map(r=>({...r, results:[]}));
+    }
+    renderAll();
+  }catch(e){ console.warn('불러오기 실패:', e); }
+}
+
+function clearStorage(){
+  if(!confirm('모든 고객 데이터를 삭제하시겠습니까?')) return;
+  localStorage.removeItem('jgb_customers');
+  localStorage.removeItem('jgb_reports_meta');
+  customers=[]; reports=[]; selectedCustomer=null;
+  renderAll();
+  showToast('✓ 전체 고객 데이터 삭제 완료');
+}
 
 function buildSectionPicker(){
   const groups={};
@@ -887,16 +954,20 @@ function addCustomer(){
     saju,daeun,tarot,createdAt:new Date().toLocaleString('ko-KR')});
   selectedCustomer=customers[customers.length-1];
   renderAll();
+  saveToStorage();
   document.getElementById('c-name').value='';
   document.getElementById('c-concern').value='';
-  showToast(`✓ ${name} 등록 완료 (${secs.length}개 섹션)`);
+  showToast(`✓ ${name} 등록 완료 — 자동 저장됨`);
 }
 
 function delCustomer(id,e){
   e.stopPropagation();
-  customers=customers.filter(c=>c.id!==id);
+  const c=customers.find(x=>x.id===id);
+  customers=customers.filter(x=>x.id!==id);
   if(selectedCustomer?.id===id)selectedCustomer=null;
   renderAll();
+  saveToStorage();
+  if(c) showToast(`✓ ${c.name} 삭제 완료`);
 }
 
 function selectCustomer(id){
@@ -915,6 +986,8 @@ function renderAll(){
 
 function renderCustomerList(){
   const el=document.getElementById('cust-list');
+  const lbl=document.getElementById('cust-count-label');
+  if(lbl) lbl.textContent=customers.length?`고객 ${customers.length}명 저장됨`:'고객 0명 저장됨';
   if(!customers.length){el.innerHTML='<div class="empty"><div class="empty-icon">🌙</div>등록된 고객이 없습니다</div>';return;}
   el.innerHTML=customers.map(c=>`
     <div class="ci ${selectedCustomer?.id===c.id?'active':''}" onclick="selectCustomer(${c.id})">
@@ -1194,6 +1267,7 @@ function saveReport(c,results){
     date:new Date().toLocaleString('ko-KR'),pages:c.pages,
     template:c.template,sections:c.sections,results});
   renderReportList();updateStats();
+  saveToStorage();
 }
 
 function downloadPDFById(custId){
