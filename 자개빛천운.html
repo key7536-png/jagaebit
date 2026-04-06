@@ -219,11 +219,11 @@ textarea{resize:vertical;min-height:60px}
     <div class="logo-icon">🔮</div>
     <div>
       <div class="logo-title">자개빛 · 천운</div>
-      <div class="logo-sub">사주·타로 100페이지 AI 리포트 시스템 v2.0</div>
+      <div class="logo-sub">사주·타로 100페이지 AI 리포트 시스템 v2.0 (Gemini)</div>
     </div>
   </div>
   <div class="hd-right">
-    <div class="api-pill"><div class="dot" id="api-dot"></div><span id="api-txt">API 미연결</span></div>
+    <div class="api-pill"><div class="dot" id="api-dot"></div><span id="api-txt">Gemini 미연결</span></div>
     <div style="font-size:10px;color:var(--tx2)" id="hd-date"></div>
   </div>
 </header>
@@ -238,9 +238,9 @@ textarea{resize:vertical;min-height:60px}
   <div class="panel">
     <div class="panel-hd">Claude API 설정</div>
     <div class="fg">
-      <label>Anthropic API Key</label>
+      <label>Google Gemini API Key</label>
       <div style="display:flex;gap:6px">
-        <input type="password" id="api-key" placeholder="sk-ant-api03-..." style="flex:1;font-family:monospace;font-size:11px">
+        <input type="password" id="api-key" placeholder="AIzaSy..." style="flex:1;font-family:monospace;font-size:11px">
         <button class="btn" style="background:var(--bg-input);border:.5px solid var(--bd);color:var(--tx2);padding:0 12px;border-radius:var(--r-sm);cursor:pointer" onclick="connectApi()">연결</button>
       </div>
     </div>
@@ -772,9 +772,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('hd-date').textContent=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
   buildSectionPicker();
   updateSecBar();
-  // API 키 복원
+  // API 키 복원 (Gemini 키 형식 검증)
   const saved=localStorage.getItem('jgb_api');
-  if(saved){document.getElementById('api-key').value=saved;connectApi(true);}
+  if(saved){
+    document.getElementById('api-key').value=saved;
+    connectApi(true);
+  }
   // 고객·리포트 데이터 복원
   loadFromStorage();
 });
@@ -882,35 +885,43 @@ function connectApi(silent=false){
   if(!k){showToast('API 키를 입력해 주세요');return;}
   apiKey=k;localStorage.setItem('jgb_api',k);
   document.getElementById('api-dot').classList.add('on');
-  document.getElementById('api-txt').textContent='API 연결됨';
-  if(!silent)showToast('✓ API 연결 완료 — 브라우저에 영구 저장됨');
+  document.getElementById('api-txt').textContent='Gemini 연결됨';
+  if(!silent)showToast('✓ Gemini API 연결 완료 — 영구 저장됨');
   updateGenBtn();
 }
 
 async function callClaude(prompt, retries=3){
   for(let attempt=1; attempt<=retries; attempt++){
     try{
-      const res=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':apiKey,
-          'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:8000,
-          messages:[{role:'user',content:prompt}]})
+      // Gemini API 호출
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          contents: [{parts:[{text: prompt}]}],
+          generationConfig: {
+            temperature: 0.9,
+            maxOutputTokens: 8192,
+          }
+        })
       });
-      const d=await res.json();
+      const d = await res.json();
       if(!res.ok){
-        const errType = d.error?.type || '';
-        const errMsg  = d.error?.message || `HTTP ${res.status}`;
+        const errMsg = d.error?.message || `HTTP ${res.status}`;
         // Rate limit → 재시도
-        if((errType==='rate_limit_error' || errType==='exceeded_limit' || res.status===429) && attempt<retries){
-          const wait = attempt * 8000; // 8초, 16초 대기
+        if((res.status===429 || res.status===503) && attempt<retries){
+          const wait = attempt * 8000;
           document.getElementById('prog-main').textContent=`⏳ Rate Limit — ${wait/1000}초 후 재시도... (${attempt}/${retries})`;
           await new Promise(r=>setTimeout(r, wait));
           continue;
         }
         throw new Error(errMsg);
       }
-      return d.content.map(b=>b.text||'').join('');
+      // Gemini 응답 파싱
+      const text = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      if(!text) throw new Error('Gemini 응답이 비어있습니다');
+      return text;
     } catch(e){
       if(attempt===retries) throw e;
       await new Promise(r=>setTimeout(r, attempt*5000));
