@@ -941,13 +941,12 @@ function connectApi(silent=false){
   if(!silent)showToast('✓ DeepSeek API 연결 완료 — 영구 저장됨');
   updateGenBtn();
 }
-
 loadFromStorage();
-  // API 키 자동저장 이벤트
-  const apiInput=document.getElementById('api-key');
-  if(apiInput){
-    apiInput.addEventListener('blur',()=>{if(apiInput.value.trim())connectApi(true);});
-    apiInput.addEventListener('keydown',(e)=>{if(e.key==='Enter')connectApi(false);});
+  // API 키 자동저장
+  const ak=document.getElementById('api-key');
+  if(ak){
+    ak.addEventListener('blur',()=>{if(ak.value.trim())connectApi(true);});
+    ak.addEventListener('keydown',(e)=>{if(e.key==='Enter')connectApi(false);});
   }
 });
 async function callClaude(prompt, retries=3){
