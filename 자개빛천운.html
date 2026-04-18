@@ -1470,9 +1470,8 @@ async function doDownloadPDF(){
       .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
       .replace(/【(.+?)】/g,'<span style="color:'+t.ac+'">【$1】</span>')
       .replace(/
-/g,'<br>');
-
-    container.innerHTML += `
+      .replace(/\n/g,'<br>');
+container.innerHTML += `
       <div style="width:210mm;min-height:297mm;background:${t.bg};padding:18mm;
         page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-sizing:border-box">
         <div style="font-size:14px;font-weight:700;color:${t.ac};border-bottom:1px solid ${t.bd};
