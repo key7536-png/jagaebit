@@ -931,6 +931,7 @@ function updateSecBar(){
 // ╔══════════════════════════════════════════════════════╗
 // ║  API                                                  ║
 // ╚══════════════════════════════════════════════════════╝
+
 function connectApi(silent=false){
   const k=document.getElementById('api-key').value.trim();
   if(!k){showToast('API 키를 입력해 주세요');return;}
@@ -940,6 +941,19 @@ function connectApi(silent=false){
   if(!silent)showToast('✓ DeepSeek API 연결 완료 — 영구 저장됨');
   updateGenBtn();
 }
+
+// API 키 입력창에 포커스 잃을 때 자동 저장
+document.addEventListener('DOMContentLoaded',()=>{
+  const apiInput=document.getElementById('api-key');
+  if(apiInput){
+    apiInput.addEventListener('blur',()=>{
+      if(apiInput.value.trim()) connectApi(true);
+    });
+    apiInput.addEventListener('keydown',(e)=>{
+      if(e.key==='Enter') connectApi(false);
+    });
+  }
+});
 
 async function callClaude(prompt, retries=3){
   for(let attempt=1; attempt<=retries; attempt++){
