@@ -197,18 +197,18 @@ textarea{resize:vertical;min-height:60px}
     </div>
   </div>
   <div class="hd-right">
-    <div class="api-pill"><div class="dot" id="api-dot"></div><span id="api-txt">DeepSeek 미연결</span></div>
+    <div class="api-pill"><div class="dot" id="api-dot"></div><span id="api-txt">Gemini 미연결</span></div>
     <div style="font-size:10px;color:var(--tx2)" id="hd-date"></div>
   </div>
 </header>
 <div class="layout">
 <div class="sidebar">
   <div class="panel">
-    <div class="panel-hd">DeepSeek API 설정</div>
+    <div class="panel-hd">Gemini API 설정</div>
     <div class="fg">
-      <label>DeepSeek API Key</label>
+      <label>Gemini API Key</label>
       <div style="display:flex;gap:6px">
-        <input type="password" id="api-key" placeholder="sk-..." style="flex:1;font-family:monospace;font-size:11px">
+        <input type="password" id="api-key" placeholder="AIzaSy..." style="flex:1;font-family:monospace;font-size:11px">
         <button class="btn" style="background:var(--bg-input);border:.5px solid var(--bd);color:var(--tx2);padding:0 12px;border-radius:var(--r-sm);cursor:pointer" onclick="connectApi()">연결</button>
       </div>
     </div>
@@ -555,7 +555,7 @@ function connectApi(silent=false){
   if(!k){showToast('API 키를 입력해 주세요');return;}
   apiKey=k;localStorage.setItem('jgb_api',k);
   document.getElementById('api-dot').classList.add('on');
-  document.getElementById('api-txt').textContent='DeepSeek 연결됨';
+  document.getElementById('api-txt').textContent='Gemini 연결됨';
   if(!silent)showToast('✓ DeepSeek 연결 완료 — 영구 저장됨');
   updateGenBtn();
 }
@@ -563,10 +563,14 @@ function connectApi(silent=false){
 async function callClaude(prompt,retries=3){
   for(let attempt=1;attempt<=retries;attempt++){
     try{
-      const res=await fetch('https://api.deepseek.com/chat/completions',{
+      const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+      const res=await fetch(url,{
         method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
-        body:JSON.stringify({model:'deepseek-chat',messages:[{role:'user',content:prompt}],max_tokens:8000,temperature:0.85,stream:false})
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          contents:[{parts:[{text:prompt}]}],
+          generationConfig:{maxOutputTokens:8000,temperature:0.85}
+        })
       });
       const d=await res.json();
       if(!res.ok){
@@ -579,8 +583,8 @@ async function callClaude(prompt,retries=3){
         }
         throw new Error(errMsg);
       }
-      const text=d.choices?.[0]?.message?.content||'';
-      if(!text)throw new Error('응답이 비어있습니다');
+      const text=d.candidates?.[0]?.content?.parts?.[0]?.text||'';
+      if(!text)throw new Error('Gemini 응답이 비어있습니다');
       return text;
     }catch(e){
       if(attempt===retries)throw e;
