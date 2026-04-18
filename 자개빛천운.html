@@ -942,19 +942,14 @@ function connectApi(silent=false){
   updateGenBtn();
 }
 
-// API 키 입력창에 포커스 잃을 때 자동 저장
-document.addEventListener('DOMContentLoaded',()=>{
+loadFromStorage();
+  // API 키 자동저장 이벤트
   const apiInput=document.getElementById('api-key');
   if(apiInput){
-    apiInput.addEventListener('blur',()=>{
-      if(apiInput.value.trim()) connectApi(true);
-    });
-    apiInput.addEventListener('keydown',(e)=>{
-      if(e.key==='Enter') connectApi(false);
-    });
+    apiInput.addEventListener('blur',()=>{if(apiInput.value.trim())connectApi(true);});
+    apiInput.addEventListener('keydown',(e)=>{if(e.key==='Enter')connectApi(false);});
   }
 });
-
 async function callClaude(prompt, retries=3){
   for(let attempt=1; attempt<=retries; attempt++){
     try{
