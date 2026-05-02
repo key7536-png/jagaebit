@@ -16,12 +16,9 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
-header{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.5rem;
-  border-bottom:.5px solid var(--bd);background:rgba(13,10,6,.95);
-  position:sticky;top:0;z-index:200;backdrop-filter:blur(8px)}
+header{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.5rem;border-bottom:.5px solid var(--bd);background:rgba(13,10,6,.95);position:sticky;top:0;z-index:200;backdrop-filter:blur(8px)}
 .logo{display:flex;align-items:center;gap:10px}
-.logo-icon{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#C9A227,#7A5C0A);
-  display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo-icon{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#C9A227,#7A5C0A);display:flex;align-items:center;justify-content:center;font-size:18px}
 .logo-title{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:700;color:var(--gold)}
 .logo-sub{font-size:10px;color:var(--tx2);margin-top:1px}
 .hd-right{display:flex;align-items:center;gap:14px}
@@ -29,17 +26,13 @@ header{display:flex;align-items:center;justify-content:space-between;padding:.85
 .dot{width:7px;height:7px;border-radius:50%;background:#C0392B;transition:background .3s}
 .dot.on{background:#27AE60;box-shadow:0 0 5px rgba(39,174,96,.5)}
 .layout{display:grid;grid-template-columns:320px 1fr;min-height:calc(100vh - 56px)}
-.sidebar{border-right:.5px solid var(--bd);background:var(--bg-panel);
-  overflow-y:auto;height:calc(100vh - 56px);padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+.sidebar{border-right:.5px solid var(--bd);background:var(--bg-panel);overflow-y:auto;height:calc(100vh - 56px);padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
 .main{overflow-y:auto;height:calc(100vh - 56px);padding:1.25rem}
 .panel{background:var(--bg-card);border:.5px solid var(--bd);border-radius:var(--r);padding:1.1rem}
-.panel-hd{font-size:10px;font-weight:500;color:var(--tx2);letter-spacing:.1em;text-transform:uppercase;
-  margin-bottom:.9rem;display:flex;align-items:center;gap:8px}
+.panel-hd{font-size:10px;font-weight:500;color:var(--tx2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.9rem;display:flex;align-items:center;gap:8px}
 .panel-hd::before{content:'';display:block;width:14px;height:1px;background:var(--gold)}
 label{font-size:11px;color:var(--tx2);display:block;margin-bottom:4px}
-input,select,textarea{width:100%;background:var(--bg-input);border:.5px solid var(--bd);
-  border-radius:var(--r-sm);color:var(--tx);font-family:'Noto Sans KR',sans-serif;
-  font-size:12px;padding:7px 10px;outline:none;transition:border-color .2s}
+input,select,textarea{width:100%;background:var(--bg-input);border:.5px solid var(--bd);border-radius:var(--r-sm);color:var(--tx);font-family:'Noto Sans KR',sans-serif;font-size:12px;padding:7px 10px;outline:none;transition:border-color .2s}
 input:focus,select:focus,textarea:focus{border-color:var(--bd-h)}
 input::placeholder{color:var(--tx3)}
 select option{background:var(--bg-card)}
@@ -47,33 +40,23 @@ textarea{resize:vertical;min-height:60px}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .fg{margin-bottom:10px}
 .sec-group{margin-bottom:1rem}
-.sec-group-title{font-size:10px;font-weight:500;color:var(--tx2);letter-spacing:.08em;
-  margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.sec-group-title{font-size:10px;font-weight:500;color:var(--tx2);letter-spacing:.08em;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
 .sec-items{display:flex;flex-direction:column;gap:4px}
-.sec-item{display:flex;align-items:center;gap:8px;padding:6px 10px;
-  background:var(--bg-input);border:.5px solid var(--bd);border-radius:var(--r-sm);
-  cursor:pointer;transition:all .15s}
+.sec-item{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--bg-input);border:.5px solid var(--bd);border-radius:var(--r-sm);cursor:pointer;transition:all .15s}
 .sec-item:hover{border-color:var(--bd-h)}
 .sec-item.on{border-color:var(--gold);background:rgba(201,162,39,.07)}
-.sec-cb{width:14px;height:14px;border-radius:3px;border:.5px solid var(--bd);
-  background:var(--bg-input);flex-shrink:0;display:flex;align-items:center;justify-content:center;
-  font-size:9px;transition:all .15s}
+.sec-cb{width:14px;height:14px;border-radius:3px;border:.5px solid var(--bd);background:var(--bg-input);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;transition:all .15s}
 .sec-item.on .sec-cb{background:var(--gold);border-color:var(--gold);color:#0D0A06}
 .sec-label{flex:1;font-size:11px;color:var(--tx)}
 .sec-item.on .sec-label{color:var(--gold)}
 .sec-pages{font-size:10px;color:var(--tx3)}
 .sec-item.on .sec-pages{color:var(--tx2)}
 .pg-ctrl{display:flex;align-items:center;gap:8px;margin-top:5px}
-.pg-btn{width:26px;height:26px;border-radius:50%;border:.5px solid var(--bd);
-  background:var(--bg-input);color:var(--gold);font-size:15px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center}
+.pg-btn{width:26px;height:26px;border-radius:50%;border:.5px solid var(--bd);background:var(--bg-input);color:var(--gold);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .pg-btn:hover{border-color:var(--gold)}
-.pg-num{font-size:18px;font-weight:700;color:var(--gold);min-width:32px;text-align:center;
-  font-family:'Noto Serif KR',serif}
-.btn{font-family:'Noto Sans KR',sans-serif;border-radius:var(--r-sm);font-size:12px;
-  font-weight:500;cursor:pointer;transition:all .15s;border:none;padding:8px 14px}
-.btn-gold{background:linear-gradient(135deg,#C9A227,#A07A10);color:#0D0A06;width:100%;
-  padding:11px;font-size:14px;border-radius:var(--r)}
+.pg-num{font-size:18px;font-weight:700;color:var(--gold);min-width:32px;text-align:center;font-family:'Noto Serif KR',serif}
+.btn{font-family:'Noto Sans KR',sans-serif;border-radius:var(--r-sm);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;border:none;padding:8px 14px}
+.btn-gold{background:linear-gradient(135deg,#C9A227,#A07A10);color:#0D0A06;width:100%;padding:11px;font-size:14px;border-radius:var(--r)}
 .btn-gold:hover{background:linear-gradient(135deg,#F5D97A,#C9A227)}
 .btn-gold:disabled{background:var(--bg-input);color:var(--tx3);cursor:default}
 .btn-outline{background:transparent;border:.5px solid var(--bd);color:var(--tx2);width:100%;padding:8px}
@@ -83,29 +66,21 @@ textarea{resize:vertical;min-height:60px}
 .stat-v{font-size:24px;font-weight:700;color:var(--gold);font-family:'Noto Serif KR',serif}
 .stat-l{font-size:10px;color:var(--tx2);margin-top:2px}
 .tabs{display:flex;gap:4px;margin-bottom:1rem;flex-wrap:wrap}
-.tab{font-size:11px;padding:5px 13px;border-radius:16px;border:.5px solid var(--bd);
-  color:var(--tx2);cursor:pointer;background:var(--bg-input);transition:all .15s}
+.tab{font-size:11px;padding:5px 13px;border-radius:16px;border:.5px solid var(--bd);color:var(--tx2);cursor:pointer;background:var(--bg-input);transition:all .15s}
 .tab:hover{border-color:var(--bd-h);color:var(--gold)}
 .tab.active{background:rgba(201,162,39,.12);border-color:var(--gold);color:var(--gold)}
 .cl{display:flex;flex-direction:column;gap:7px}
-.ci{display:flex;align-items:center;gap:9px;padding:9px 11px;
-  background:var(--bg-input);border:.5px solid var(--bd);border-radius:var(--r);
-  cursor:pointer;transition:all .15s}
+.ci{display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--bg-input);border:.5px solid var(--bd);border-radius:var(--r);cursor:pointer;transition:all .15s}
 .ci:hover,.ci.active{border-color:var(--bd-h);background:rgba(201,162,39,.04)}
-.av{width:36px;height:36px;border-radius:50%;background:rgba(201,162,39,.12);
-  border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;
-  font-size:14px;font-weight:700;color:var(--gold);flex-shrink:0}
+.av{width:36px;height:36px;border-radius:50%;background:rgba(201,162,39,.12);border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--gold);flex-shrink:0}
 .ci-info{flex:1;min-width:0}
 .ci-name{font-size:13px;font-weight:500}
 .ci-meta{font-size:10px;color:var(--tx2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ci-badge{font-size:9px;padding:2px 6px;border-radius:8px;background:rgba(201,162,39,.1);
-  border:.5px solid var(--gold-dim);color:var(--gold);flex-shrink:0}
-.del-btn{width:22px;height:22px;border-radius:50%;border:none;background:transparent;
-  color:var(--tx3);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ci-badge{font-size:9px;padding:2px 6px;border-radius:8px;background:rgba(201,162,39,.1);border:.5px solid var(--gold-dim);color:var(--gold);flex-shrink:0}
+.del-btn{width:22px;height:22px;border-radius:50%;border:none;background:transparent;color:var(--tx3);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .del-btn:hover{color:#C0392B;background:rgba(192,57,43,.1)}
 .prog-wrap{background:var(--bg-input);border-radius:6px;height:5px;overflow:hidden;margin:6px 0}
-.prog-bar{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));
-  border-radius:6px;transition:width .5s ease;width:0}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:6px;transition:width .5s ease;width:0}
 .prog-steps{display:flex;flex-direction:column;gap:4px;margin-top:.75rem;max-height:200px;overflow-y:auto}
 .prog-step{display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:.5px solid var(--bd)}
 .step-icon{font-size:14px;flex-shrink:0;width:20px;text-align:center}
@@ -117,26 +92,21 @@ textarea{resize:vertical;min-height:60px}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .result-panel{background:var(--bg-card);border:.5px solid var(--bd);border-radius:var(--r);padding:1.5rem}
 .rs{margin-bottom:2rem}
-.rs-title{font-size:15px;font-weight:700;color:var(--gold);font-family:'Noto Serif KR',serif;
-  border-bottom:.5px solid var(--bd);padding-bottom:8px;margin-bottom:1rem;display:flex;align-items:center;gap:7px}
+.rs-title{font-size:15px;font-weight:700;color:var(--gold);font-family:'Noto Serif KR',serif;border-bottom:.5px solid var(--bd);padding-bottom:8px;margin-bottom:1rem;display:flex;align-items:center;gap:7px}
 .rs-body{font-size:12.5px;line-height:2.2;color:var(--tx)}
 .rs-body p{margin-bottom:.7rem;word-break:keep-all}
-.rs-body .sub{font-size:12px;font-weight:700;color:var(--gold);font-family:'Noto Serif KR',serif;
-  margin:.9rem 0 .3rem;padding-left:10px;border-left:2px solid var(--gold)}
+.rs-body .sub{font-size:12px;font-weight:700;color:var(--gold);font-family:'Noto Serif KR',serif;margin:.9rem 0 .3rem;padding-left:10px;border-left:2px solid var(--gold)}
 .rs-body .hl{color:var(--gold-light);font-weight:600}
 .rs-body .bracket{color:var(--gold);font-weight:600}
 .divider{border:none;border-top:.5px solid var(--bd);margin:1.5rem 0}
-.dl-btn{font-size:11px;padding:5px 12px;border-radius:14px;border:.5px solid var(--gold-dim);
-  background:rgba(201,162,39,.1);color:var(--gold);cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s}
+.dl-btn{font-size:11px;padding:5px 12px;border-radius:14px;border:.5px solid var(--gold-dim);background:rgba(201,162,39,.1);color:var(--gold);cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s}
 .dl-btn:hover{background:rgba(201,162,39,.2)}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;
-  display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
 .modal-overlay.show{opacity:1;pointer-events:all}
 .modal-box{background:var(--bg-card);border:.5px solid var(--bd);border-radius:var(--r);padding:1.5rem;width:320px;max-width:90vw}
 .modal-title{font-size:15px;font-weight:700;color:var(--gold);font-family:'Noto Serif KR',serif;margin-bottom:1rem;text-align:center}
 .share-btns{display:flex;flex-direction:column;gap:8px}
-.share-btn{width:100%;padding:11px;border-radius:var(--r-sm);border:none;font-size:13px;font-weight:500;cursor:pointer;
-  font-family:'Noto Sans KR',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
+.share-btn{width:100%;padding:11px;border-radius:var(--r-sm);border:none;font-size:13px;font-weight:500;cursor:pointer;font-family:'Noto Sans KR',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
 .share-btn.pdf{background:linear-gradient(135deg,#C9A227,#A07A10);color:#0D0A06}
 .share-btn.pdf:hover{opacity:.85}
 .share-btn.kakao{background:#FEE500;color:#191919}
@@ -145,8 +115,7 @@ textarea{resize:vertical;min-height:60px}
 .share-btn.email:hover{border-color:var(--bd-h)}
 .share-btn.copy{background:var(--bg-input);border:.5px solid var(--bd);color:var(--tx2)}
 .share-btn.copy:hover{border-color:var(--bd-h)}
-.modal-close{width:100%;padding:8px;margin-top:8px;border-radius:var(--r-sm);
-  border:.5px solid var(--bd);background:transparent;color:var(--tx3);font-size:12px;cursor:pointer;font-family:'Noto Sans KR',sans-serif}
+.modal-close{width:100%;padding:8px;margin-top:8px;border-radius:var(--r-sm);border:.5px solid var(--bd);background:transparent;color:var(--tx3);font-size:12px;cursor:pointer;font-family:'Noto Sans KR',sans-serif}
 .pdf-progress{display:none;text-align:center;padding:.75rem 0}
 .pdf-prog-bar{height:4px;background:var(--bg-input);border-radius:2px;margin:.5rem 0;overflow:hidden}
 .pdf-prog-fill{height:100%;background:var(--gold);border-radius:2px;width:0;transition:width .3s}
@@ -157,61 +126,40 @@ textarea{resize:vertical;min-height:60px}
 .p-kr{font-size:10px;color:var(--tx2);margin-top:3px}
 .p-elem{font-size:9px;margin-top:3px;padding:1px 5px;border-radius:4px;display:inline-block}
 .tarot-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:3px;margin:.6rem 0}
-.tc{flex-shrink:0;width:56px;padding:7px 4px;background:var(--bg-input);
-  border:.5px solid var(--bd);border-radius:var(--r-sm);text-align:center;transition:all .15s}
+.tc{flex-shrink:0;width:56px;padding:7px 4px;background:var(--bg-input);border:.5px solid var(--bd);border-radius:var(--r-sm);text-align:center;transition:all .15s}
 .tc.key{border-color:var(--gold);background:rgba(201,162,39,.07)}
 .tc-s{font-size:18px;margin-bottom:3px}
 .tc-n{font-size:8px;color:var(--tx2);line-height:1.3}
 .tc-p{font-size:8px;color:var(--tx3);margin-top:2px}
 .daeun-row{display:flex;gap:5px;overflow-x:auto;padding-bottom:3px;margin:.5rem 0}
-.du{flex-shrink:0;text-align:center;padding:5px 7px;background:var(--bg-input);
-  border:.5px solid var(--bd);border-radius:var(--r-sm);min-width:42px}
+.du{flex-shrink:0;text-align:center;padding:5px 7px;background:var(--bg-input);border:.5px solid var(--bd);border-radius:var(--r-sm);min-width:42px}
 .du-age{font-size:9px;color:var(--tx3)}
 .du-h{font-size:14px;color:var(--gold);font-family:'Noto Serif KR',serif}
 .du-kr{font-size:8px;color:var(--tx2)}
 .empty{text-align:center;padding:2.5rem 1rem;color:var(--tx3);font-size:12px}
 .empty-icon{font-size:34px;margin-bottom:.6rem;opacity:.35}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(16px);
-  background:var(--bg-card);border:.5px solid var(--gold);color:var(--gold);
-  padding:9px 18px;border-radius:20px;font-size:12px;opacity:0;transition:all .3s;z-index:9999;pointer-events:none}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--bg-card);border:.5px solid var(--gold);color:var(--gold);padding:9px 18px;border-radius:20px;font-size:12px;opacity:0;transition:all .3s;z-index:9999;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .rl{display:flex;flex-direction:column;gap:7px}
-.ri{display:flex;align-items:center;gap:9px;padding:9px 12px;
-  background:var(--bg-input);border:.5px solid var(--bd);border-radius:var(--r)}
+.ri{display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--bg-input);border:.5px solid var(--bd);border-radius:var(--r)}
 .ri-info{flex:1}
 .ri-name{font-size:12px;font-weight:500}
 .ri-meta{font-size:10px;color:var(--tx2);margin-top:2px}
-.sec-bar{background:rgba(201,162,39,.06);border:.5px solid var(--bd);border-radius:var(--r-sm);
-  padding:.7rem;margin-bottom:.75rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sec-bar{background:rgba(201,162,39,.06);border:.5px solid var(--bd);border-radius:var(--r-sm);padding:.7rem;margin-bottom:.75rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .sec-bar-num{font-size:18px;font-weight:700;color:var(--gold);font-family:'Noto Serif KR',serif}
 .sec-bar-lbl{font-size:10px;color:var(--tx2)}
 </style>
 </head>
 <body>
 <header>
-  <div class="logo">
-    <div class="logo-icon">🔮</div>
-    <div>
-      <div class="logo-title">자개빛 · 천운</div>
-      <div class="logo-sub">사주·타로 100페이지 AI 리포트 시스템 v2.0</div>
-    </div>
-  </div>
-  <div class="hd-right">
-    <div class="api-pill"><div class="dot" id="api-dot"></div><span id="api-txt">Gemini 미연결</span></div>
-    <div style="font-size:10px;color:var(--tx2)" id="hd-date"></div>
-  </div>
+  <div class="logo"><div class="logo-icon">🔮</div><div><div class="logo-title">자개빛 · 천운</div><div class="logo-sub">사주·타로 100페이지 AI 리포트 시스템 v2.0</div></div></div>
+  <div class="hd-right"><div class="api-pill"><div class="dot" id="api-dot"></div><span id="api-txt">Gemini 미연결</span></div><div style="font-size:10px;color:var(--tx2)" id="hd-date"></div></div>
 </header>
 <div class="layout">
 <div class="sidebar">
   <div class="panel">
     <div class="panel-hd">Gemini API 설정</div>
-    <div class="fg">
-      <label>Gemini API Key</label>
-      <div style="display:flex;gap:6px">
-        <input type="password" id="api-key" placeholder="AIzaSy..." style="flex:1;font-family:monospace;font-size:11px">
-        <button class="btn" style="background:var(--bg-input);border:.5px solid var(--bd);color:var(--tx2);padding:0 12px;border-radius:var(--r-sm);cursor:pointer" onclick="connectApi()">연결</button>
-      </div>
-    </div>
+    <div class="fg"><label>Gemini API Key</label><div style="display:flex;gap:6px"><input type="password" id="api-key" placeholder="AIzaSy..." style="flex:1;font-family:monospace;font-size:11px"><button class="btn" style="background:var(--bg-input);border:.5px solid var(--bd);color:var(--tx2);padding:0 12px;border-radius:var(--r-sm);cursor:pointer" onclick="connectApi()">연결</button></div></div>
     <div style="font-size:10px;color:var(--tx3)">키는 브라우저에 영구 저장됩니다.</div>
   </div>
   <div class="panel">
@@ -219,122 +167,37 @@ textarea{resize:vertical;min-height:60px}
     <div class="fg"><label>이름</label><input id="c-name" type="text" placeholder="홍길동"></div>
     <div class="frow fg">
       <div><label>생년월일</label><input id="c-date" type="date"></div>
-      <div><label>출생 시간</label>
-        <select id="c-time">
-          <option value="">모름</option>
-          <option value="23">자시 23~01시</option><option value="1">축시 01~03시</option>
-          <option value="3">인시 03~05시</option><option value="5">묘시 05~07시</option>
-          <option value="7">진시 07~09시</option><option value="9">사시 09~11시</option>
-          <option value="11">오시 11~13시</option><option value="13">미시 13~15시</option>
-          <option value="15">신시 15~17시</option><option value="17">유시 17~19시</option>
-          <option value="19">술시 19~21시</option><option value="21">해시 21~23시</option>
-        </select>
-      </div>
+      <div><label>출생 시간</label><select id="c-time"><option value="">모름</option><option value="23">자시 23~01시</option><option value="1">축시 01~03시</option><option value="3">인시 03~05시</option><option value="5">묘시 05~07시</option><option value="7">진시 07~09시</option><option value="9">사시 09~11시</option><option value="11">오시 11~13시</option><option value="13">미시 13~15시</option><option value="15">신시 15~17시</option><option value="17">유시 17~19시</option><option value="19">술시 19~21시</option><option value="21">해시 21~23시</option></select></div>
     </div>
     <div class="frow fg">
-      <div><label>성별</label>
-        <select id="c-gender"><option value="여">여성</option><option value="남">남성</option></select>
-      </div>
-      <div><label>양력/음력</label>
-        <select id="c-cal"><option value="양">양력</option><option value="음">음력</option></select>
-      </div>
+      <div><label>성별</label><select id="c-gender"><option value="여">여성</option><option value="남">남성</option></select></div>
+      <div><label>양력/음력</label><select id="c-cal"><option value="양">양력</option><option value="음">음력</option></select></div>
     </div>
-    <div class="fg"><label>상담 요청 사항</label>
-      <textarea id="c-concern" placeholder="예) 전 남자친구와 재회 가능한지, 이직 시기..."></textarea>
-    </div>
+    <div class="fg"><label>상담 요청 사항</label><textarea id="c-concern" placeholder="예) 전 남자친구와 재회 가능한지, 이직 시기..."></textarea></div>
     <div class="fg">
       <label style="margin-bottom:8px;display:block">섹션 선택 (멀티 API 호출)</label>
-      <div class="sec-bar" id="sec-bar">
-        <div><div class="sec-bar-num" id="sb-pages">0</div><div class="sec-bar-lbl">예상 페이지</div></div>
-        <div style="width:.5px;height:28px;background:var(--bd)"></div>
-        <div><div class="sec-bar-num" id="sb-secs">0</div><div class="sec-bar-lbl">섹션 수</div></div>
-        <div style="width:.5px;height:28px;background:var(--bd)"></div>
-        <div><div class="sec-bar-num" id="sb-apis">0</div><div class="sec-bar-lbl">API 호출</div></div>
-      </div>
+      <div class="sec-bar" id="sec-bar"><div><div class="sec-bar-num" id="sb-pages">0</div><div class="sec-bar-lbl">예상 페이지</div></div><div style="width:.5px;height:28px;background:var(--bd)"></div><div><div class="sec-bar-num" id="sb-secs">0</div><div class="sec-bar-lbl">섹션 수</div></div><div style="width:.5px;height:28px;background:var(--bd)"></div><div><div class="sec-bar-num" id="sb-apis">0</div><div class="sec-bar-lbl">API 호출</div></div></div>
       <div id="section-picker"></div>
     </div>
-    <div class="fg">
-      <label>PDF 페이지 수</label>
-      <div class="pg-ctrl" style="margin-top:5px">
-        <button class="pg-btn" onclick="chgPage(-10)">−</button>
-        <span class="pg-num" id="pg-disp">30</span>
-        <button class="pg-btn" onclick="chgPage(10)">+</button>
-        <span style="font-size:10px;color:var(--tx3)">페이지 (10단위)</span>
-      </div>
-      <input type="range" min="10" max="100" step="10" value="30" id="pg-slider" oninput="syncPage(this.value)" style="margin-top:6px">
-    </div>
-    <div class="fg">
-      <label>템플릿</label>
-      <select id="c-tmpl">
-        <option value="gold">✦ 금박 테두리 (프리미엄)</option>
-        <option value="oriental">☯ 동양풍 (전통 먹)</option>
-        <option value="modern">◼ 모던 다크</option>
-        <option value="minimal">○ 미니멀</option>
-      </select>
-    </div>
+    <div class="fg"><label>PDF 페이지 수</label><div class="pg-ctrl" style="margin-top:5px"><button class="pg-btn" onclick="chgPage(-10)">−</button><span class="pg-num" id="pg-disp">30</span><button class="pg-btn" onclick="chgPage(10)">+</button><span style="font-size:10px;color:var(--tx3)">페이지 (10단위)</span></div><input type="range" min="10" max="100" step="10" value="30" id="pg-slider" oninput="syncPage(this.value)" style="margin-top:6px"></div>
+    <div class="fg"><label>템플릿</label><select id="c-tmpl"><option value="gold">✦ 금박 테두리 (프리미엄)</option><option value="oriental">☯ 동양풍 (전통 먹)</option><option value="modern">◼ 모던 다크</option><option value="minimal">○ 미니멀</option></select></div>
     <button class="btn-outline" style="margin-bottom:8px" onclick="addCustomer()">+ 고객 추가</button>
     <button class="btn-gold" id="gen-btn" onclick="startGeneration()" disabled>🔮 AI 리포트 생성 시작</button>
-    <button id="stop-btn" onclick="stopGeneration()"
-      style="display:none;margin-top:8px;width:100%;padding:10px;border-radius:var(--r);
-             border:1.5px solid #C0392B;background:rgba(192,57,43,0.1);color:#E74C3C;
-             font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s">
-      ⏹ 생성 중단
-    </button>
+    <button id="stop-btn" onclick="stopGeneration()" style="display:none;margin-top:8px;width:100%;padding:10px;border-radius:var(--r);border:1.5px solid #C0392B;background:rgba(192,57,43,0.1);color:#E74C3C;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s">⏹ 생성 중단</button>
   </div>
 </div>
 <div class="main">
-  <div class="stats">
-    <div class="stat"><div class="stat-v" id="st-c">0</div><div class="stat-l">등록 고객</div></div>
-    <div class="stat"><div class="stat-v" id="st-r">0</div><div class="stat-l">생성 리포트</div></div>
-    <div class="stat"><div class="stat-v" id="st-p">30</div><div class="stat-l">페이지/권</div></div>
-    <div class="stat"><div class="stat-v" id="st-t">0</div><div class="stat-l">오늘 생성</div></div>
-  </div>
-  <div class="tabs">
-    <div class="tab active" onclick="switchTab(this,'customers')">👥 고객 관리</div>
-    <div class="tab" onclick="switchTab(this,'reports')">📋 생성 리포트</div>
-    <div class="tab" onclick="switchTab(this,'preview')">🔍 미리보기</div>
-  </div>
-  <div id="tab-customers">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <div style="font-size:11px;color:var(--tx2)" id="cust-count-label">고객 0명 저장됨</div>
-      <button onclick="clearStorage()"
-        style="font-size:10px;padding:3px 10px;border-radius:10px;border:.5px solid rgba(192,57,43,0.4);
-               background:rgba(192,57,43,0.08);color:#E74C3C;cursor:pointer;font-family:'Noto Sans KR',sans-serif">
-        🗑 전체 삭제
-      </button>
-    </div>
-    <div class="cl" id="cust-list">
-      <div class="empty"><div class="empty-icon">🌙</div>등록된 고객이 없습니다</div>
-    </div>
-  </div>
-  <div id="tab-reports" style="display:none">
-    <div class="rl" id="report-list">
-      <div class="empty"><div class="empty-icon">📜</div>생성된 리포트가 없습니다</div>
-    </div>
-  </div>
-  <div id="tab-preview" style="display:none">
-    <div id="progress-area" style="display:none">
-      <div class="panel" style="margin-bottom:1rem">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-          <span style="font-size:13px;font-weight:500" id="prog-main">분석 시작 중...</span>
-          <span style="font-size:12px;color:var(--gold)" id="prog-pct">0%</span>
-        </div>
-        <div class="prog-wrap"><div class="prog-bar" id="prog-bar"></div></div>
-        <div class="prog-steps" id="prog-steps"></div>
-      </div>
-    </div>
-    <div id="saju-preview-area"></div>
-    <div id="result-area"></div>
-  </div>
+  <div class="stats"><div class="stat"><div class="stat-v" id="st-c">0</div><div class="stat-l">등록 고객</div></div><div class="stat"><div class="stat-v" id="st-r">0</div><div class="stat-l">생성 리포트</div></div><div class="stat"><div class="stat-v" id="st-p">30</div><div class="stat-l">페이지/권</div></div><div class="stat"><div class="stat-v" id="st-t">0</div><div class="stat-l">오늘 생성</div></div></div>
+  <div class="tabs"><div class="tab active" onclick="switchTab(this,'customers')">👥 고객 관리</div><div class="tab" onclick="switchTab(this,'reports')">📋 생성 리포트</div><div class="tab" onclick="switchTab(this,'preview')">🔍 미리보기</div></div>
+  <div id="tab-customers"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div style="font-size:11px;color:var(--tx2)" id="cust-count-label">고객 0명 저장됨</div><button onclick="clearStorage()" style="font-size:10px;padding:3px 10px;border-radius:10px;border:.5px solid rgba(192,57,43,0.4);background:rgba(192,57,43,0.08);color:#E74C3C;cursor:pointer;font-family:'Noto Sans KR',sans-serif">🗑 전체 삭제</button></div><div class="cl" id="cust-list"><div class="empty"><div class="empty-icon">🌙</div>등록된 고객이 없습니다</div></div></div>
+  <div id="tab-reports" style="display:none"><div class="rl" id="report-list"><div class="empty"><div class="empty-icon">📜</div>생성된 리포트가 없습니다</div></div></div>
+  <div id="tab-preview" style="display:none"><div id="progress-area" style="display:none"><div class="panel" style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:13px;font-weight:500" id="prog-main">분석 시작 중...</span><span style="font-size:12px;color:var(--gold)" id="prog-pct">0%</span></div><div class="prog-wrap"><div class="prog-bar" id="prog-bar"></div></div><div class="prog-steps" id="prog-steps"></div></div></div><div id="saju-preview-area"></div><div id="result-area"></div></div>
 </div>
 </div>
 <div class="modal-overlay" id="share-modal">
   <div class="modal-box">
     <div class="modal-title">📤 리포트 저장 · 공유</div>
-    <div id="pdf-progress" class="pdf-progress">
-      <div style="font-size:12px;color:var(--tx2)" id="pdf-prog-txt">PDF 생성 중...</div>
-      <div class="pdf-prog-bar"><div class="pdf-prog-fill" id="pdf-prog-fill"></div></div>
-    </div>
+    <div id="pdf-progress" class="pdf-progress"><div style="font-size:12px;color:var(--tx2)" id="pdf-prog-txt">PDF 생성 중...</div><div class="pdf-prog-bar"><div class="pdf-prog-fill" id="pdf-prog-fill"></div></div></div>
     <div class="share-btns" id="share-btns">
       <button class="share-btn pdf" onclick="doDownloadPDF()">⬇ PDF 파일 다운로드</button>
       <button class="share-btn kakao" onclick="doKakaoShare()">💬 카카오톡으로 공유</button>
@@ -367,48 +230,27 @@ const TAROT=[
   {n:'바보',s:'🃏',m:'새시작·자유·모험'},{n:'교황',s:'✝️',m:'전통·교육·정신성'},
 ];
 const ALL_SECTIONS=[
-  {id:'s01',group:'🏛 사주 기본 분석',name:'사주팔자 기본 구조',pages:4,icon:'⊕',
-   prompt:(c,saju)=>`${c.name}님(${c.cal}력 ${c.date}, ${c.gender}성) 사주팔자를 분석해주세요.\n사주: ${fmtSaju(saju)}\n다음을 4페이지 분량(각 항목 최소 500자)으로:\n1. 연주·월주·일주·시주 각각의 의미\n2. 천간과 지지의 상호작용\n3. 음양 구조 분석\n4. 60갑자 일주 심층 해석 (${saju[2].hk}${saju[2].ek}일주)\n5. 본질적 기질\n한국어, 존댓말로.`},
-  {id:'s02',group:'🏛 사주 기본 분석',name:'오행 균형 · 용신 분석',pages:5,icon:'🌿',
-   prompt:(c,saju)=>`${c.name}님 사주 오행과 용신 분석.\n사주: ${fmtSaju(saju)}\n5페이지 분량:\n1. 오행 강약 분포\n2. 용신 선정 이유\n3. 희신·기신·한신·구신\n4. 길한 색상·방향·숫자·직업\n5. 생활 실천법\n한국어, 존댓말로.`},
-  {id:'s03',group:'🏛 사주 기본 분석',name:'일주론 · 성격 기질',pages:4,icon:'🪞',
-   prompt:(c,saju)=>`${c.name}님 일주(${saju[2].h}${saju[2].e}) 성격 분석.\n사주: ${fmtSaju(saju)}\n4페이지:\n1. 핵심 성격 10가지\n2. 재능과 약점\n3. 대인관계 패턴\n4. 스트레스 힐링법\n5. 인생 교훈\n한국어, 존댓말로.`},
-  {id:'s04',group:'🏛 사주 기본 분석',name:'대운 · 세운 흐름',pages:5,icon:'🌊',
-   prompt:(c,saju,daeun)=>`${c.name}님 대운·세운 분석.\n사주: ${fmtSaju(saju)}\n대운: ${daeun.slice(0,6).map(d=>`${d.age}세 ${d.h}${d.e}`).join(' → ')}\n5페이지:\n1. 현재 대운\n2. 2026년 세운\n3. 2027~2030년\n4. 인생 대운 흐름\n5. 행동 지침\n한국어, 존댓말로.`},
-  {id:'s05',group:'💕 연애·관계 분석',name:'연애 스타일 · 이상형',pages:5,icon:'💌',
-   prompt:(c,saju,_,tarot)=>`${c.name}님 연애 스타일·이상형 분석.\n사주: ${fmtSaju(saju)}\n타로: ${tarot[1]?.card.n}\n5페이지:\n1. 연애 스타일\n2. 이상형 특성\n3. 행복할 때 vs 힘들 때\n4. 반복 실수 패턴\n5. 파트너 만들기 준비\n${c.concern?'6. '+c.concern:''}\n한국어, 존댓말로.`},
-  {id:'s06',group:'💕 연애·관계 분석',name:'현재 연애운 · 결혼 시기',pages:6,icon:'💍',
-   prompt:(c,saju,_,tarot)=>`${c.name}님 연애운·결혼 시기.\n사주: ${fmtSaju(saju)}\n타로: ${tarot[4]?.card.n}\n6페이지:\n1. 현재 연애 에너지\n2. 2026년 월별 연애운\n3. 결혼 적기\n4. 배우자 사주 특성\n5. 구체적 행동 3가지\n6. 타로 메시지\n${c.concern?'7. '+c.concern:''}\n한국어, 존댓말로.`},
-  {id:'s07',group:'💕 연애·관계 분석',name:'재회 · 이별운 심층',pages:6,icon:'💫',
-   prompt:(c,saju,_,tarot)=>`${c.name}님 재회·이별 분석.\n사주: ${fmtSaju(saju)}\n타로: ${tarot[3]?.card.n}, ${tarot[4]?.card.n}\n6페이지:\n1. 인연의 끝과 시작\n2. 재회 가능성\n3. 재회 가능 시기\n4. 감정 치유 과정\n5. 절대 하면 안 되는 행동\n6. 카르마적 의미\n${c.concern?'7. '+c.concern:''}\n한국어, 존댓말, 따뜻한 어조로.`},
-  {id:'s08',group:'💕 연애·관계 분석',name:'상대방 속마음 분석',pages:5,icon:'🔮',
-   prompt:(c,saju,_,tarot)=>`${c.name}님 상대방 속마음 분석.\n타로: ${tarot[5]?.card.n}(${tarot[5]?.card.m})\n${c.concern?'상담: '+c.concern:''}\n5페이지:\n1. 속마음 카드 해석\n2. 상대 감정 실체\n3. 표현 못하는 이유\n4. 상대가 보는 나\n5. 연락·접근 타이밍\n한국어, 존댓말로.`},
-  {id:'s09',group:'💕 연애·관계 분석',name:'전 연인 에너지 분석',pages:6,icon:'🌹',
-   prompt:(c,saju,_,tarot)=>`${c.name}님 전 연인 에너지 분석.\n사주: ${fmtSaju(saju)}\n${c.concern?'상담: '+c.concern:''}\n6페이지:\n1. 과거 관계 에너지\n2. 카르마 교훈\n3. 아직 생각하는 이유\n4. 인연 정리법\n5. 새 사랑 방해 요소\n6. 에너지 정화\n한국어, 존댓말로.`},
-  {id:'s10',group:'💰 재물·직업 분석',name:'재물복 · 금전운',pages:5,icon:'💴',
-   prompt:(c,saju,_,tarot)=>`${c.name}님 재물복·금전운.\n사주: ${fmtSaju(saju)}\n타로: ${tarot[6]?.card.n}\n5페이지:\n1. 재성 분석\n2. 2026년 월별 금전운\n3. 재물 모으는 법\n4. 금전 실수 함정\n5. 평생 재물운\n한국어, 존댓말로.`},
-  {id:'s11',group:'💰 재물·직업 분석',name:'직업 적성 · 진로',pages:5,icon:'🏢',
-   prompt:(c,saju)=>`${c.name}님 직업 적성·진로.\n사주: ${fmtSaju(saju)}\n5페이지:\n1. 타고난 직업 적성\n2. 잘 맞는 직업군 TOP5\n3. 맞지 않는 직업\n4. 2026년 직장운\n5. 이직·창업 시기\n한국어, 존댓말로.`},
-  {id:'s12',group:'💰 재물·직업 분석',name:'투자 · 부동산운',pages:6,icon:'📈',
-   prompt:(c,saju)=>`${c.name}님 투자·부동산운.\n사주: ${fmtSaju(saju)}\n6페이지:\n1. 투자 성향\n2. 주식·코인 적합도\n3. 내 집 마련 시기\n4. 2026~2027년 투자운\n5. 재테크 실수\n6. 최적 재테크 전략\n한국어, 존댓말로.`},
-  {id:'s13',group:'💰 재물·직업 분석',name:'사업운 · 동업 궁합',pages:6,icon:'🤝',
-   prompt:(c,saju)=>`${c.name}님 사업운·동업 궁합.\n사주: ${fmtSaju(saju)}\n6페이지:\n1. 사업가 적성\n2. 창업 시기·업종\n3. 좋은 동업자 vs 피할 유형\n4. 성공 전략 3가지\n5. 함정\n6. 2026년 사업운\n한국어, 존댓말로.`},
-  {id:'s14',group:'📅 연간 운세',name:'2026년 12개월 월별 운세',pages:10,icon:'📅',
-   prompt:(c,saju,_,tarot)=>`${c.name}님 2026년 병오년 월별 운세.\n사주: ${fmtSaju(saju)}\n타로: ${tarot[4]?.card.n}\n1월~12월 각 월마다: 핵심 키워드, 연애운, 재물운, 건강, 길일·행운색, 조언.\n총 10페이지. 한국어, 존댓말로.`},
-  {id:'s15',group:'📅 연간 운세',name:'2027~2030년 연간 전망',pages:8,icon:'🔭',
-   prompt:(c,saju,daeun)=>`${c.name}님 2027~2030년 운세.\n사주: ${fmtSaju(saju)}\n대운: ${daeun.slice(0,4).map(d=>`${d.age}세 ${d.h}${d.e}`).join(' → ')}\n각 연도: 핵심테마, 연애, 재물, 건강, 예측, 전략. 8페이지. 한국어, 존댓말로.`},
-  {id:'s16',group:'🃏 타로 심층',name:'켈틱 크로스 심층 해석',pages:6,icon:'🃏',
-   prompt:(c,_,__,tarot)=>`${c.name}님 타로 켈틱 크로스.\n${tarot.map(t=>`${t.pos}: ${t.card.n}(${t.card.m})`).join('\n')}\n${c.concern?'주제: '+c.concern:''}\n6페이지:\n1. 10장 심층 의미\n2. 이야기 흐름\n3. 기회\n4. 함정\n5. 종합 메시지\n6. 3개월 에너지\n한국어, 존댓말로.`},
-  {id:'s17',group:'🃏 타로 심층',name:'연애 전용 타로 7카드',pages:6,icon:'💎',
-   prompt:(c,_,__,tarot)=>`${c.name}님 연애 타로 7카드.\n${c.concern?'상담: '+c.concern:''}\n1.나의마음:${tarot[0]?.card.n} 2.상대마음:${tarot[1]?.card.n} 3.현재상태:${tarot[2]?.card.n} 4.장애물:${tarot[3]?.card.n} 5.미래:${tarot[4]?.card.n} 6.해야할것:${tarot[5]?.card.n} 7.결말:${tarot[6]?.card.n}\n6페이지. 한국어, 존댓말로.`},
-  {id:'s18',group:'🃏 타로 심층',name:'사업·재물 타로 5카드',pages:6,icon:'🎴',
-   prompt:(c,_,__,tarot)=>`${c.name}님 사업·재물 타로 5카드.\n1.재물에너지:${tarot[0]?.card.n} 2.기회:${tarot[1]?.card.n} 3.장애물:${tarot[2]?.card.n} 4.가능성:${tarot[3]?.card.n} 5.전략:${tarot[4]?.card.n}\n6페이지. 한국어, 존댓말로.`},
-  {id:'s19',group:'🌿 건강·풍수·기타',name:'건강운 · 주의 질환',pages:5,icon:'🏥',
-   prompt:(c,saju)=>`${c.name}님 건강운 분석.\n사주: ${fmtSaju(saju)}\n5페이지:\n1. 취약 장기\n2. 2026년 주의 시기\n3. 주의 질환 TOP3\n4. 운동·식단\n5. 정신건강\n6. 생활습관\n한국어, 존댓말로. (동양철학 관점)`},
-  {id:'s20',group:'🌿 건강·풍수·기타',name:'풍수 · 이사 방향',pages:5,icon:'🏠',
-   prompt:(c,saju)=>`${c.name}님 풍수·이사 방향.\n사주: ${fmtSaju(saju)}\n5페이지:\n1. 길한 방향\n2. 이사 시기\n3. 인테리어 풍수\n4. 행운 색상·숫자\n5. 직장 풍수\n6. 피할 방향\n한국어, 존댓말로.`},
-  {id:'s21',group:'🌿 건강·풍수·기타',name:'전생 · 카르마 분석',pages:6,icon:'✨',
-   prompt:(c,saju,_,tarot)=>`${c.name}님 전생·카르마.\n사주: ${fmtSaju(saju)}\n타로: ${tarot[2]?.card.n}\n6페이지:\n1. 전생 업·기질\n2. 해결할 카르마\n3. 반복 패턴\n4. 이번 생 사명\n5. 카르마 해소법\n6. 전생 인연\n한국어, 존댓말로.`},
+  {id:'s01',group:'🏛 사주 기본 분석',name:'사주팔자 기본 구조',pages:4,icon:'⊕',prompt:(c,saju)=>`${c.name}님(${c.cal}력 ${c.date}, ${c.gender}성) 사주팔자를 분석해주세요.\n사주: ${fmtSaju(saju)}\n다음을 4페이지 분량(각 항목 최소 500자)으로:\n1. 연주·월주·일주·시주 각각의 의미\n2. 천간과 지지의 상호작용\n3. 음양 구조 분석\n4. 60갑자 일주 심층 해석 (${saju[2].hk}${saju[2].ek}일주)\n5. 본질적 기질\n한국어, 존댓말로.`},
+  {id:'s02',group:'🏛 사주 기본 분석',name:'오행 균형 · 용신 분석',pages:5,icon:'🌿',prompt:(c,saju)=>`${c.name}님 사주 오행과 용신 분석.\n사주: ${fmtSaju(saju)}\n5페이지 분량:\n1. 오행 강약 분포\n2. 용신 선정 이유\n3. 희신·기신·한신·구신\n4. 길한 색상·방향·숫자·직업\n5. 생활 실천법\n한국어, 존댓말로.`},
+  {id:'s03',group:'🏛 사주 기본 분석',name:'일주론 · 성격 기질',pages:4,icon:'🪞',prompt:(c,saju)=>`${c.name}님 일주(${saju[2].h}${saju[2].e}) 성격 분석.\n사주: ${fmtSaju(saju)}\n4페이지:\n1. 핵심 성격 10가지\n2. 재능과 약점\n3. 대인관계 패턴\n4. 스트레스 힐링법\n5. 인생 교훈\n한국어, 존댓말로.`},
+  {id:'s04',group:'🏛 사주 기본 분석',name:'대운 · 세운 흐름',pages:5,icon:'🌊',prompt:(c,saju,daeun)=>`${c.name}님 대운·세운 분석.\n사주: ${fmtSaju(saju)}\n대운: ${daeun.slice(0,6).map(d=>`${d.age}세 ${d.h}${d.e}`).join(' → ')}\n5페이지:\n1. 현재 대운\n2. 2026년 세운\n3. 2027~2030년\n4. 인생 대운 흐름\n5. 행동 지침\n한국어, 존댓말로.`},
+  {id:'s05',group:'💕 연애·관계 분석',name:'연애 스타일 · 이상형',pages:5,icon:'💌',prompt:(c,saju,_,tarot)=>`${c.name}님 연애 스타일·이상형 분석.\n사주: ${fmtSaju(saju)}\n타로: ${tarot[1]?.card.n}\n5페이지:\n1. 연애 스타일\n2. 이상형 특성\n3. 행복할 때 vs 힘들 때\n4. 반복 실수 패턴\n5. 파트너 만들기 준비\n${c.concern?'6. '+c.concern:''}\n한국어, 존댓말로.`},
+  {id:'s06',group:'💕 연애·관계 분석',name:'현재 연애운 · 결혼 시기',pages:6,icon:'💍',prompt:(c,saju,_,tarot)=>`${c.name}님 연애운·결혼 시기.\n사주: ${fmtSaju(saju)}\n타로: ${tarot[4]?.card.n}\n6페이지:\n1. 현재 연애 에너지\n2. 2026년 월별 연애운\n3. 결혼 적기\n4. 배우자 사주 특성\n5. 구체적 행동 3가지\n6. 타로 메시지\n${c.concern?'7. '+c.concern:''}\n한국어, 존댓말로.`},
+  {id:'s07',group:'💕 연애·관계 분석',name:'재회 · 이별운 심층',pages:6,icon:'💫',prompt:(c,saju,_,tarot)=>`${c.name}님 재회·이별 분석.\n사주: ${fmtSaju(saju)}\n타로: ${tarot[3]?.card.n}, ${tarot[4]?.card.n}\n6페이지:\n1. 인연의 끝과 시작\n2. 재회 가능성\n3. 재회 가능 시기\n4. 감정 치유 과정\n5. 절대 하면 안 되는 행동\n6. 카르마적 의미\n${c.concern?'7. '+c.concern:''}\n한국어, 존댓말, 따뜻한 어조로.`},
+  {id:'s08',group:'💕 연애·관계 분석',name:'상대방 속마음 분석',pages:5,icon:'🔮',prompt:(c,saju,_,tarot)=>`${c.name}님 상대방 속마음 분석.\n타로: ${tarot[5]?.card.n}(${tarot[5]?.card.m})\n${c.concern?'상담: '+c.concern:''}\n5페이지:\n1. 속마음 카드 해석\n2. 상대 감정 실체\n3. 표현 못하는 이유\n4. 상대가 보는 나\n5. 연락·접근 타이밍\n한국어, 존댓말로.`},
+  {id:'s09',group:'💕 연애·관계 분석',name:'전 연인 에너지 분석',pages:6,icon:'🌹',prompt:(c,saju,_,tarot)=>`${c.name}님 전 연인 에너지 분석.\n사주: ${fmtSaju(saju)}\n${c.concern?'상담: '+c.concern:''}\n6페이지:\n1. 과거 관계 에너지\n2. 카르마 교훈\n3. 아직 생각하는 이유\n4. 인연 정리법\n5. 새 사랑 방해 요소\n6. 에너지 정화\n한국어, 존댓말로.`},
+  {id:'s10',group:'💰 재물·직업 분석',name:'재물복 · 금전운',pages:5,icon:'💴',prompt:(c,saju,_,tarot)=>`${c.name}님 재물복·금전운.\n사주: ${fmtSaju(saju)}\n타로: ${tarot[6]?.card.n}\n5페이지:\n1. 재성 분석\n2. 2026년 월별 금전운\n3. 재물 모으는 법\n4. 금전 실수 함정\n5. 평생 재물운\n한국어, 존댓말로.`},
+  {id:'s11',group:'💰 재물·직업 분석',name:'직업 적성 · 진로',pages:5,icon:'🏢',prompt:(c,saju)=>`${c.name}님 직업 적성·진로.\n사주: ${fmtSaju(saju)}\n5페이지:\n1. 타고난 직업 적성\n2. 잘 맞는 직업군 TOP5\n3. 맞지 않는 직업\n4. 2026년 직장운\n5. 이직·창업 시기\n한국어, 존댓말로.`},
+  {id:'s12',group:'💰 재물·직업 분석',name:'투자 · 부동산운',pages:6,icon:'📈',prompt:(c,saju)=>`${c.name}님 투자·부동산운.\n사주: ${fmtSaju(saju)}\n6페이지:\n1. 투자 성향\n2. 주식·코인 적합도\n3. 내 집 마련 시기\n4. 2026~2027년 투자운\n5. 재테크 실수\n6. 최적 재테크 전략\n한국어, 존댓말로.`},
+  {id:'s13',group:'💰 재물·직업 분석',name:'사업운 · 동업 궁합',pages:6,icon:'🤝',prompt:(c,saju)=>`${c.name}님 사업운·동업 궁합.\n사주: ${fmtSaju(saju)}\n6페이지:\n1. 사업가 적성\n2. 창업 시기·업종\n3. 좋은 동업자 vs 피할 유형\n4. 성공 전략 3가지\n5. 함정\n6. 2026년 사업운\n한국어, 존댓말로.`},
+  {id:'s14',group:'📅 연간 운세',name:'2026년 12개월 월별 운세',pages:10,icon:'📅',prompt:(c,saju,_,tarot)=>`${c.name}님 2026년 병오년 월별 운세.\n사주: ${fmtSaju(saju)}\n타로: ${tarot[4]?.card.n}\n1월~12월 각 월마다: 핵심 키워드, 연애운, 재물운, 건강, 길일·행운색, 조언.\n총 10페이지. 한국어, 존댓말로.`},
+  {id:'s15',group:'📅 연간 운세',name:'2027~2030년 연간 전망',pages:8,icon:'🔭',prompt:(c,saju,daeun)=>`${c.name}님 2027~2030년 운세.\n사주: ${fmtSaju(saju)}\n대운: ${daeun.slice(0,4).map(d=>`${d.age}세 ${d.h}${d.e}`).join(' → ')}\n각 연도: 핵심테마, 연애, 재물, 건강, 예측, 전략. 8페이지. 한국어, 존댓말로.`},
+  {id:'s16',group:'🃏 타로 심층',name:'켈틱 크로스 심층 해석',pages:6,icon:'🃏',prompt:(c,_,__,tarot)=>`${c.name}님 타로 켈틱 크로스.\n${tarot.map(t=>`${t.pos}: ${t.card.n}(${t.card.m})`).join('\n')}\n${c.concern?'주제: '+c.concern:''}\n6페이지:\n1. 10장 심층 의미\n2. 이야기 흐름\n3. 기회\n4. 함정\n5. 종합 메시지\n6. 3개월 에너지\n한국어, 존댓말로.`},
+  {id:'s17',group:'🃏 타로 심층',name:'연애 전용 타로 7카드',pages:6,icon:'💎',prompt:(c,_,__,tarot)=>`${c.name}님 연애 타로 7카드.\n${c.concern?'상담: '+c.concern:''}\n1.나의마음:${tarot[0]?.card.n} 2.상대마음:${tarot[1]?.card.n} 3.현재상태:${tarot[2]?.card.n} 4.장애물:${tarot[3]?.card.n} 5.미래:${tarot[4]?.card.n} 6.해야할것:${tarot[5]?.card.n} 7.결말:${tarot[6]?.card.n}\n6페이지. 한국어, 존댓말로.`},
+  {id:'s18',group:'🃏 타로 심층',name:'사업·재물 타로 5카드',pages:6,icon:'🎴',prompt:(c,_,__,tarot)=>`${c.name}님 사업·재물 타로 5카드.\n1.재물에너지:${tarot[0]?.card.n} 2.기회:${tarot[1]?.card.n} 3.장애물:${tarot[2]?.card.n} 4.가능성:${tarot[3]?.card.n} 5.전략:${tarot[4]?.card.n}\n6페이지. 한국어, 존댓말로.`},
+  {id:'s19',group:'🌿 건강·풍수·기타',name:'건강운 · 주의 질환',pages:5,icon:'🏥',prompt:(c,saju)=>`${c.name}님 건강운 분석.\n사주: ${fmtSaju(saju)}\n5페이지:\n1. 취약 장기\n2. 2026년 주의 시기\n3. 주의 질환 TOP3\n4. 운동·식단\n5. 정신건강\n6. 생활습관\n한국어, 존댓말로. (동양철학 관점)`},
+  {id:'s20',group:'🌿 건강·풍수·기타',name:'풍수 · 이사 방향',pages:5,icon:'🏠',prompt:(c,saju)=>`${c.name}님 풍수·이사 방향.\n사주: ${fmtSaju(saju)}\n5페이지:\n1. 길한 방향\n2. 이사 시기\n3. 인테리어 풍수\n4. 행운 색상·숫자\n5. 직장 풍수\n6. 피할 방향\n한국어, 존댓말로.`},
+  {id:'s21',group:'🌿 건강·풍수·기타',name:'전생 · 카르마 분석',pages:6,icon:'✨',prompt:(c,saju,_,tarot)=>`${c.name}님 전생·카르마.\n사주: ${fmtSaju(saju)}\n타로: ${tarot[2]?.card.n}\n6페이지:\n1. 전생 업·기질\n2. 해결할 카르마\n3. 반복 패턴\n4. 이번 생 사명\n5. 카르마 해소법\n6. 전생 인연\n한국어, 존댓말로.`},
 ];
 
 let customers=[],reports=[],selectedCustomer=null;
@@ -419,16 +261,14 @@ let isGenerating=false,stopRequested=false;
 function fmtSaju(s){return s.map(p=>`${p.lbl} ${p.h}${p.e}(${p.hk}${p.ek},${p.elem||'?'})`).join(' / ');}
 
 function calcSaju(dateStr,timeStr){
-  const d=new Date(dateStr);
-  const y=d.getFullYear(),m=d.getMonth()+1;
+  const d=new Date(dateStr);const y=d.getFullYear(),m=d.getMonth()+1;
   const yHs=((y-4)%10+10)%10,yEb=((y-4)%12+12)%12;
   const mHsBase=(yHs%5)*2,mHs=(mHsBase+m-1)%10,mEb=(m+1)%12;
   const jd=Math.floor(d.getTime()/86400000)+25569;
   const dHs=((jd%10)+10)%10,dEb=((jd%12)+12)%12;
   const TM={'23':0,'1':1,'3':2,'5':3,'7':4,'9':5,'11':6,'13':7,'15':8,'17':9,'19':10,'21':11};
   const hasTime=timeStr&&TM[timeStr]!==undefined;
-  const hEb=hasTime?TM[timeStr]:null;
-  const hHs=hasTime?((dHs%5)*2+hEb)%10:null;
+  const hEb=hasTime?TM[timeStr]:null;const hHs=hasTime?((dHs%5)*2+hEb)%10:null;
   return [
     {lbl:'연주',h:HS[yHs],e:EB[yEb],hk:HS_K[yHs],ek:EB_K[yEb],elem:ELEM[yHs],zodiac:ZOD[yEb]},
     {lbl:'월주',h:HS[mHs],e:EB[mEb],hk:HS_K[mHs],ek:EB_K[mEb],elem:ELEM[mHs],zodiac:''},
@@ -441,9 +281,7 @@ function calcDaeun(saju,gender,birthYear){
   const isYang=birthYear%2===0,isMale=gender==='남';
   const forward=(isMale&&isYang)||(!isMale&&!isYang);
   return Array.from({length:8},(_,i)=>{
-    const age=(i+1)*10;
-    const hi=forward?(i+2)%10:(10-i-1+10)%10;
-    const ei=forward?(i+3)%12:(12-i-1+12)%12;
+    const age=(i+1)*10;const hi=forward?(i+2)%10:(10-i-1+10)%10;const ei=forward?(i+3)%12:(12-i-1+12)%12;
     return {age,h:HS[hi],e:EB[ei],hk:HS_K[hi],ek:EB_K[ei],elem:ELEM[hi]};
   });
 }
@@ -456,21 +294,10 @@ function getTarot(dateStr){
 
 function md2html(txt){
   if(!txt)return '';
-  return txt
-    .replace(/^####\s*(.+)$/gm,'<div class="sub">$1</div>')
-    .replace(/^###\s*[◆♦✦*]?\s*(.+)$/gm,'<div class="sub">$1</div>')
-    .replace(/^##\s*(.+)$/gm,'<div class="sub">$1</div>')
-    .replace(/\*\*(.+?)\*\*/g,'<span class="hl">$1</span>')
-    .replace(/【(.+?)】/g,'<span class="bracket">【$1】</span>')
-    .replace(/\n\n+/g,'</p><p>')
-    .replace(/^/,'<p>').replace(/$/,'</p>');
+  return txt.replace(/^####\s*(.+)$/gm,'<div class="sub">$1</div>').replace(/^###\s*[◆♦✦*]?\s*(.+)$/gm,'<div class="sub">$1</div>').replace(/^##\s*(.+)$/gm,'<div class="sub">$1</div>').replace(/\*\*(.+?)\*\*/g,'<span class="hl">$1</span>').replace(/【(.+?)】/g,'<span class="bracket">【$1】</span>').replace(/\n\n+/g,'</p><p>').replace(/^/,'<p>').replace(/$/,'</p>');
 }
 
-function showToast(m){
-  const t=document.getElementById('toast');
-  t.textContent=m;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2800);
-}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 
 document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('hd-date').textContent=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
@@ -479,6 +306,17 @@ document.addEventListener('DOMContentLoaded',()=>{
   const saved=localStorage.getItem('jgb_api');
   if(saved){document.getElementById('api-key').value=saved;connectApi(true);}
   loadFromStorage();
+
+  /* ✅ 폼 값 자동 저장·복원 */
+  ['c-name','c-date','c-time','c-gender','c-cal','c-concern'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    const sv=localStorage.getItem('jgb_form_'+id);
+    if(sv)el.value=sv;
+    el.addEventListener('change',()=>localStorage.setItem('jgb_form_'+id,el.value));
+    el.addEventListener('input',()=>localStorage.setItem('jgb_form_'+id,el.value));
+  });
+
   const ak=document.getElementById('api-key');
   if(ak){
     ak.addEventListener('blur',()=>{if(ak.value.trim())connectApi(true);});
@@ -498,15 +336,7 @@ function saveToStorage(){
 function loadFromStorage(){
   try{
     const custRaw=localStorage.getItem('jgb_customers');
-    if(custRaw){
-      customers=JSON.parse(custRaw).map(c=>{
-        const saju=calcSaju(c.date,c.time);
-        const daeun=calcDaeun(saju,c.gender,new Date(c.date).getFullYear());
-        const tarot=getTarot(c.date);
-        return {...c,saju,daeun,tarot};
-      });
-      if(customers.length)showToast(`✓ 고객 ${customers.length}명 복원됨`);
-    }
+    if(custRaw){customers=JSON.parse(custRaw).map(c=>{const saju=calcSaju(c.date,c.time);const daeun=calcDaeun(saju,c.gender,new Date(c.date).getFullYear());const tarot=getTarot(c.date);return {...c,saju,daeun,tarot};});if(customers.length)showToast(`✓ 고객 ${customers.length}명 복원됨`);}
     const repRaw=localStorage.getItem('jgb_reports_meta');
     if(repRaw)reports=JSON.parse(repRaw).map(r=>({...r,results:[]}));
     renderAll();
@@ -515,26 +345,13 @@ function loadFromStorage(){
 
 function clearStorage(){
   if(!confirm('모든 고객 데이터를 삭제하시겠습니까?'))return;
-  localStorage.removeItem('jgb_customers');
-  localStorage.removeItem('jgb_reports_meta');
-  customers=[];reports=[];selectedCustomer=null;
-  renderAll();
-  showToast('✓ 전체 삭제 완료');
+  localStorage.removeItem('jgb_customers');localStorage.removeItem('jgb_reports_meta');
+  customers=[];reports=[];selectedCustomer=null;renderAll();showToast('✓ 전체 삭제 완료');
 }
 
 function buildSectionPicker(){
-  const groups={};
-  ALL_SECTIONS.forEach(s=>{if(!groups[s.group])groups[s.group]=[];groups[s.group].push(s);});
-  document.getElementById('section-picker').innerHTML=Object.entries(groups).map(([g,secs])=>`
-    <div class="sec-group">
-      <div class="sec-group-title"><span>${g}</span><span style="font-size:9px;color:var(--tx3)">${secs.reduce((a,s)=>a+s.pages,0)}p</span></div>
-      <div class="sec-items">${secs.map(s=>`
-        <div class="sec-item ${selectedSections.has(s.id)?'on':''}" onclick="toggleSec('${s.id}',this)">
-          <div class="sec-cb">${selectedSections.has(s.id)?'✓':''}</div>
-          <span class="sec-label">${s.icon} ${s.name}</span>
-          <span class="sec-pages">~${s.pages}p</span>
-        </div>`).join('')}</div>
-    </div>`).join('');
+  const groups={};ALL_SECTIONS.forEach(s=>{if(!groups[s.group])groups[s.group]=[];groups[s.group].push(s);});
+  document.getElementById('section-picker').innerHTML=Object.entries(groups).map(([g,secs])=>`<div class="sec-group"><div class="sec-group-title"><span>${g}</span><span style="font-size:9px;color:var(--tx3)">${secs.reduce((a,s)=>a+s.pages,0)}p</span></div><div class="sec-items">${secs.map(s=>`<div class="sec-item ${selectedSections.has(s.id)?'on':''}" onclick="toggleSec('${s.id}',this)"><div class="sec-cb">${selectedSections.has(s.id)?'✓':''}</div><span class="sec-label">${s.icon} ${s.name}</span><span class="sec-pages">~${s.pages}p</span></div>`).join('')}</div></div>`).join('');
 }
 
 function toggleSec(id,el){
@@ -556,7 +373,7 @@ function connectApi(silent=false){
   apiKey=k;localStorage.setItem('jgb_api',k);
   document.getElementById('api-dot').classList.add('on');
   document.getElementById('api-txt').textContent='Gemini 연결됨';
-  if(!silent)showToast('✓ DeepSeek 연결 완료 — 영구 저장됨');
+  if(!silent)showToast('✓ Gemini 연결 완료 — 영구 저장됨');
   updateGenBtn();
 }
 
@@ -564,46 +381,22 @@ async function callClaude(prompt,retries=3){
   for(let attempt=1;attempt<=retries;attempt++){
     try{
       const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`;
-      const res=await fetch(url,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          contents:[{parts:[{text:prompt}]}],
-          generationConfig:{maxOutputTokens:8000,temperature:0.85}
-        })
-      });
+      const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:8000,temperature:0.85}})});
       const d=await res.json();
       if(!res.ok){
         const errMsg=d.error?.message||`HTTP ${res.status}`;
-        if((res.status===429||res.status===503)&&attempt<retries){
-          const wait=attempt*8000;
-          document.getElementById('prog-main').textContent=`⏳ Rate Limit — ${wait/1000}초 후 재시도...`;
-          await new Promise(r=>setTimeout(r,wait));
-          continue;
-        }
+        if((res.status===429||res.status===503)&&attempt<retries){const wait=attempt*8000;document.getElementById('prog-main').textContent=`⏳ Rate Limit — ${wait/1000}초 후 재시도...`;await new Promise(r=>setTimeout(r,wait));continue;}
         throw new Error(errMsg);
       }
       const text=d.candidates?.[0]?.content?.parts?.[0]?.text||'';
       if(!text)throw new Error('Gemini 응답이 비어있습니다');
       return text;
-    }catch(e){
-      if(attempt===retries)throw e;
-      await new Promise(r=>setTimeout(r,attempt*5000));
-    }
+    }catch(e){if(attempt===retries)throw e;await new Promise(r=>setTimeout(r,attempt*5000));}
   }
 }
 
-function chgPage(d){
-  pageCount=Math.min(100,Math.max(10,pageCount+d));
-  document.getElementById('pg-disp').textContent=pageCount;
-  document.getElementById('pg-slider').value=pageCount;
-  document.getElementById('st-p').textContent=pageCount;
-}
-function syncPage(v){
-  pageCount=parseInt(v);
-  document.getElementById('pg-disp').textContent=pageCount;
-  document.getElementById('st-p').textContent=pageCount;
-}
+function chgPage(d){pageCount=Math.min(100,Math.max(10,pageCount+d));document.getElementById('pg-disp').textContent=pageCount;document.getElementById('pg-slider').value=pageCount;document.getElementById('st-p').textContent=pageCount;}
+function syncPage(v){pageCount=parseInt(v);document.getElementById('pg-disp').textContent=pageCount;document.getElementById('st-p').textContent=pageCount;}
 
 function addCustomer(){
   const name=document.getElementById('c-name').value.trim();
@@ -614,348 +407,120 @@ function addCustomer(){
   const gender=document.getElementById('c-gender').value;
   const cal=document.getElementById('c-cal').value;
   const concern=document.getElementById('c-concern').value.trim();
-  const saju=calcSaju(date,time);
-  const daeun=calcDaeun(saju,gender,new Date(date).getFullYear());
-  const tarot=getTarot(date);
-  customers.push({id:Date.now(),name,date,time,gender,cal,concern,
-    sections:[...selectedSections],pages:pageCount,template:document.getElementById('c-tmpl').value,
-    saju,daeun,tarot,createdAt:new Date().toLocaleString('ko-KR')});
+  const saju=calcSaju(date,time);const daeun=calcDaeun(saju,gender,new Date(date).getFullYear());const tarot=getTarot(date);
+  customers.push({id:Date.now(),name,date,time,gender,cal,concern,sections:[...selectedSections],pages:pageCount,template:document.getElementById('c-tmpl').value,saju,daeun,tarot,createdAt:new Date().toLocaleString('ko-KR')});
   selectedCustomer=customers[customers.length-1];
   renderAll();saveToStorage();
-  document.getElementById('c-name').value='';
-  document.getElementById('c-concern').value='';
+  /* ✅ 폼 초기화 제거 — 입력값 유지 */
   showToast(`✓ ${name} 등록 완료`);
 }
 
 function delCustomer(id,e){
-  e.stopPropagation();
-  const c=customers.find(x=>x.id===id);
-  customers=customers.filter(x=>x.id!==id);
-  if(selectedCustomer?.id===id)selectedCustomer=null;
-  renderAll();saveToStorage();
-  if(c)showToast(`✓ ${c.name} 삭제 완료`);
+  e.stopPropagation();const c=customers.find(x=>x.id===id);customers=customers.filter(x=>x.id!==id);
+  if(selectedCustomer?.id===id)selectedCustomer=null;renderAll();saveToStorage();if(c)showToast(`✓ ${c.name} 삭제 완료`);
 }
 
-function selectCustomer(id){
-  selectedCustomer=customers.find(c=>c.id===id);
-  renderAll();showSajuPreview();
-  switchTab(document.querySelector('.tab[onclick*="preview"]'),'preview');
-}
-
+function selectCustomer(id){selectedCustomer=customers.find(c=>c.id===id);renderAll();showSajuPreview();switchTab(document.querySelector('.tab[onclick*="preview"]'),'preview');}
 function renderAll(){updateStats();renderCustomerList();renderReportList();updateGenBtn();}
 
 function renderCustomerList(){
-  const el=document.getElementById('cust-list');
-  const lbl=document.getElementById('cust-count-label');
+  const el=document.getElementById('cust-list');const lbl=document.getElementById('cust-count-label');
   if(lbl)lbl.textContent=customers.length?`고객 ${customers.length}명 저장됨`:'고객 0명 저장됨';
   if(!customers.length){el.innerHTML='<div class="empty"><div class="empty-icon">🌙</div>등록된 고객이 없습니다</div>';return;}
-  el.innerHTML=customers.map(c=>`
-    <div class="ci ${selectedCustomer?.id===c.id?'active':''}" onclick="selectCustomer(${c.id})">
-      <div class="av">${c.name[0]}</div>
-      <div class="ci-info">
-        <div class="ci-name">${c.name} <span style="font-size:10px;color:var(--tx2)">${c.gender}·${c.date}</span></div>
-        <div class="ci-meta">${c.saju[2].hk}${c.saju[2].ek}일주 · ${c.sections.length}섹션</div>
-      </div>
-      <div class="ci-badge">${c.sections.length}섹션</div>
-      <button class="del-btn" onclick="delCustomer(${c.id},event)">×</button>
-    </div>`).join('');
+  el.innerHTML=customers.map(c=>`<div class="ci ${selectedCustomer?.id===c.id?'active':''}" onclick="selectCustomer(${c.id})"><div class="av">${c.name[0]}</div><div class="ci-info"><div class="ci-name">${c.name} <span style="font-size:10px;color:var(--tx2)">${c.gender}·${c.date}</span></div><div class="ci-meta">${c.saju[2].hk}${c.saju[2].ek}일주 · ${c.sections.length}섹션</div></div><div class="ci-badge">${c.sections.length}섹션</div><button class="del-btn" onclick="delCustomer(${c.id},event)">×</button></div>`).join('');
 }
 
 function renderReportList(){
   const el=document.getElementById('report-list');
   if(!reports.length){el.innerHTML='<div class="empty"><div class="empty-icon">📜</div>생성된 리포트가 없습니다</div>';return;}
-  el.innerHTML=reports.map(r=>`
-    <div class="ri">
-      <div style="font-size:22px;flex-shrink:0">📋</div>
-      <div class="ri-info">
-        <div class="ri-name">${r.custName} 님 — ${r.sections.length}섹션</div>
-        <div class="ri-meta">${r.date} · ${r.pages}p</div>
-      </div>
-      <button class="dl-btn" onclick="openShareModalByReport(${r.id})">📤 저장·공유</button>
-    </div>`).join('');
+  el.innerHTML=reports.map(r=>`<div class="ri"><div style="font-size:22px;flex-shrink:0">📋</div><div class="ri-info"><div class="ri-name">${r.custName} 님 — ${r.sections.length}섹션</div><div class="ri-meta">${r.date} · ${r.pages}p</div></div><button class="dl-btn" onclick="openShareModalByReport(${r.id})">📤 저장·공유</button></div>`).join('');
 }
 
-function updateStats(){
-  document.getElementById('st-c').textContent=customers.length;
-  document.getElementById('st-r').textContent=reports.length;
-  document.getElementById('st-p').textContent=pageCount;
-  document.getElementById('st-t').textContent=todayCount;
-}
+function updateStats(){document.getElementById('st-c').textContent=customers.length;document.getElementById('st-r').textContent=reports.length;document.getElementById('st-p').textContent=pageCount;document.getElementById('st-t').textContent=todayCount;}
 
 function updateGenBtn(){
-  if(isGenerating)return;
-  const btn=document.getElementById('gen-btn');
-  const ok=selectedCustomer&&apiKey;
-  btn.disabled=!ok;
-  btn.textContent=selectedCustomer?`🔮 ${selectedCustomer.name} 리포트 생성 (${[...selectedSections].length}섹션)`:'🔮 AI 리포트 생성 시작';
+  if(isGenerating)return;const btn=document.getElementById('gen-btn');const ok=selectedCustomer&&apiKey;
+  btn.disabled=!ok;btn.textContent=selectedCustomer?`🔮 ${selectedCustomer.name} 리포트 생성 (${[...selectedSections].length}섹션)`:'🔮 AI 리포트 생성 시작';
 }
 
 function showSajuPreview(){
   const c=selectedCustomer;if(!c)return;
-  document.getElementById('saju-preview-area').innerHTML=`
-    <div class="panel" style="margin-bottom:1rem">
-      <div class="panel-hd">⊕ ${c.name} 님의 사주팔자</div>
-      <div style="font-size:11px;color:var(--tx2);margin-bottom:.6rem">${c.cal}력 ${c.date} · ${c.gender}성</div>
-      <div class="saju-grid">
-        ${c.saju.map(p=>`<div class="pillar">
-          <div class="p-lbl">${p.lbl}</div>
-          <div class="p-hanja">${p.h}${p.e}</div>
-          <div class="p-kr">${p.hk}${p.ek}</div>
-          ${p.elem?`<div class="p-elem" style="background:${ECOLOR[p.elem]||'#444'}22;color:${ECOLOR[p.elem]||'#888'}">${p.elem}</div>`:''}
-        </div>`).join('')}
-      </div>
-      <div style="margin-top:.75rem">
-        <div style="font-size:10px;color:var(--tx2);margin-bottom:5px">대운 흐름</div>
-        <div class="daeun-row">
-          ${c.daeun.slice(0,6).map(d=>`<div class="du"><div class="du-age">${d.age}세~</div><div class="du-h">${d.h}${d.e}</div><div class="du-kr">${d.hk}${d.ek}</div></div>`).join('')}
-        </div>
-      </div>
-      <div style="margin-top:.75rem">
-        <div style="font-size:10px;color:var(--tx2);margin-bottom:5px">타로 배열</div>
-        <div class="tarot-row">
-          ${c.tarot.map(t=>`<div class="tc ${t.key?'key':''}"><div class="tc-s">${t.card.s}</div><div class="tc-n">${t.card.n}</div><div class="tc-p">${t.pos}</div></div>`).join('')}
-        </div>
-      </div>
-    </div>`;
+  document.getElementById('saju-preview-area').innerHTML=`<div class="panel" style="margin-bottom:1rem"><div class="panel-hd">⊕ ${c.name} 님의 사주팔자</div><div style="font-size:11px;color:var(--tx2);margin-bottom:.6rem">${c.cal}력 ${c.date} · ${c.gender}성</div><div class="saju-grid">${c.saju.map(p=>`<div class="pillar"><div class="p-lbl">${p.lbl}</div><div class="p-hanja">${p.h}${p.e}</div><div class="p-kr">${p.hk}${p.ek}</div>${p.elem?`<div class="p-elem" style="background:${ECOLOR[p.elem]||'#444'}22;color:${ECOLOR[p.elem]||'#888'}">${p.elem}</div>`:''}</div>`).join('')}</div><div style="margin-top:.75rem"><div style="font-size:10px;color:var(--tx2);margin-bottom:5px">대운 흐름</div><div class="daeun-row">${c.daeun.slice(0,6).map(d=>`<div class="du"><div class="du-age">${d.age}세~</div><div class="du-h">${d.h}${d.e}</div><div class="du-kr">${d.hk}${d.ek}</div></div>`).join('')}</div></div><div style="margin-top:.75rem"><div style="font-size:10px;color:var(--tx2);margin-bottom:5px">타로 배열</div><div class="tarot-row">${c.tarot.map(t=>`<div class="tc ${t.key?'key':''}"><div class="tc-s">${t.card.s}</div><div class="tc-n">${t.card.n}</div><div class="tc-p">${t.pos}</div></div>`).join('')}</div></div></div>`;
 }
 
-function stopGeneration(){
-  if(!isGenerating)return;
-  stopRequested=true;
-  document.getElementById('stop-btn').textContent='⏹ 정지 중...';
-  document.getElementById('stop-btn').disabled=true;
-  showToast('⏹ 다음 섹션 전에 중단됩니다...');
-}
+function stopGeneration(){if(!isGenerating)return;stopRequested=true;document.getElementById('stop-btn').textContent='⏹ 정지 중...';document.getElementById('stop-btn').disabled=true;showToast('⏹ 다음 섹션 전에 중단됩니다...');}
 
 async function startGeneration(){
   if(!selectedCustomer){showToast('고객을 선택해 주세요');return;}
   if(!apiKey){showToast('API 키를 먼저 연결해 주세요');return;}
   if(isGenerating){showToast('이미 생성 중입니다');return;}
-  const c=selectedCustomer;
-  const secList=ALL_SECTIONS.filter(s=>selectedSections.has(s.id));
+  const c=selectedCustomer;const secList=ALL_SECTIONS.filter(s=>selectedSections.has(s.id));
   if(!secList.length){showToast('섹션을 1개 이상 선택해 주세요');return;}
   isGenerating=true;stopRequested=false;
-  const genBtn=document.getElementById('gen-btn');
-  const stopBtn=document.getElementById('stop-btn');
-  genBtn.disabled=true;genBtn.textContent='🔄 생성 중...';
-  stopBtn.style.display='block';stopBtn.textContent='⏹ 생성 중단';stopBtn.disabled=false;
+  const genBtn=document.getElementById('gen-btn');const stopBtn=document.getElementById('stop-btn');
+  genBtn.disabled=true;genBtn.textContent='🔄 생성 중...';stopBtn.style.display='block';stopBtn.textContent='⏹ 생성 중단';stopBtn.disabled=false;
   switchTab(document.querySelector('.tab[onclick*="preview"]'),'preview');
-  document.getElementById('saju-preview-area').innerHTML='';
-  document.getElementById('result-area').innerHTML='';
-  document.getElementById('progress-area').style.display='block';
-  document.getElementById('prog-steps').innerHTML=secList.map(s=>`
-    <div class="prog-step" id="step-${s.id}">
-      <div class="step-icon">⏳</div>
-      <div class="step-label">${s.icon} ${s.name}</div>
-      <div class="step-status" style="color:var(--tx3)">대기</div>
-    </div>`).join('');
+  document.getElementById('saju-preview-area').innerHTML='';document.getElementById('result-area').innerHTML='';document.getElementById('progress-area').style.display='block';
+  document.getElementById('prog-steps').innerHTML=secList.map(s=>`<div class="prog-step" id="step-${s.id}"><div class="step-icon">⏳</div><div class="step-label">${s.icon} ${s.name}</div><div class="step-status" style="color:var(--tx3)">대기</div></div>`).join('');
   const results=[];let failed=[];
   for(let i=0;i<secList.length;i++){
-    if(stopRequested){
-      document.getElementById('prog-main').textContent=`⏹ ${i}개 섹션에서 중단됨`;
-      secList.slice(i).forEach(s=>{
-        const el=document.getElementById('step-'+s.id);
-        if(el){el.querySelector('.step-icon').textContent='⛔';el.querySelector('.step-status').textContent='취소됨';}
-      });
-      break;
-    }
-    const sec=secList[i];
-    const pct=Math.round((i/secList.length)*100);
+    if(stopRequested){document.getElementById('prog-main').textContent=`⏹ ${i}개 섹션에서 중단됨`;secList.slice(i).forEach(s=>{const el=document.getElementById('step-'+s.id);if(el){el.querySelector('.step-icon').textContent='⛔';el.querySelector('.step-status').textContent='취소됨';}});break;}
+    const sec=secList[i];const pct=Math.round((i/secList.length)*100);
     document.getElementById('prog-main').textContent=`${sec.icon} ${sec.name} 분석 중... (${i+1}/${secList.length})`;
-    document.getElementById('prog-pct').textContent=pct+'%';
-    document.getElementById('prog-bar').style.width=pct+'%';
+    document.getElementById('prog-pct').textContent=pct+'%';document.getElementById('prog-bar').style.width=pct+'%';
     const stepEl=document.getElementById('step-'+sec.id);
-    if(stepEl){
-      stepEl.className='prog-step step-active';
-      stepEl.querySelector('.step-icon').textContent='⚡';
-      stepEl.querySelector('.step-status').textContent='분석 중...';
-      stepEl.querySelector('.step-status').style.color='var(--gold)';
-      stepEl.scrollIntoView({block:'nearest'});
-    }
+    if(stepEl){stepEl.className='prog-step step-active';stepEl.querySelector('.step-icon').textContent='⚡';stepEl.querySelector('.step-status').textContent='분석 중...';stepEl.querySelector('.step-status').style.color='var(--gold)';stepEl.scrollIntoView({block:'nearest'});}
     try{
-      const text=await callClaude(sec.prompt(c,c.saju,c.daeun,c.tarot));
-      results.push({sec,text});
+      const text=await callClaude(sec.prompt(c,c.saju,c.daeun,c.tarot));results.push({sec,text});
       if(stepEl){stepEl.className='prog-step step-done';stepEl.querySelector('.step-icon').textContent='✅';stepEl.querySelector('.step-status').textContent=`완료 (~${sec.pages}p)`;stepEl.querySelector('.step-status').style.color='#27AE60';}
     }catch(err){
-      failed.push(sec.name);
-      results.push({sec,text:`[${sec.name} — 오류: ${err.message}]`});
+      failed.push(sec.name);results.push({sec,text:`[${sec.name} — 오류: ${err.message}]`});
       if(stepEl){stepEl.querySelector('.step-icon').textContent='⚠️';stepEl.querySelector('.step-status').textContent='오류';}
     }
     if(i<secList.length-1&&!stopRequested)await new Promise(r=>setTimeout(r,2500));
   }
   isGenerating=false;stopRequested=false;
-  genBtn.disabled=false;genBtn.textContent=selectedCustomer?`🔮 ${selectedCustomer.name} 리포트 생성`:'🔮 AI 리포트 생성 시작';
-  stopBtn.style.display='none';
+  genBtn.disabled=false;genBtn.textContent=selectedCustomer?`🔮 ${selectedCustomer.name} 리포트 생성`:'🔮 AI 리포트 생성 시작';stopBtn.style.display='none';
   if(!results.length){document.getElementById('progress-area').style.display='none';showToast('생성된 섹션이 없습니다');return;}
-  document.getElementById('prog-main').textContent=`✓ ${results.length}개 섹션 완료!`;
-  document.getElementById('prog-pct').textContent='100%';
-  document.getElementById('prog-bar').style.width='100%';
-  setTimeout(()=>{
-    document.getElementById('progress-area').style.display='none';
-    renderResult(c,results);saveReport(c,results);todayCount++;updateStats();
-    showToast(failed.length?`리포트 완성! (오류 ${failed.length}개)`:`✓ ${results.length}개 섹션 완성!`);
-  },800);
+  document.getElementById('prog-main').textContent=`✓ ${results.length}개 섹션 완료!`;document.getElementById('prog-pct').textContent='100%';document.getElementById('prog-bar').style.width='100%';
+  setTimeout(()=>{document.getElementById('progress-area').style.display='none';renderResult(c,results);saveReport(c,results);todayCount++;updateStats();showToast(failed.length?`리포트 완성! (오류 ${failed.length}개)`:`✓ ${results.length}개 섹션 완성!`);},800);
 }
 
 function renderResult(c,results){
-  const el=document.getElementById('result-area');
-  const today=new Date().toLocaleDateString('ko-KR');
-  const totalPages=results.reduce((a,r)=>a+r.sec.pages,0);
-  el.innerHTML=`
-    <div class="result-panel">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:.5px solid var(--bd)">
-        <div>
-          <div style="font-size:20px;font-weight:700;font-family:'Noto Serif KR',serif;color:var(--gold);margin-bottom:5px">
-            🔮 ${c.name} 님의 사주·타로 종합 리포트
-          </div>
-          <div style="font-size:11px;color:var(--tx2)">${c.cal}력 ${c.date} · ${c.gender}성 · ${results.length}섹션 · 약 ${totalPages}p · ${today}</div>
-        </div>
-        <button class="dl-btn" style="flex-shrink:0;margin-left:12px" onclick="openShareModal(${c.id})">📤 저장·공유</button>
-      </div>
-      ${results.map((r,i)=>`
-        <div class="rs">
-          <div class="rs-title">${r.sec.icon} ${r.sec.name}</div>
-          <div class="rs-body">${md2html(r.text)}</div>
-        </div>
-        ${i<results.length-1?'<hr class="divider">':''}`).join('')}
-      <hr class="divider">
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <div style="font-size:10px;color:var(--tx3)">자개빛·천운 | ${today}</div>
-        <button class="dl-btn" onclick="openShareModal(${c.id})">📤 저장·공유</button>
-      </div>
-    </div>`;
+  const el=document.getElementById('result-area');const today=new Date().toLocaleDateString('ko-KR');const totalPages=results.reduce((a,r)=>a+r.sec.pages,0);
+  el.innerHTML=`<div class="result-panel"><div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:.5px solid var(--bd)"><div><div style="font-size:20px;font-weight:700;font-family:'Noto Serif KR',serif;color:var(--gold);margin-bottom:5px">🔮 ${c.name} 님의 사주·타로 종합 리포트</div><div style="font-size:11px;color:var(--tx2)">${c.cal}력 ${c.date} · ${c.gender}성 · ${results.length}섹션 · 약 ${totalPages}p · ${today}</div></div><button class="dl-btn" style="flex-shrink:0;margin-left:12px" onclick="openShareModal(${c.id})">📤 저장·공유</button></div>${results.map((r,i)=>`<div class="rs"><div class="rs-title">${r.sec.icon} ${r.sec.name}</div><div class="rs-body">${md2html(r.text)}</div></div>${i<results.length-1?'<hr class="divider">':''}`).join('')}<hr class="divider"><div style="display:flex;align-items:center;justify-content:space-between"><div style="font-size:10px;color:var(--tx3)">자개빛·천운 | ${today}</div><button class="dl-btn" onclick="openShareModal(${c.id})">📤 저장·공유</button></div></div>`;
   el.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function saveReport(c,results){
-  reports.push({id:Date.now(),custId:c.id,custName:c.name,date:new Date().toLocaleString('ko-KR'),pages:c.pages,template:c.template,sections:c.sections,results});
-  renderReportList();updateStats();saveToStorage();
-}
+function saveReport(c,results){reports.push({id:Date.now(),custId:c.id,custName:c.name,date:new Date().toLocaleString('ko-KR'),pages:c.pages,template:c.template,sections:c.sections,results});renderReportList();updateStats();saveToStorage();}
 
 let _shareCustomer=null,_shareResults=null;
 
-function openShareModal(custId){
-  const c=customers.find(x=>x.id===custId);
-  const r=reports.find(x=>x.custId===custId);
-  if(!c||!r){showToast('리포트를 먼저 생성해 주세요');return;}
-  _shareCustomer=c;_shareResults=r.results;
-  document.getElementById('pdf-progress').style.display='none';
-  document.getElementById('share-btns').style.display='flex';
-  document.getElementById('share-modal').classList.add('show');
-}
-
-function openShareModalByReport(reportId){
-  const r=reports.find(x=>x.id===reportId);
-  const c=customers.find(x=>x.id===r?.custId);
-  if(!c||!r){showToast('데이터 없음');return;}
-  _shareCustomer=c;_shareResults=r.results;
-  document.getElementById('pdf-progress').style.display='none';
-  document.getElementById('share-btns').style.display='flex';
-  document.getElementById('share-modal').classList.add('show');
-}
-
+function openShareModal(custId){const c=customers.find(x=>x.id===custId);const r=reports.find(x=>x.custId===custId);if(!c||!r){showToast('리포트를 먼저 생성해 주세요');return;}  _shareCustomer=c;_shareResults=r.results;document.getElementById('pdf-progress').style.display='none';document.getElementById('share-btns').style.display='flex';document.getElementById('share-modal').classList.add('show');}
+function openShareModalByReport(reportId){const r=reports.find(x=>x.id===reportId);const c=customers.find(x=>x.id===r?.custId);if(!c||!r){showToast('데이터 없음');return;}_shareCustomer=c;_shareResults=r.results;document.getElementById('pdf-progress').style.display='none';document.getElementById('share-btns').style.display='flex';document.getElementById('share-modal').classList.add('show');}
 function closeShareModal(){document.getElementById('share-modal').classList.remove('show');}
 
-function doCopyText(){
-  if(!_shareResults)return;
-  const text=_shareResults.map(r=>`\n\n===== ${r.sec.name} =====\n\n${r.text}`).join('');
-  navigator.clipboard.writeText(`자개빛·천운 리포트\n${_shareCustomer.name} 님 | ${_shareCustomer.date}\n${text}`)
-    .then(()=>{showToast('✓ 전체 복사 완료! 카톡·메모장에 붙여넣기');closeShareModal();})
-    .catch(()=>showToast('복사 실패'));
-}
-
-function doEmailShare(){
-  if(!_shareCustomer||!_shareResults)return;
-  const subject=encodeURIComponent(`[자개빛·천운] ${_shareCustomer.name}님 리포트`);
-  const body=encodeURIComponent(`자개빛·천운 ${_shareCustomer.name}님 사주·타로 리포트\n\n`+_shareResults.map(r=>`■ ${r.sec.name}\n${r.text.slice(0,200)}...\n`).join('\n'));
-  window.open(`mailto:?subject=${subject}&body=${body}`);
-  showToast('이메일 앱이 열립니다');
-}
-
-function doKakaoShare(){
-  if(!_shareCustomer||!_shareResults)return;
-  const preview=_shareResults.slice(0,2).map(r=>`[${r.sec.name}]\n${r.text.slice(0,150)}...`).join('\n\n');
-  const text=`🔮 자개빛·천운\n${_shareCustomer.name}님 사주·타로\n\n${preview}\n\nhttps://자개빛.shop`;
-  navigator.clipboard.writeText(text).then(()=>{showToast('✓ 카톡 내용 복사! 붙여넣기하세요');closeShareModal();}).catch(()=>showToast('복사 실패'));
-}
+function doCopyText(){if(!_shareResults)return;const text=_shareResults.map(r=>`\n\n===== ${r.sec.name} =====\n\n${r.text}`).join('');navigator.clipboard.writeText(`자개빛·천운 리포트\n${_shareCustomer.name} 님 | ${_shareCustomer.date}\n${text}`).then(()=>{showToast('✓ 전체 복사 완료! 카톡·메모장에 붙여넣기');closeShareModal();}).catch(()=>showToast('복사 실패'));}
+function doEmailShare(){if(!_shareCustomer||!_shareResults)return;const subject=encodeURIComponent(`[자개빛·천운] ${_shareCustomer.name}님 리포트`);const body=encodeURIComponent(`자개빛·천운 ${_shareCustomer.name}님 사주·타로 리포트\n\n`+_shareResults.map(r=>`■ ${r.sec.name}\n${r.text.slice(0,200)}...\n`).join('\n'));window.open(`mailto:?subject=${subject}&body=${body}`);showToast('이메일 앱이 열립니다');}
+function doKakaoShare(){if(!_shareCustomer||!_shareResults)return;const preview=_shareResults.slice(0,2).map(r=>`[${r.sec.name}]\n${r.text.slice(0,150)}...`).join('\n\n');const text=`🔮 자개빛·천운\n${_shareCustomer.name}님 사주·타로\n\n${preview}\n\nhttps://자개빛.shop`;navigator.clipboard.writeText(text).then(()=>{showToast('✓ 카톡 내용 복사! 붙여넣기하세요');closeShareModal();}).catch(()=>showToast('복사 실패'));}
 
 async function doDownloadPDF(){
   if(!_shareCustomer||!_shareResults)return;
   const c=_shareCustomer,results=_shareResults;
-  document.getElementById('share-btns').style.display='none';
-  document.getElementById('pdf-progress').style.display='block';
-  const fill=document.getElementById('pdf-prog-fill');
-  const txt=document.getElementById('pdf-prog-txt');
+  document.getElementById('share-btns').style.display='none';document.getElementById('pdf-progress').style.display='block';
+  const fill=document.getElementById('pdf-prog-fill');const txt=document.getElementById('pdf-prog-txt');
   const setP=(pct,msg)=>{fill.style.width=pct+'%';txt.textContent=msg;};
   setP(10,'PDF 레이아웃 구성 중...');
-  const T={
-    gold:{bg:'#0D0A06',ac:'#C9A227',acl:'#F5D97A',tx:'#F0E6CC',sub:'#A08040',mu:'#5A4520',cb:'#1A1407',bd:'rgba(201,162,39,0.25)'},
-    oriental:{bg:'#0A0805',ac:'#C8541C',acl:'#E8845C',tx:'#EBD8C8',sub:'#A06840',mu:'#6A4030',cb:'#150E08',bd:'rgba(200,84,28,0.25)'},
-    modern:{bg:'#0F0F14',ac:'#6496DC',acl:'#94C6FF',tx:'#E6E6F0',sub:'#828CA0',mu:'#4A5060',cb:'#181820',bd:'rgba(100,150,220,0.25)'},
-    minimal:{bg:'#FAF8F4',ac:'#5A3C14',acl:'#8A6C44',tx:'#1E1910',sub:'#7A6040',mu:'#B09070',cb:'#F0EBE0',bd:'rgba(90,60,20,0.2)'},
-  }[c.template]||{bg:'#0D0A06',ac:'#C9A227',acl:'#F5D97A',tx:'#F0E6CC',sub:'#A08040',mu:'#5A4520',cb:'#1A1407',bd:'rgba(201,162,39,0.25)'};
-  const t=T;
-  const today=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
+  const T={gold:{bg:'#0D0A06',ac:'#C9A227',acl:'#F5D97A',tx:'#F0E6CC',sub:'#A08040',mu:'#5A4520',cb:'#1A1407',bd:'rgba(201,162,39,0.25)'},oriental:{bg:'#0A0805',ac:'#C8541C',acl:'#E8845C',tx:'#EBD8C8',sub:'#A06840',mu:'#6A4030',cb:'#150E08',bd:'rgba(200,84,28,0.25)'},modern:{bg:'#0F0F14',ac:'#6496DC',acl:'#94C6FF',tx:'#E6E6F0',sub:'#828CA0',mu:'#4A5060',cb:'#181820',bd:'rgba(100,150,220,0.25)'},minimal:{bg:'#FAF8F4',ac:'#5A3C14',acl:'#8A6C44',tx:'#1E1910',sub:'#7A6040',mu:'#B09070',cb:'#F0EBE0',bd:'rgba(90,60,20,0.2)'}}[c.template]||{bg:'#0D0A06',ac:'#C9A227',acl:'#F5D97A',tx:'#F0E6CC',sub:'#A08040',mu:'#5A4520',cb:'#1A1407',bd:'rgba(201,162,39,0.25)'};
+  const t=T;const today=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
   setP(25,'페이지 구성 중...');
-  const container=document.createElement('div');
-  container.style.cssText='width:210mm;font-family:Arial,sans-serif;background:#fff;color:#1a1a1a';
-  container.innerHTML+=`
-    <div style="width:210mm;min-height:297mm;background:${t.bg};display:flex;flex-direction:column;
-      align-items:center;justify-content:center;text-align:center;padding:40mm 20mm;page-break-after:always;
-      -webkit-print-color-adjust:exact;print-color-adjust:exact">
-      <div style="font-size:28px;font-weight:700;color:${t.ac};margin-bottom:8px">자개빛 · 천운</div>
-      <div style="font-size:13px;color:${t.sub};margin-bottom:32px">사주 · 타로 종합 운세 리포트</div>
-      <div style="width:40px;height:1px;background:${t.ac};margin:0 auto 32px"></div>
-      <div style="font-size:26px;font-weight:700;color:${t.tx};margin-bottom:10px">${c.name} 님</div>
-      <div style="font-size:12px;color:${t.sub};margin-bottom:8px">${c.cal}력 ${c.date} | ${c.gender}성</div>
-      <div style="font-size:11px;color:${t.mu};margin-top:24px">총 ${results.length}개 섹션 | 발행: ${today}</div>
-      <div style="font-size:10px;color:${t.mu};margin-top:6px">자개빛.shop · 천기반전</div>
-    </div>`;
+  const container=document.createElement('div');container.style.cssText='width:210mm;font-family:Arial,sans-serif;background:#fff;color:#1a1a1a';
+  container.innerHTML+=`<div style="width:210mm;min-height:297mm;background:${t.bg};display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40mm 20mm;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact"><div style="font-size:28px;font-weight:700;color:${t.ac};margin-bottom:8px">자개빛 · 천운</div><div style="font-size:13px;color:${t.sub};margin-bottom:32px">사주 · 타로 종합 운세 리포트</div><div style="width:40px;height:1px;background:${t.ac};margin:0 auto 32px"></div><div style="font-size:26px;font-weight:700;color:${t.tx};margin-bottom:10px">${c.name} 님</div><div style="font-size:12px;color:${t.sub};margin-bottom:8px">${c.cal}력 ${c.date} | ${c.gender}성</div><div style="font-size:11px;color:${t.mu};margin-top:24px">총 ${results.length}개 섹션 | 발행: ${today}</div><div style="font-size:10px;color:${t.mu};margin-top:6px">자개빛.shop · 천기반전</div></div>`;
   setP(40,'섹션 내용 구성 중...');
-  results.forEach((r,i)=>{
-    const cleanText=r.text
-      .replace(/###?\s*[◆♦✦*]?\s*(.+)/g,'<strong style="display:block;margin:12px 0 4px;color:'+t.ac+'">$1</strong>')
-      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-      .replace(/【(.+?)】/g,'<span style="color:'+t.ac+'">【$1】</span>')
-      .replace(/\n/g,'<br>');
-    container.innerHTML+=`
-      <div style="width:210mm;min-height:297mm;background:${t.bg};padding:18mm;
-        page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-sizing:border-box">
-        <div style="font-size:14px;font-weight:700;color:${t.ac};border-bottom:1px solid ${t.bd};padding-bottom:8px;margin-bottom:16px">${r.sec.icon} ${r.sec.name}</div>
-        <div style="font-size:12px;line-height:2.1;color:${t.tx};word-break:keep-all">${cleanText}</div>
-        <div style="position:absolute;bottom:12mm;left:18mm;right:18mm;border-top:1px solid ${t.bd};padding-top:3mm;font-size:9px;color:${t.mu};display:flex;justify-content:space-between">
-          <span>자개빛·천운</span><span>${i+1}/${results.length}</span><span>${today}</span>
-        </div>
-      </div>`;
-  });
-  container.innerHTML+=`
-    <div style="width:210mm;min-height:297mm;background:${t.bg};display:flex;flex-direction:column;
-      align-items:center;justify-content:center;text-align:center;padding:40mm 20mm;
-      -webkit-print-color-adjust:exact;print-color-adjust:exact">
-      <div style="font-size:48px;margin-bottom:20px">🔮</div>
-      <div style="font-size:22px;font-weight:700;color:${t.ac};margin-bottom:14px">천운의 마음을 담아</div>
-      <div style="font-size:13px;color:${t.sub};line-height:2.3">${c.name} 님의 앞날에<br>밝은 기운이 가득하길 바랍니다.</div>
-      <div style="font-size:11px;color:${t.mu};margin-top:28px">자개빛.shop | ${today}</div>
-    </div>`;
-  setP(60,'PDF 렌더링 중...');
-  document.body.appendChild(container);
-  try{
-    await html2pdf().set({
-      margin:0,
-      filename:`자개빛_${c.name}_리포트.pdf`,
-      image:{type:'jpeg',quality:0.92},
-      html2canvas:{scale:1.5,useCORS:true,logging:false},
-      jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
-      pagebreak:{mode:['avoid-all','css','legacy']}
-    }).from(container).save();
-    setP(100,'✓ 완료!');
-    showToast('✓ PDF 다운로드 완료!');
-    setTimeout(()=>closeShareModal(),1200);
-  }catch(e){
-    showToast('PDF 오류: '+e.message);
-  }finally{
-    document.body.removeChild(container);
-  }
+  results.forEach((r,i)=>{const cleanText=r.text.replace(/###?\s*[◆♦✦*]?\s*(.+)/g,'<strong style="display:block;margin:12px 0 4px;color:'+t.ac+'">$1</strong>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/【(.+?)】/g,'<span style="color:'+t.ac+'">【$1】</span>').replace(/\n/g,'<br>');container.innerHTML+=`<div style="width:210mm;min-height:297mm;background:${t.bg};padding:18mm;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-sizing:border-box"><div style="font-size:14px;font-weight:700;color:${t.ac};border-bottom:1px solid ${t.bd};padding-bottom:8px;margin-bottom:16px">${r.sec.icon} ${r.sec.name}</div><div style="font-size:12px;line-height:2.1;color:${t.tx};word-break:keep-all">${cleanText}</div><div style="position:absolute;bottom:12mm;left:18mm;right:18mm;border-top:1px solid ${t.bd};padding-top:3mm;font-size:9px;color:${t.mu};display:flex;justify-content:space-between"><span>자개빛·천운</span><span>${i+1}/${results.length}</span><span>${today}</span></div></div>`;});
+  container.innerHTML+=`<div style="width:210mm;min-height:297mm;background:${t.bg};display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40mm 20mm;-webkit-print-color-adjust:exact;print-color-adjust:exact"><div style="font-size:48px;margin-bottom:20px">🔮</div><div style="font-size:22px;font-weight:700;color:${t.ac};margin-bottom:14px">천운의 마음을 담아</div><div style="font-size:13px;color:${t.sub};line-height:2.3">${c.name} 님의 앞날에<br>밝은 기운이 가득하길 바랍니다.</div><div style="font-size:11px;color:${t.mu};margin-top:28px">자개빛.shop | ${today}</div></div>`;
+  setP(60,'PDF 렌더링 중...');document.body.appendChild(container);
+  try{await html2pdf().set({margin:0,filename:`자개빛_${c.name}_리포트.pdf`,image:{type:'jpeg',quality:0.92},html2canvas:{scale:1.5,useCORS:true,logging:false},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['avoid-all','css','legacy']}}).from(container).save();setP(100,'✓ 완료!');showToast('✓ PDF 다운로드 완료!');setTimeout(()=>closeShareModal(),1200);}catch(e){showToast('PDF 오류: '+e.message);}finally{document.body.removeChild(container);}
 }
 
 function generatePDF(c,results){openShareModal(c.id);}
@@ -963,9 +528,7 @@ function generatePDF(c,results){openShareModal(c.id);}
 function switchTab(el,tab){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   if(el)el.classList.add('active');
-  ['customers','reports','preview'].forEach(t=>{
-    document.getElementById('tab-'+t).style.display=t===tab?'block':'none';
-  });
+  ['customers','reports','preview'].forEach(t=>{document.getElementById('tab-'+t).style.display=t===tab?'block':'none';});
 }
 </script>
 </body>
