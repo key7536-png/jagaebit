@@ -6,7 +6,7 @@
 <title>자개빛 천운 — 타로·사주 전문 상담</title>
 <meta name="description" content="명리상담사 1급 · 타로상담사 1급 · 타로마스터 1급. 진심으로 읽어드리는 타로/사주 상담과 PDF 리포트.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<script src="https://js.tosspayments.com/v2/payment"></script>
+<script src="https://js.tosspayments.com/v1"></script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -362,11 +362,15 @@ async function payToss(id,name,amount){
   try{
     const orderId=`${id}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
     sessionStorage.setItem('pending_order',JSON.stringify({orderId,productId:id,name,amount}));
-    const toss = TossPayments(ck);
-    const payment = toss.payment({customerKey:'ANONYMOUS'});
-    await payment.requestPayment({method:'CARD',amount:{currency:'KRW',value:amount},orderId,orderName:name,
-      successUrl:location.origin+'/jagaebit/payment-success.html',
-      failUrl:location.origin+'/jagaebit/payment-fail.html'});
+    const tossPayments = TossPayments(ck);
+    await tossPayments.requestPayment('카드', {
+      amount: amount,
+      orderId: orderId,
+      orderName: name,
+      successUrl: location.origin + '/payment-success.html',
+      failUrl: location.origin + '/payment-fail.html',
+      customerName: '고객'
+    });
   }catch(e){if(e?.code!=='USER_CANCEL')alert('결제 오류: '+(e?.message||e));}
 }
 
