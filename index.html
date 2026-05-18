@@ -78,7 +78,7 @@ h1{font-family:'Noto Serif KR',serif;font-size:28px;line-height:1.6;margin-botto
 /* CARD GRID */
 .card-prompt{text-align:center;font-size:13px;color:var(--text2);margin-bottom:8px;}
 .card-question{text-align:center;font-size:11px;color:#a87888;font-style:italic;margin-bottom:24px;}
-.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:380px;margin:0 auto;}
+.card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:420px;margin:0 auto;}
 .card-wrap{perspective:1200px;cursor:pointer;}
 .card-inner{position:relative;width:100%;aspect-ratio:2/3;transition:transform .8s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d;}
 .card-inner.flipped{transform:rotateY(180deg);cursor:default;}
@@ -387,7 +387,7 @@ function renderTarot(){
     app.innerHTML=`
     <p class="card-prompt"><span style="color:#b89adc;font-weight:700">${s.name}</span>님, 카드 9장 중 <span style="color:#b89adc;font-weight:700">3장</span>을 골라보세요.</p>
     <p class="card-question">"${s.question}"</p>
-    <div class="card-grid">
+    <div class="card-grid" style="grid-template-columns:repeat(4,1fr);max-width:420px;">
       ${s.slots.map((slot,i)=>{
         const ip=s.picked.includes(i);
         const order=ip?s.picked.indexOf(i):-1;
@@ -451,7 +451,7 @@ function updateStartBtn(){
 }
 
 function startTarot(){
-  const shuffled=[...DECK].sort(()=>Math.random()-.5).slice(0,9);
+  const shuffled=[...DECK].sort(()=>Math.random()-.5).slice(0,12);
   // 이름 저장
   if(tarotState.name.trim()){
     const visits = parseInt(localStorage.getItem('jagae_visits')||'0') + 1;
